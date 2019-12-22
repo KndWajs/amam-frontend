@@ -1,0 +1,11 @@
+button {
+margin: 5px;
+}
+
+div{
+    border-width: 1px;
+    border-color: black;
+    border-style: dashed;
+    width: 100%;
+    text-align: center;
+}

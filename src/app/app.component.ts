@@ -29,16 +29,3 @@ export class AppComponent  {
   }
   
   }
-
-//   @NgModule({
-//     imports: [
-//         BrowserModule,
-//         DxDataGridModule,
-//         DxButtonModule
-//     ],
-//     declarations: [AppComponent],
-//     bootstrap: [AppComponent]
-// })
-// export class AppModule { }
-
-// platformBrowserDynamic().bootstrapModule(AppModule);
