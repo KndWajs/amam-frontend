@@ -11,21 +11,10 @@ import { Service, Employee, State } from './app.service';
   providers: [Service]
 })
 export class AppComponent  {
-  dataSource: Employee[];
-  states: State[];
-  events: Array<string> = [];
 
   constructor(service: Service) {
-      this.dataSource = service.getEmployees();
-      this.states = service.getStates();
-  }
-  
-  logEvent(eventName) {
-      this.events.unshift(eventName);
+
   }
 
-  clearEvents() {
-      this.events = [];
-  }
   
   }

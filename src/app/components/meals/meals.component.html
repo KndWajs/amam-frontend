@@ -1,0 +1,56 @@
+<dx-data-grid id="gridContainer" 
+[dataSource]="dataSource" 
+[masterDetail]="{ enabled: true, template: 'detail' }"
+  keyExpr="id" 
+  [allowColumnReordering]="true" 
+  [showBorders]="true" 
+  (onEditingStart)="logEvent('EditingStart')"
+  (onInitNewRow)="logEvent('InitNewRow')" 
+  (onRowInserting)="logEvent('RowInserting')"
+  (onRowInserted)="logEvent('RowInserted')" 
+  (onRowUpdating)="logEvent('RowUpdating')"
+  (onRowUpdated)="logEvent('RowUpdated')" 
+  (onRowRemoving)="logEvent('RowRemoving')"
+  (onRowRemoved)="logEvent('RowRemoved')">
+
+  <dxo-paging [enabled]="true"></dxo-paging>
+  <dxo-editing mode="row"
+   [allowUpdating]="true"
+    [allowDeleting]="true" 
+    [allowAdding]="false">
+  </dxo-editing>
+
+  <dxi-column dataField="id"></dxi-column>
+  <dxi-column dataField="name"></dxi-column>
+  <dxi-column dataField="typeOfMeal"></dxi-column>
+  <dxi-column dataField="typeOfPreparing"></dxi-column>
+  <dxi-column dataField="recipe" [width]="400"></dxi-column>
+  <dxi-column dataField="minutesToPrepare"></dxi-column>
+
+  <div id="tabs-container" *dxTemplate="let meal of 'detail'">
+    <dx-tab-panel id="tabs">
+      <dxi-item title="Ingredients" template="ingredientsTab"></dxi-item>
+      <div *dxTemplate="let ingredientsTabItem of 'ingredientsTab'">
+        <dx-data-grid 
+        [dataSource]="meal.data.ingredients" 
+        [showBorders]="true"
+        [columnAutoWidth]="true">
+
+          <dxo-editing mode="row" 
+          [allowUpdating]="false" 
+          [allowDeleting]="false" 
+          [allowAdding]="false"></dxo-editing>
+
+          <dxi-column dataField="ingredient.name"></dxi-column>
+          <dxi-column dataField="amount"></dxi-column>
+          <dxi-column caption="Unit" dataField="ingredient.ingredientUnit"></dxi-column>
+        </dx-data-grid>
+      </div>
+      <dxi-item title="Recipe" template="recipeTab"></dxi-item>
+      <div *dxTemplate="let recipeTabItem of 'recipeTab'">
+        <p class="mealRecipe">{{meal.data.recipe}}</p>
+      </div>
+      </dx-tab-panel>
+  </div>
+
+</dx-data-grid>

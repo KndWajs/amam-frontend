@@ -8,11 +8,13 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 export class HttpClientService {
 
   // constructor(private http: HttpClient, private globalSrv: GlobalService) {
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.updateHeaders();
   }
 
-  endpoint = '';
+  // endpoint = 'http://18.196.150.113/v1/api/';
+
+  endpoint = 'http://localhost:8080/v1/api/';
 
   httpOptions = {
     headers: new HttpHeaders(),
@@ -22,7 +24,11 @@ export class HttpClientService {
   getHttpClient(): HttpClient {
     this.updateHeaders();
     return this.http;
-  }
+  }  
+
+  getSimpleHttpClient(): HttpClient {
+    return this.http;
+  }  
 
   updateHeaders() {
     this.httpOptions.headers = new HttpHeaders();
