@@ -12,13 +12,13 @@ export class HttpClientService {
     this.updateHeaders();
   }
 
-  // endpoint = 'http://18.196.150.113/v1/api/';
+  endpoint = 'http://18.196.150.113/v1/api/';
 
-  endpoint = 'http://localhost:8080/v1/api/';
+  // endpoint = 'http://localhost:8080/v1/api/';
 
   httpOptions = {
     headers: new HttpHeaders(),
-    withCredentials: true,
+    // withCredentials: true,
   };
 
   getHttpClient(): HttpClient {
@@ -26,13 +26,11 @@ export class HttpClientService {
     return this.http;
   }  
 
-  getSimpleHttpClient(): HttpClient {
-    return this.http;
-  }  
-
   updateHeaders() {
     this.httpOptions.headers = new HttpHeaders();
     this.httpOptions.headers = this.httpOptions.headers.append('Content-Type', 'application/json');
+    this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', '*');
+    this.httpOptions.headers = this.httpOptions.headers.append("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");    
     // this.httpOptions.headers = this.httpOptions.headers.append('Authorization', 'Bearer '.concat(this.globalSrv.token));
   }
 

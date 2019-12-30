@@ -4,14 +4,15 @@
   keyExpr="id" 
   [allowColumnReordering]="true" 
   [showBorders]="true" 
+  (onRowRemoving)="onRowRemoving($event)" 
+  >
+<!-- 
   (onEditingStart)="logEvent('EditingStart')"
   (onInitNewRow)="logEvent('InitNewRow')" 
   (onRowInserting)="logEvent('RowInserting')"
   (onRowInserted)="logEvent('RowInserted')" 
   (onRowUpdating)="logEvent('RowUpdating')"
-  (onRowUpdated)="logEvent('RowUpdated')" 
-  (onRowRemoving)="onRowRemoving($event)" 
-  >
+  (onRowUpdated)="logEvent('RowUpdated')"  -->
 
   <dxo-paging [enabled]="true"></dxo-paging>
   <dxo-editing mode="row"

@@ -16,12 +16,12 @@ export class MealsService {
   }
 
   getMealsFromHttp(): Observable<Array<Meal>> {
-    return this.httpClientService.getSimpleHttpClient().get<Array<Meal>>(this.httpClientService.endpoint + 'meals/')
+    return this.httpClientService.getHttpClient().get<Array<Meal>>(this.httpClientService.endpoint + 'meals/', this.httpClientService.httpOptions)
      .pipe(map(values => values.map(value => new Meal(value))));
   }
 
   deleteMeal(id: number): Observable<Meal> {
-    return this.httpClientService.getSimpleHttpClient().delete<Meal>(`${this.httpClientService.endpoint}meal/${id}`)
+    return this.httpClientService.getHttpClient().delete<Meal>(`${this.httpClientService.endpoint}meal/${id}`, this.httpClientService.httpOptions)
      .pipe(map(value => new Meal(value)));
   }
 }
