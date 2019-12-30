@@ -19,5 +19,10 @@ export class MealsService {
     return this.httpClientService.getSimpleHttpClient().get<Array<Meal>>(this.httpClientService.endpoint + 'meals/')
      .pipe(map(values => values.map(value => new Meal(value))));
   }
+
+  deleteMeal(id: number): Observable<Meal> {
+    return this.httpClientService.getSimpleHttpClient().delete<Meal>(`${this.httpClientService.endpoint}meal/${id}`)
+     .pipe(map(value => new Meal(value)));
+  }
 }
 

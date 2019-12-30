@@ -10,12 +10,12 @@
   (onRowInserted)="logEvent('RowInserted')" 
   (onRowUpdating)="logEvent('RowUpdating')"
   (onRowUpdated)="logEvent('RowUpdated')" 
-  (onRowRemoving)="logEvent('RowRemoving')"
-  (onRowRemoved)="logEvent('RowRemoved')">
+  (onRowRemoving)="onRowRemoving($event)" 
+  >
 
   <dxo-paging [enabled]="true"></dxo-paging>
   <dxo-editing mode="row"
-   [allowUpdating]="true"
+   [allowUpdating]="false"
     [allowDeleting]="true" 
     [allowAdding]="false">
   </dxo-editing>
