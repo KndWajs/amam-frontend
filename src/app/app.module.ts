@@ -11,6 +11,8 @@ import { InfoPageComponent } from './components/info-page/info-page.component';
 import { Globals } from './globals';
 import { HttpClientModule } from '@angular/common/http';
 import { MealsComponent } from './components/meals/meals.component';
+import { AddMealComponent } from './components/add-meal/add-meal.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { MealsComponent } from './components/meals/meals.component';
     WelcomePageComponent,
     NavbarComponent,
     InfoPageComponent,
-    MealsComponent
+    MealsComponent,
+    AddMealComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { MealsComponent } from './components/meals/meals.component';
     BrowserModule,
     DxDataGridModule,
     DxButtonModule,
-    DxTabPanelModule
+    DxTabPanelModule,
+    ReactiveFormsModule
     
   ],
   providers: [Globals],
