@@ -33,34 +33,41 @@
 
             <div class="form-group">
               <label for="minutesToPrepare">Time to prepare [minutes]:</label>
-              <input type="number" formControlName="minutesToPrepare" class="form-control">
+              <input type="number" formControlName="minutesToPrepare" class="form-control" min="0"
+                oninput="validity.valid||(value=value.replace(/\D+/g, ''))">
               <h6 *ngIf="newMealForm.hasError('required', 'minutesToPrepare')" class="text-danger"> Field is required!
               </h6>
             </div>
 
             <div class="form-group">
               <label for="recipe">Recipe</label>
-              <textarea  formControlName="recipe" class="form-control" placeholder="Enter recipe"></textarea>
+              <textarea formControlName="recipe" class="form-control" placeholder="Enter recipe"></textarea>
             </div>
           </div>
           <div id="meal-ingredients">
-            <div>
-              <app-quick-search (emitableIngredient)="addIngredientToFormArray($event)"></app-quick-search>
-            </div>
+
             <div formArrayName="ingredients"
               *ngFor="let ingredient of newMealForm.get('ingredients')['controls']; let i = index;">
-              <div [formGroupName]="i">
-                <input type="hidden" formControlName="ingredient" readonly>
-                <input type="hidden" formControlName="ingredientName" readonly>
-                {{ ingredient.controls.ingredientName.value }}
-                <input type="hidden" formControlName="ingredientUnit" readonly>
-                {{ ingredient.controls.ingredientUnit.value }}
-                <input type="number" formControlName="amount">
-                <button id="new-ingredient-btn" class="btn btn-danger"
-                  (click)="deleteIngredientFromFormArray(i)">Delete</button>
-                <h6 *ngIf="ingredient.controls.amount.errors?.required"
-                  class="text-danger"> Amount field is required!</h6>
+              <div id="ingredients" [formGroupName]="i">
+                <div>
+                  <input type="hidden" formControlName="ingredient" readonly>
+                  <input type="hidden" formControlName="ingredientName" readonly>
+                  {{ ingredient.controls.ingredientName.value }}
+                  <input type="hidden" formControlName="ingredientUnit" readonly>
+                  {{ ingredient.controls.ingredientUnit.value }}<br>
+                  <input type="number" formControlName="amount" min="0"
+                    oninput="validity.valid||(value=value.replace(/\D+/g, ''))">
+                </div>
+                <div>
+                  <button id="new-ingredient-btn" class="btn btn-danger"
+                    (click)="deleteIngredientFromFormArray(i)">Delete</button>
+                  <h6 *ngIf="ingredient.controls.amount.errors?.required" class="text-danger"> Amount field is required!
+                  </h6>
+                </div>
               </div>
+            </div>
+            <div>
+              <app-quick-search (emitableIngredient)="addIngredientToFormArray($event)"></app-quick-search>
             </div>
 
           </div>
@@ -68,51 +75,6 @@
         <button id="new-meal-btn" type="submit" class="btn btn-primary" [disabled]="newMealForm.invalid">
           Add meal</button>
 
-
-
-
-        <!--           
-            <div class="form-group">
-              <label for="title">Title</label>
-              <input type="text" formControlName="title" #title class="form-control" (keyup)="updateTitle(title.value)"
-                placeholder="Enter title">
-              <h6 *ngIf="newBookForm.hasError('required', 'title')" class="text-danger"> Field is required!</h6>
-            </div>
-            <div class="form-group">
-              <label for="author">Author</label>
-              <input type="text" class="form-control" #author formControlName="author" (keyup)="updateAuthor(author.value)"
-                placeholder="Enter name and surname">
-              <h6 *ngIf="newBookForm.hasError('required', 'author')" class="text-danger"> Field is required!</h6>
-            </div>
-            <div class="form-group">
-              <label for="publisher">Publisher</label>
-              <input type="text" formControlName="publisher" class="form-control" placeholder="Enter publisher">
-              <h6 *ngIf="newBookForm.hasError('required', 'publisher')" class="text-danger"> Field is required!</h6>
-            </div>
-            <div class="form-group">
-              <label for="date">Publication Date</label>
-              <input type="date" formControlName="publicationDate" class="form-control"
-                placeholder="Enter publication Date">
-              <h6 *ngIf="newBookForm.hasError('required', 'publicationDate')" class="text-danger"> Field is required!</h6>
-            </div>
-            <div class="form-group">
-              <label for="category">Category</label>
-              <select class="custom-select" formControlName="category">
-                <option *ngFor="let category of bookCategoriesList" value="{{ category }}">{{ category }}</option>
-              </select>
-              <h6 *ngIf="newBookForm.hasError('required', 'category')" class="text-danger"> Field is required!</h6>
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <input type="text" formControlName="description" class="form-control" placeholder="Enter description">
-            </div>
-            <div class="form-group">
-              <label for="picture">Book picture</label>
-              <input type="url" formControlName="picture" #picture class="form-control"
-                (keyup)="updatePicture(picture.value)" placeholder="Enter book picture URL">
-              <h6 *ngIf="newBookForm.hasError('required', 'picture')" class="text-danger"> Field is required!</h6>
-            </div>
-            <button type="submit" class="btn btn-primary" [disabled]="newBookForm.invalid">Add book</button> -->
       </form>
     </div>
   </div>

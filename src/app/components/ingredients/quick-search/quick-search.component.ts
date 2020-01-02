@@ -10,6 +10,15 @@ import { IngredientsService } from 'src/app/services/ingredients.service';
   styleUrls: ['./quick-search.component.css']
 })
 export class QuickSearchComponent implements OnInit {
+  searchModeOption: string = "contains";
+  searchExprOption: any = "Name";
+  searchTimeoutOption: number = 200;
+  
+  minSearchLengthOption: number = 0;
+  showDataBeforeSearchOption: boolean = false;
+
+
+
   private readonly NUMBER_OF_SHOWN_RESULT = 10;
   ingredients$: Observable<Array<Ingredient>>;
   private readonly searchTerms = new Subject<string>();
@@ -33,5 +42,14 @@ export class QuickSearchComponent implements OnInit {
   emitIngredient(ingredient: Ingredient): void {
     this.search('');
     this.emitableIngredient.emit(ingredient);
+  }
+
+  keyDown(event: any){
+    let element = event.srcElement.nextElementSibling; // get the sibling element
+
+    if(element == null)  // check if its null
+        return;
+    else
+        element.focus();   // focus if not null
   }
 }
