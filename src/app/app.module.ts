@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MealsComponent } from './components/meals/meals.component';
 import { AddMealComponent } from './components/add-meal/add-meal.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { QuickSearchComponent } from './components/ingredients/quick-search/quick-search.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     NavbarComponent,
     InfoPageComponent,
     MealsComponent,
-    AddMealComponent
+    AddMealComponent,
+    QuickSearchComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,14 @@
+<div id="search-master-component">
+    <div id="search-component">
+      <h5>search ingredient:</h5>
+      <input #searchBox autocomplete="off" id="search-box" (input)="search(searchBox.value)" />
+      <ul class="search-result">
+        <li *ngFor="let ingredient of ingredients$ | async" (click)="emitIngredient(ingredient)">
+            <h6>
+              <strong>{{ ingredient.name }}</strong><br>
+              {{ ingredient.ingredientUnit }}
+            </h6>
+        </li>
+      </ul>
+    </div>
+  </div>

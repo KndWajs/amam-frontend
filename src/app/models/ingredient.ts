@@ -8,7 +8,11 @@ export class Ingredient {
     constructor(obj: any) {
         this.id = obj.id;
         this.name = obj.name;
-        this.ingredientUnit = IngredientUnit[obj.ingredientUnit] as IngredientUnit; 
-    } 
+        this.ingredientUnit = IngredientUnit[obj.ingredientUnit] as IngredientUnit;
+
+        if (obj instanceof Ingredient) {
+            this.ingredientUnit = obj.ingredientUnit;
+        }
+    }
 }
 

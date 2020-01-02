@@ -1,29 +1,77 @@
 <div class="d-flex flex-row">
-    <div class="col">
-      <h3>Add new meal</h3>
-      <hr />
-      <div>
-        <form [formGroup]="newMealForm" (submit)="saveNewMeal(newMealForm.value)">
+  <div class="col">
+    <h3>Add new meal</h3>
+    <hr />
+    <div>
+      <form [formGroup]="newMealForm" (submit)="saveNewMeal(newMealForm.value)">
+        <div id="new-meal-form">
+          <div id="meal-parameters">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" formControlName="name" #title class="form-control" placeholder="Enter name">
+              <h6 *ngIf="newMealForm.hasError('required', 'name')" class="text-danger"> Field is required!</h6>
+            </div>
 
-          <div class="form-group">
-            <label for="category">Meal type:</label>
-            <select class="custom-select" formControlName="typeOfMeal">
-              <option *ngFor="let mealType of mealTypes" value="{{ mealType.name }}">{{ mealType.id }}</option>
-            </select>
-            <h6 *ngIf="newMealForm.hasError('required', 'category')" class="text-danger"> Field is required!</h6>
+            <div class="form-group">
+              <label for="category">Meal type:</label>
+              <select class="custom-select" formControlName="typeOfMeal">
+                <option *ngFor="let mealType of mealTypes" value="{{ mealType.name }}">{{ mealType.id }}</option>
+              </select>
+              <h6 *ngIf="newMealForm.hasError('required', 'typeOfMeal')" class="text-danger"> Field is required!</h6>
+            </div>
+
+            <div class="form-group">
+              <label for="category">Preparing type:</label>
+              <select class="custom-select" formControlName="typeOfPreparing">
+                <option *ngFor="let preparingType of preparingTypes" value="{{ preparingType.name }}">
+                  {{ preparingType.id }}
+                </option>
+              </select>
+              <h6 *ngIf="newMealForm.hasError('required', 'typeOfPreparing')" class="text-danger"> Field is required!
+              </h6>
+            </div>
+
+            <div class="form-group">
+              <label for="minutesToPrepare">Time to prepare [minutes]:</label>
+              <input type="number" formControlName="minutesToPrepare" class="form-control">
+              <h6 *ngIf="newMealForm.hasError('required', 'minutesToPrepare')" class="text-danger"> Field is required!
+              </h6>
+            </div>
+
+            <div class="form-group">
+              <label for="recipe">Recipe</label>
+              <input type="text" formControlName="recipe" class="form-control" placeholder="Enter recipe">
+            </div>
           </div>
+          <div id="meal-ingredients">
+            <div>
+              <app-quick-search (emitableIngredient)="addIngredientToFormArray($event)"></app-quick-search>
+            </div>
+            <div formArrayName="ingredients"
+              *ngFor="let ingredient of newMealForm.get('ingredients').controls; let i = index;">
+              <div [formGroupName]="i">
+                <input type="hidden" formControlName="ingredient" readonly>
+                <input type="hidden" formControlName="ingredientName" readonly>
+                {{ newMealForm.controls.ingredients.controls[i].controls.ingredientName.value }}
+                <input type="hidden" formControlName="ingredientUnit" readonly>
+                {{ newMealForm.controls.ingredients.controls[i].controls.ingredientUnit.value }}
+                <input type="number" formControlName="amount">
+                <button id="new-ingredient-btn" class="btn btn-danger"
+                  (click)="deleteIngredientFromFormArray(i)">Delete</button>
+                <h6 *ngIf="newMealForm.controls.ingredients.controls[i].controls.amount.errors?.required"
+                  class="text-danger"> Amount field is required!</h6>
+              </div>
+            </div>
 
-          <div class="form-group">
-            <label for="category">Preparing type:</label>
-            <select class="custom-select" formControlName="typeOfPreparing">
-              <option *ngFor="let preparingType of preparingTypes" value="{{ preparingType.name }}">{{ preparingType.id }}</option>
-            </select>
-            <h6 *ngIf="newMealForm.hasError('required', 'category')" class="text-danger"> Field is required!</h6>
           </div>
+        </div>
+        <button id="new-meal-btn" type="submit" class="btn btn-primary" [disabled]="newMealForm.invalid">
+          Add meal</button>
 
-          <button type="submit" class="btn btn-primary" [disabled]="newMealForm.invalid">Add meal</button> 
 
-  <!--           
+
+
+        <!--           
             <div class="form-group">
               <label for="title">Title</label>
               <input type="text" formControlName="title" #title class="form-control" (keyup)="updateTitle(title.value)"
@@ -65,7 +113,7 @@
               <h6 *ngIf="newBookForm.hasError('required', 'picture')" class="text-danger"> Field is required!</h6>
             </div>
             <button type="submit" class="btn btn-primary" [disabled]="newBookForm.invalid">Add book</button> -->
-        </form>
-      </div>
+      </form>
     </div>
   </div>
+</div>

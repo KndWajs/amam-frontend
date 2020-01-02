@@ -20,5 +20,10 @@ export class Meal {
         this.recipe = obj.recipe;
         this.minutesToPrepare = obj.minutesToPrepare;
         this.ingredients = (obj.ingredients as Array<MealIngredient>).map(value => new MealIngredient(value));
+
+        if (obj instanceof Meal) {
+            this.typeOfMeal = obj.typeOfMeal;
+            this.typeOfPreparing = obj.typeOfPreparing;
+        }
     }    
 }

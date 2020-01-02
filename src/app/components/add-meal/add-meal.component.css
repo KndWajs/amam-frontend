@@ -1,0 +1,28 @@
+#new-meal-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#meal-parameters {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    margin-right: 50px;
+    margin-bottom: 50px;
+    width: 300px;
+}
+#meal-ingredients {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+#new-ingredient-btn{
+    margin-bottom: 20px;
+}
+#new-meal-btn{
+    width: 100%;
+    padding: 50px;
+}

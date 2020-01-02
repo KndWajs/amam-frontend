@@ -1,5 +1,4 @@
 import { NgModule, Component, enableProdMode } from '@angular/core';
-import { Service } from '../../app.service';
 import { MealsService } from '../../services/meals.service';
 import { Meal } from 'src/app/models/meal';
 import { Observable, Subscription } from 'rxjs';
@@ -20,9 +19,8 @@ export class MealsComponent {
     private allMealsSubscription: Subscription;
     private deleteMealSubscription: Subscription;
 
-    constructor(service: Service, private readonly mealsService: MealsService) {
+    constructor(private readonly mealsService: MealsService) {
         this.getMeals();
-
     }
 
     getMeals(): void {
