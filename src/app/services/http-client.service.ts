@@ -12,9 +12,9 @@ export class HttpClientService {
     this.updateHeaders();
   }
 
-  // endpoint = 'http://18.196.150.113/v1/api/';
+  endpoint = 'http://18.196.150.113/v1/api/';
 
-  endpoint = 'http://localhost:8080/v1/api/';
+  // endpoint = 'http://localhost:8080/v1/api/';
 
   httpOptions = {
     headers: new HttpHeaders(),
