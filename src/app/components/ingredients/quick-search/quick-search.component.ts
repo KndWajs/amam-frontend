@@ -1,8 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Ingredient } from 'src/app/models/ingredient';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { IngredientsService } from 'src/app/services/ingredients.service';
+import { IngredientUnit } from 'src/app/enums/ingredient-unit';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-quick-search',
@@ -10,14 +12,11 @@ import { IngredientsService } from 'src/app/services/ingredients.service';
   styleUrls: ['./quick-search.component.css']
 })
 export class QuickSearchComponent implements OnInit {
-  searchModeOption: string = "contains";
-  searchExprOption: any = "Name";
-  searchTimeoutOption: number = 200;
-  
-  minSearchLengthOption: number = 0;
-  showDataBeforeSearchOption: boolean = false;
-
-
+  readonly ingredientUnits: Array<Object>;
+  newIngredientForm: FormGroup;
+  private addIngredientSubscription: Subscription;
+  ingredient: Ingredient;
+  addIngredientMessage: string;
 
   private readonly NUMBER_OF_SHOWN_RESULT = 10;
   ingredients$: Observable<Array<Ingredient>>;
@@ -25,7 +24,9 @@ export class QuickSearchComponent implements OnInit {
 
   @Output() readonly emitableIngredient = new EventEmitter<Ingredient>();
 
-  constructor(private readonly ingredientService: IngredientsService) { }
+  constructor(private readonly ingredientService: IngredientsService, private readonly formBuilder: FormBuilder) {
+    this.ingredientUnits = this.buildIngredientUnits();
+  }
 
   search(term: string): void {
     this.searchTerms.next(term);
@@ -37,6 +38,11 @@ export class QuickSearchComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((term: string) => this.ingredientService.getIngredientsByPartialName(term, this.NUMBER_OF_SHOWN_RESULT))
     );
+
+    this.newIngredientForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      ingredientUnit: ['', Validators.required]
+    });
   }
 
   emitIngredient(ingredient: Ingredient): void {
@@ -44,12 +50,40 @@ export class QuickSearchComponent implements OnInit {
     this.emitableIngredient.emit(ingredient);
   }
 
-  keyDown(event: any){
-    let element = event.srcElement.nextElementSibling; // get the sibling element
+  buildIngredientUnits(): Object[] {
+    return Object.keys(IngredientUnit).map(key => ({ id: IngredientUnit[key], name: key }))
+  }
 
-    if(element == null)  // check if its null
-        return;
+  keyDown(event: any) {
+    let element = event.srcElement.nextElementSibling;
+
+    if (element == null)
+      return;
     else
-        element.focus();   // focus if not null
+      element.focus();
+  }
+
+  saveNewIngredient(newIngredientForm): void {
+    this.ingredient = new Ingredient(newIngredientForm);
+    this.addIngredientSubscription =
+      this.ingredientService.addIngredient(this.ingredient).subscribe((ingredient) => {
+        console.log("ingredient added succesfully");
+        console.log(ingredient);
+        this.addIngredientMessage = "Success!"
+      },
+        error => {
+          let errorDetails = '';
+          if (typeof error.error === 'string' || error.error instanceof String) {
+            errorDetails = ' --- ' + error.error;
+          }
+          this.addIngredientMessage = (`${error.message} ${errorDetails}`);
+          console.log(error);
+        });
+  }
+
+  ngOnDestroy(): void {
+    if (this.addIngredientSubscription) {
+      this.addIngredientSubscription.unsubscribe();
+    }
   }
 }

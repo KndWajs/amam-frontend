@@ -14,6 +14,8 @@ import { MealsComponent } from './components/meals/meals.component';
 import { AddMealComponent } from './components/add-meal/add-meal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuickSearchComponent } from './components/ingredients/quick-search/quick-search.component';
+import { CreateMenuComponent } from './components/create-menu/create-menu.component';
+import { AddIngredientComponent } from './ingredients/add-ingredient/add-ingredient.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { QuickSearchComponent } from './components/ingredients/quick-search/quic
     InfoPageComponent,
     MealsComponent,
     AddMealComponent,
-    QuickSearchComponent
+    QuickSearchComponent,
+    CreateMenuComponent,
+    AddIngredientComponent
   ],
   imports: [
     BrowserModule,

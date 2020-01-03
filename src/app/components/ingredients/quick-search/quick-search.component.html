@@ -1,14 +1,38 @@
 <div id="search-master-component">
-    <div id="search-component">
-      <h5>search ingredient:</h5>
-      <input #searchBox autocomplete="off" id="search-box" (keyup.enter)="keyDown($event)" (input)="search(searchBox.value)"/>
-      <ul class="search-result">
-        <li *ngFor="let ingredient of ingredients$ | async" (keyup.ArrowDown)="keyDown($event)" (keyup.enter)="emitIngredient(ingredient)" (click)="emitIngredient(ingredient)" tabindex="0">
-            <h6>
-              <strong>{{ ingredient.name }}</strong><br>
-              {{ ingredient.ingredientUnit }}
+  <div id="search-component">
+    <h5>search ingredient:</h5>
+    <input #searchBox autocomplete="off" id="search-box" (keyup.enter)="keyDown($event)"
+      (input)="search(searchBox.value)" />
+    <ul class="search-result">
+      <li *ngFor="let ingredient of ingredients$ | async" (keyup.ArrowDown)="keyDown($event)"
+        (keyup.enter)="emitIngredient(ingredient)" (click)="emitIngredient(ingredient)" tabindex="0">
+        <h6>
+          <strong>{{ ingredient.name }}</strong><br>
+          {{ ingredient.ingredientUnit }}
+        </h6>
+      </li>
+    </ul>
+    <h6 id="newIngredientForm">
+      <strong>Can't find ingredient? Add new one!</strong><br>
+      <form [formGroup]="newIngredientForm" (submit)="saveNewIngredient(newIngredientForm.value)">
+        <div id="new-ingredient-form">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" formControlName="name" #title class="form-control" placeholder="Enter name">
+            <h6 *ngIf="newIngredientForm.hasError('required', 'name')" class="text-danger"> Field is required!</h6>
+          </div>
+          <div class="form-group">
+            <label for="category">Unit:</label>
+            <select class="custom-select" formControlName="ingredientUnit">
+              <option *ngFor="let ingredientUnit of ingredientUnits" value="{{ ingredientUnit.name }}">{{ ingredientUnit.id }}</option>
+            </select>
+            <h6 *ngIf="newIngredientForm.hasError('required', 'ingredientUnit')" class="text-danger"> Field is required!
             </h6>
-        </li>
-      </ul>
-    </div>
+          </div>
+        </div>
+        <button id="new-meal-btn" type="submit" class="btn btn-primary" [disabled]="newIngredientForm.invalid">Add Ingredient</button>
+          <h6 *ngIf="addIngredientMessage" class="text-danger"> {{ addIngredientMessage }}</h6>
+      </form>
+    </h6>
   </div>
+</div>

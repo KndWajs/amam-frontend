@@ -4,13 +4,15 @@ import { WelcomePageComponent } from './components/welcome-page/welcome-page.com
 import { InfoPageComponent } from './components/info-page/info-page.component';
 import { MealsComponent } from './components/meals/meals.component';
 import { AddMealComponent } from './components/add-meal/add-meal.component';
+import { CreateMenuComponent } from './components/create-menu/create-menu.component';
 
 
 const routes: Routes = [
   { path: '', component: WelcomePageComponent },
   { path: 'info', component: InfoPageComponent },
   { path: 'add-meal', component: AddMealComponent },
-  { path: 'all-meals', component: MealsComponent }
+  { path: 'all-meals', component: MealsComponent },
+  { path: 'create-menu', component: CreateMenuComponent }
 ];
 
 @NgModule({

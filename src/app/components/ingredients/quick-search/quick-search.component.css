@@ -45,10 +45,17 @@
   #search-component {
     position: absolute;
     z-index: 10;
+    background-color: white;
+    opacity: 0.9;
   }
   
   ul.search-result {
     margin-top: 0;
     padding-left: 0;
   }
-  
+  #newIngredientForm {
+    border-style: dashed;
+    border-width: 1px;
+    padding: 5px;
+
+  }
