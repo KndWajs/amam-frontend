@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Menu } from 'src/app/models/menu';
+import { MenusService } from 'src/app/services/menus.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-menu',
@@ -8,48 +10,36 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./create-menu.component.css']
 })
 export class CreateMenuComponent implements OnInit {
-   ngOnInit(): void {
+  private saveMenuSubscription: Subscription;
+  menu: Array<Menu>;
+
+  constructor(private readonly menusService: MenusService, private readonly router: Router) {
 
   }
 
-  // newMenuForm: FormGroup;
-  // private addMenuSubscription: Subscription;
-  // menu: Menu;
-  // addMenuMessage: string;
+  ngOnInit(): void {
+  }
 
-  // constructor(private readonly menuService: MenusService, private readonly formBuilder: FormBuilder) {
-  // }
+  addMenu(menu: Menu) {
+    this.menu = new Array<Menu>(menu);
+  }
 
+  saveMenu(): void {
+      this.saveMenuSubscription =
+        this.menusService.addMenu(this.menu[0]).subscribe((menu) => {
+            console.log("menu added succesfully");
+            console.log(menu);
+            this.router.navigate(['/show-menu']);
+         },
+         error => {
+             console.log(error);
+         });
+    }
 
-  // ngOnInit(): void {
+    ngOnDestroy(): void {
+      if (this.saveMenuSubscription) {
+        this.saveMenuSubscription.unsubscribe();
+      }
+    }
 
-  //   this.newMenuForm = this.formBuilder.group({
-  //     name: ['', Validators.required],
-  //     menuUnit: ['', Validators.required]
-  //   });
-  // }
-
-  // saveNewMenu(newMenuForm): void {
-  //   this.menu = new Menu(newMenuForm);
-  //   this.addMenuSubscription =
-  //     this.menuService.addMenu(this.menu).subscribe((menu) => {
-  //       console.log("menu added succesfully");
-  //       console.log(menu);
-  //       this.addMenuMessage = "Success!"
-  //     },
-  //       error => {
-  //         let errorDetails = '';
-  //         if (typeof error.error === 'string' || error.error instanceof String) {
-  //           errorDetails = ' --- ' + error.error;
-  //         }
-  //         this.addMenuMessage = (`${error.message} ${errorDetails}`);
-  //         console.log(error);
-  //       });
-  // }
-
-  // ngOnDestroy(): void {
-  //   if (this.addMenuSubscription) {
-  //     this.addMenuSubscription.unsubscribe();
-  //   }
-  // }
 }

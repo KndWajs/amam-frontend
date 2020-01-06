@@ -1,0 +1,52 @@
+
+<div *ngFor="let dataSource of menus; let i = index;">
+    <br> 
+    <div class="alert alert-dismissible alert-success">
+        It's a menu <strong>{{dataSource.name}}</strong> for <strong>{{dataSource.numberOfPeople}}</strong> people.
+    </div>
+    <dx-data-grid id="gridContainer" 
+    [dataSource]="dataSource.meals"
+        [masterDetail]="{ enabled: true, template: 'detail' }" 
+        keyExpr="dayNumber" 
+        [allowColumnReordering]="true"
+        [showBorders]="true" 
+        (onRowRemoving)="onRowRemoving($event)">
+
+        <dxo-paging [enabled]="true"></dxo-paging>
+        <dxo-editing mode="row" 
+        [allowUpdating]="false" 
+        [allowDeleting]="false" 
+        [allowAdding]="false">
+        </dxo-editing>
+
+        <dxi-column dataField="meal.name"></dxi-column>
+        <dxi-column dataField="meal.typeOfMeal"></dxi-column>
+        <dxi-column dataField="meal.typeOfPreparing"></dxi-column>
+        <dxi-column dataField="meal.minutesToPrepare"></dxi-column>
+        <dxi-column dataField="meal.minutesToPrepare"></dxi-column>
+        <dxi-column dataField="dayNumber" [groupIndex]="0"></dxi-column>
+
+
+        <div id="tabs-container" *dxTemplate="let meal of 'detail'">
+            <dx-tab-panel id="tabs">
+                <dxi-item title="Ingredients" template="ingredientsTab"></dxi-item>
+                <div *dxTemplate="let ingredientsTabItem of 'ingredientsTab'">
+                    <dx-data-grid [dataSource]="meal.data.meal.ingredients" [showBorders]="true"
+                        [columnAutoWidth]="true">
+
+                        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                        </dxo-editing>
+
+                        <dxi-column dataField="ingredient.name"></dxi-column>
+                        <dxi-column dataField="amount"></dxi-column>
+                        <dxi-column caption="Unit" dataField="ingredient.ingredientUnit"></dxi-column>
+                    </dx-data-grid>
+                </div>
+                <dxi-item title="Recipe" template="recipeTab"></dxi-item>
+                <div *dxTemplate="let recipeTabItem of 'recipeTab'">
+                    <p class="meal.mealRecipe">{{meal.data.meal.recipe}}</p>
+                </div>
+            </dx-tab-panel>
+        </div>
+    </dx-data-grid>
+</div>

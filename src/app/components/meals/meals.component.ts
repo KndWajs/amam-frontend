@@ -1,4 +1,4 @@
-import { NgModule, Component, enableProdMode } from '@angular/core';
+import { NgModule, Component, enableProdMode, Input } from '@angular/core';
 import { MealsService } from '../../services/meals.service';
 import { Meal } from 'src/app/models/meal';
 import { Observable, Subscription } from 'rxjs';
@@ -12,7 +12,6 @@ import { MealType } from 'src/app/enums/meal-type';
     styleUrls: ['./meals.component.css']
 })
 export class MealsComponent {
-
     dataSource: Array<Meal>;
     events: Array<string> = [];
 

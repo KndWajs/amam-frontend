@@ -1,25 +1,6 @@
-<!-- <h6 id="newMenuForm">
-    <form [formGroup]="newMenuForm" (submit)="saveNewMenu(newMenuForm.value)">
-        <div id="new-menu-form">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" formControlName="name" #title class="form-control" placeholder="Enter name">
-                <h6 *ngIf="newMenuForm.hasError('required', 'name')" class="text-danger"> Field is required!</h6>
-            </div>
-            <div class="form-group">
-                <label for="category">Unit:</label>
-                <select class="custom-select" formControlName="menuUnit">
-                    <option *ngFor="let menuUnit of menuUnits" value="{{ menuUnit.name }}">
-                        {{ menuUnit.id }}</option>
-                </select>
-                <h6 *ngIf="newMenuForm.hasError('required', 'menuUnit')" class="text-danger"> Field is
-                    required!
-                </h6>
-            </div>
-        </div>
-        <button id="new-meal-btn" type="submit" class="btn btn-primary" [disabled]="newMenuForm.invalid">Add
-            Menu</button>
-        <h6 *ngIf="addMenuMessage" class="text-danger"> {{ addMenuMessage }}</h6>
-    </form>
-</h6> -->
-create menu
+<app-create-menu-parameters (emitableMenuMeals)="addMenu($event)"></app-create-menu-parameters>
+
+<div *ngIf="menu">
+<button id="save-menu-btn" type="submit" class="btn btn-primary" (click)="saveMenu()">Save menu as current one</button>
+<app-menu-view [menus]=menu></app-menu-view>
+</div>
