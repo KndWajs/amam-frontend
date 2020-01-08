@@ -1,0 +1,22 @@
+<div class="shopping-lists">
+    <div class="shopping-list" *ngFor="let shoppingList of shoppingLists; let i = index;">
+        <br>
+        <div class="alert alert-dismissible alert-success">
+            It's a shopping list <strong>{{shoppingList[0].menu.name}}</strong> for
+            <strong>{{shoppingList[0].menu.numberOfPeople}}</strong> people.
+        </div>
+        <dx-data-grid id="gridContainer" 
+        [dataSource]="shoppingList" 
+        keyExpr="ingredient.name"
+        [allowColumnReordering]="true" 
+        [showBorders]="true">
+
+            <dxo-paging [enabled]="true"></dxo-paging>
+            <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+            </dxo-editing>
+
+            <dxi-column dataField="ingredient.name"></dxi-column>
+            <dxi-column dataField="amount"></dxi-column>
+        </dx-data-grid>
+    </div>
+</div>

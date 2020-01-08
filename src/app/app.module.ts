@@ -18,6 +18,7 @@ import { CreateMenuComponent } from './components/create-menu/create-menu.compon
 import { AddIngredientComponent } from './ingredients/add-ingredient/add-ingredient.component';
 import { CreateMenuParametersComponent } from './components/create-menu/create-menu-parameters/create-menu-parameters.component';
 import { MenuViewComponent } from './components/menu-view/menu-view.component';
+import { ShoppingListsComponent } from './components/shopping-lists/shopping-lists.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { MenuViewComponent } from './components/menu-view/menu-view.component';
     CreateMenuComponent,
     AddIngredientComponent,
     CreateMenuParametersComponent,
-    MenuViewComponent
+    MenuViewComponent,
+    ShoppingListsComponent
   ],
   imports: [
     BrowserModule,
