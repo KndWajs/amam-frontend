@@ -9,7 +9,8 @@
         [dataSource]="shoppingList" 
         keyExpr="ingredient.name"
         [allowColumnReordering]="true" 
-        [showBorders]="true">
+        [showBorders]="true"
+        [columnAutoWidth]="true">
 
             <dxo-paging [enabled]="true"></dxo-paging>
             <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">

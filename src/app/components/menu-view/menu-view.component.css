@@ -78,3 +78,16 @@ p {
     display: flex;
     justify-content: center;
 }
+
+.menu {
+    margin: 10px;
+    width: 600px;
+}
+
+.menus {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+

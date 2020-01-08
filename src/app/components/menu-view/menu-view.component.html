@@ -1,5 +1,6 @@
 
-<div *ngFor="let dataSource of menus; let i = index;">
+<div class="menus">
+    <div class="menu" *ngFor="let dataSource of menus; let i = index;">
     <br> 
     <div class="alert alert-dismissible alert-success">
         It's a menu <strong>{{dataSource.name}}</strong> for <strong>{{dataSource.numberOfPeople}}</strong> people.
@@ -9,7 +10,8 @@
         [masterDetail]="{ enabled: true, template: 'detail' }" 
         keyExpr="dayNumber" 
         [allowColumnReordering]="true"
-        [showBorders]="true" >
+        [showBorders]="true" 
+        [columnAutoWidth]="true">
 
         <dxo-paging [enabled]="true"></dxo-paging>
         <dxo-editing mode="row" 
@@ -18,12 +20,11 @@
         [allowAdding]="false">
         </dxo-editing>
 
-        <dxi-column dataField="meal.name"></dxi-column>
-        <dxi-column dataField="meal.typeOfMeal"></dxi-column>
-        <dxi-column dataField="meal.typeOfPreparing"></dxi-column>
-        <dxi-column dataField="meal.minutesToPrepare"></dxi-column>
-        <dxi-column dataField="meal.minutesToPrepare"></dxi-column>
-        <dxi-column dataField="dayNumber" [groupIndex]="0"></dxi-column>
+        <dxi-column caption="name" dataField="meal.name"></dxi-column>
+        <dxi-column caption="type" dataField="meal.typeOfMeal"></dxi-column>
+        <dxi-column caption="preparing" dataField="meal.typeOfPreparing"></dxi-column>
+        <dxi-column caption="minutes" dataField="meal.minutesToPrepare"></dxi-column>
+        <dxi-column caption="dayNumber" dataField="dayNumber" [groupIndex]="0"></dxi-column>
 
 
         <div id="tabs-container" *dxTemplate="let meal of 'detail'">
@@ -48,4 +49,5 @@
             </dx-tab-panel>
         </div>
     </dx-data-grid>
+</div>
 </div>
