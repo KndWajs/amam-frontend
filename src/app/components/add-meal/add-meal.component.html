@@ -45,7 +45,11 @@
             </div>
           </div>
           <div id="meal-ingredients">
-
+            <!-- <div>
+            <label for="minutesToPrepare">For how many person are these ingredients?</label>
+            <input type="number" formControlName="numberOfPersons" class="form-control" min="0"
+                oninput="validity.valid||(value=value.replace(/\D+/g, ''))">
+              </div> -->
             <div formArrayName="ingredients"
               *ngFor="let ingredient of newMealForm.get('ingredients')['controls']; let i = index;">
               <div id="ingredients" [formGroupName]="i">
@@ -55,8 +59,7 @@
                   {{ ingredient.controls.ingredientName.value }}
                   <input type="hidden" formControlName="ingredientUnit" readonly>
                   {{ ingredient.controls.ingredientUnit.value }}<br>
-                  <input type="number" formControlName="amount" min="0"
-                    oninput="validity.valid||(value=value.replace(/\D+/g, ''))">
+                  <input type="number" pattern="^\d*(\.\d{0,2})?$" formControlName="amount" min="0" step='0.01' value='0.00'>
                 </div>
                 <div>
                   <button id="new-ingredient-btn" class="btn btn-danger"

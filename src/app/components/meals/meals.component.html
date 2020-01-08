@@ -22,7 +22,7 @@
 
   <div id="tabs-container" *dxTemplate="let meal of 'detail'">
     <dx-tab-panel id="tabs">
-      <dxi-item title="Ingredients" template="ingredientsTab"></dxi-item>
+      <dxi-item title="Ingredients for 1 person" template="ingredientsTab"></dxi-item>
       <div *dxTemplate="let ingredientsTabItem of 'ingredientsTab'">
         <dx-data-grid 
         [dataSource]="meal.data.ingredients" 
