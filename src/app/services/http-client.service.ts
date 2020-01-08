@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 // import { GlobalService } from './global.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,7 @@ export class HttpClientService {
     this.updateHeaders();
   }
 
-  endpoint = 'http://18.196.150.113/v1/api/';
-
-  // endpoint = 'http://localhost:8080/v1/api/';
+  endpoint = environment.endpoint;
 
   httpOptions = {
     headers: new HttpHeaders(),
