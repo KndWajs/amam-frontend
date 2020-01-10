@@ -45,8 +45,11 @@ export class QuickSearchComponent implements OnInit {
     });
   }
 
+  searchBoxText: string;
+
   emitIngredient(ingredient: Ingredient): void {
     this.search('');
+    this.searchBoxText = "";
     this.emitableIngredient.emit(ingredient);
   }
 

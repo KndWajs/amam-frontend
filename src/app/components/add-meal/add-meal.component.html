@@ -39,16 +39,16 @@
               </h6>
             </div>
 
-            <div class="form-group">
+            <div  class="form-group" >
               <label for="recipe">Recipe</label>
               <textarea formControlName="recipe" class="form-control" placeholder="Enter recipe"></textarea>
             </div>
           </div>
           <div id="meal-ingredients">
             <!-- <div>
-            <label for="minutesToPrepare">For how many person are these ingredients?</label>
+             <label for="minutesToPrepare">For how many person are these ingredients?</label>
             <input type="number" formControlName="numberOfPersons" class="form-control" min="0"
-                oninput="validity.valid||(value=value.replace(/\D+/g, ''))">
+                oninput="validity.valid||(value=value.replace(/\D+/g, ''))"> 
               </div> -->
             <div formArrayName="ingredients"
               *ngFor="let ingredient of newMealForm.get('ingredients')['controls']; let i = index;">
@@ -59,18 +59,21 @@
                   {{ ingredient.controls.ingredientName.value }}
                   <input type="hidden" formControlName="ingredientUnit" readonly>
                   {{ ingredient.controls.ingredientUnit.value }}<br>
-                  <input type="number" pattern="^\d*(\.\d{0,2})?$" formControlName="amount" min="0" step='0.01' value='0.00'>
+                  <input #ingr type="number" pattern="^\d*(\.\d{0,2})?$" formControlName="amount" min="0" step='0.01' value='0.00' (keyup.enter)='goToSearchIngredient($event)'>
+                  <div *ngIf='ingr.value == ""'>
+                  {{ingr.focus()}}
+                  </div>
                 </div>
                 <div>
-                  <button id="new-ingredient-btn" class="btn btn-danger"
-                    (click)="deleteIngredientFromFormArray(i)">Delete</button>
+                  <a id="new-ingredient-btn" class="btn btn-danger"
+                    (click)="deleteIngredientFromFormArray(i)">Delete</a>
                   <h6 *ngIf="ingredient.controls.amount.errors?.required" class="text-danger"> Amount field is required!
                   </h6>
                 </div>
               </div>
             </div>
             <div>
-              <app-quick-search (emitableIngredient)="addIngredientToFormArray($event)"></app-quick-search>
+              <app-quick-search (emitableIngredient)="addIngredientToFormArray($event)" ></app-quick-search>
             </div>
 
           </div>

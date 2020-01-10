@@ -1,8 +1,9 @@
 <div id="search-master-component">
   <div id="search-component">
     <h5>search ingredient:</h5>
-    <input #searchBox autocomplete="off" id="search-box" (keyup.enter)="keyDown($event)"
-      (input)="search(searchBox.value)" />
+    <input #searchBox autocomplete="off" id="search-box" (keyup.enter)="keyDown($event)" 
+      (input)="search(searchBox.value)" [(ngModel)]="searchBoxText"/>
+
     <ul class="search-result">
       <li *ngFor="let ingredient of ingredients$ | async" (keyup.ArrowDown)="keyDown($event)"
         (keyup.enter)="emitIngredient(ingredient)" (click)="emitIngredient(ingredient)" tabindex="0">

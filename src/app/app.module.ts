@@ -12,7 +12,7 @@ import { Globals } from './globals';
 import { HttpClientModule } from '@angular/common/http';
 import { MealsComponent } from './components/meals/meals.component';
 import { AddMealComponent } from './components/add-meal/add-meal.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { QuickSearchComponent } from './components/ingredients/quick-search/quick-search.component';
 import { CreateMenuComponent } from './components/create-menu/create-menu.component';
 import { AddIngredientComponent } from './ingredients/add-ingredient/add-ingredient.component';
@@ -44,7 +44,8 @@ import { ShoppingListsComponent } from './components/shopping-lists/shopping-lis
     DxDataGridModule,
     DxButtonModule,
     DxTabPanelModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
     
   ],
   providers: [Globals],

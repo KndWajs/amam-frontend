@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Meal } from 'src/app/models/meal';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MealType } from 'src/app/enums/meal-type';
@@ -64,6 +64,13 @@ export class AddMealComponent implements OnInit {
 
   buildPreparingTypesArray(): Object[] {
     return Object.keys(PreparingType).map(key => ({ id: PreparingType[key], name: key }))
+  }
+
+  goToSearchIngredient(event: any) {
+    //TODO reformat
+    let element = event.srcElement.parentElement.parentElement.parentElement.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.firstElementChild.nextElementSibling;
+
+      element.focus();
   }
 
   saveNewMeal(newMealForm): void {
