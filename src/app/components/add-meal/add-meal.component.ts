@@ -8,6 +8,7 @@ import { Ingredient } from 'src/app/models/ingredient';
 import { IngredientUnit } from 'src/app/enums/ingredient-unit';
 import { MealsService } from 'src/app/services/meals.service';
 import { Router } from '@angular/router';
+import { MealIngredient } from 'src/app/models/meal-ingredient';
 
 @Component({
   selector: 'app-add-meal',
@@ -21,11 +22,12 @@ export class AddMealComponent implements OnInit {
   newMealForm: FormGroup;
   meal: Meal;
   ingredients: FormArray;
+  numberOfPeoplee: number;
 
   constructor(private readonly formBuilder: FormBuilder, private readonly mealsService: MealsService, private readonly router: Router) {
     this.mealTypes = this.buildMealTypesArray();
     this.preparingTypes = this.buildPreparingTypesArray();
-
+    this.numberOfPeoplee = 1;
   }
 
   ngOnInit() {
@@ -51,11 +53,12 @@ export class AddMealComponent implements OnInit {
   addIngredientToFormArray(ingredient: Ingredient): void {
     this.ingredients = this.newMealForm.get('ingredients') as FormArray;
     this.ingredients.push(this.createMealIngredientFormGroup(ingredient, ingredient.name, ingredient.ingredientUnit));
+    this.isIngredientsListEmpty();
   }
 
   deleteIngredientFromFormArray(i: number) {
     this.ingredients.removeAt(i);
-
+    this.isIngredientsListEmpty();
   }
 
   buildMealTypesArray(): Object[] {
@@ -68,27 +71,46 @@ export class AddMealComponent implements OnInit {
 
   goToSearchIngredient(event: any) {
     //TODO reformat
-    let element = event.srcElement.parentElement.parentElement.parentElement.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.firstElementChild.nextElementSibling;
+    let element = event.srcElement
+      .parentElement.parentElement.parentElement.parentElement
+      .nextElementSibling.firstElementChild.firstElementChild.firstElementChild.firstElementChild.nextElementSibling;
+    element.focus();
 
-      element.focus();
   }
 
   saveNewMeal(newMealForm): void {
     this.meal = new Meal(newMealForm);
+    this.meal.ingredients = this.meal.ingredients.map(ingredient => this.calculateIngredientAmountToOnePerson(ingredient));
+    console.log(this.meal);
     this.addMealSubscription =
       this.mealsService.addMeal(this.meal).subscribe((meal) => {
-          console.log("meal added succesfully");
-          console.log(meal);
-          this.router.navigate(['/all-meals/']);
-       },
-       error => {
-           console.log(error);
-       });
+        console.log("meal added succesfully");
+        console.log(meal);
+        this.router.navigate(['/all-meals/']);
+      },
+        error => {
+          console.log(error);
+          console.log(this.meal);
+        });
+  }
+
+  calculateIngredientAmountToOnePerson(mealIngredient: MealIngredient): MealIngredient {
+    let newMealIngredient: MealIngredient = new MealIngredient(mealIngredient);
+    newMealIngredient.amount = mealIngredient.amount / this.numberOfPeoplee;
+    return newMealIngredient;
   }
 
   ngOnDestroy(): void {
     if (this.addMealSubscription) {
       this.addMealSubscription.unsubscribe();
     }
+  }
+
+  isIngredientsListEmpty(): boolean {
+    if (!this.ingredients) {
+      return true;
+    }
+
+    return this.ingredients.value.length == 0;
   }
 }

@@ -7,6 +7,7 @@ import { AddMealComponent } from './components/add-meal/add-meal.component';
 import { CreateMenuComponent } from './components/create-menu/create-menu.component';
 import { MenuViewComponent } from './components/menu-view/menu-view.component';
 import { ShoppingListsComponent } from './components/shopping-lists/shopping-lists.component';
+import { PipeDataComponent } from './components/pipe-data/pipe-data.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'all-meals', component: MealsComponent },
   { path: 'create-menu', component: CreateMenuComponent },
   { path: 'show-menu', component: MenuViewComponent },
-  { path: 'shopping-lists', component: ShoppingListsComponent }
+  { path: 'shopping-lists', component: ShoppingListsComponent },
+  { path: 'admin', component: PipeDataComponent }
 ];
 
 @NgModule({

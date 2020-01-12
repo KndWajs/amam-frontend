@@ -19,6 +19,7 @@ import { AddIngredientComponent } from './ingredients/add-ingredient/add-ingredi
 import { CreateMenuParametersComponent } from './components/create-menu/create-menu-parameters/create-menu-parameters.component';
 import { MenuViewComponent } from './components/menu-view/menu-view.component';
 import { ShoppingListsComponent } from './components/shopping-lists/shopping-lists.component';
+import { PipeDataComponent } from './components/pipe-data/pipe-data.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ShoppingListsComponent } from './components/shopping-lists/shopping-lis
     AddIngredientComponent,
     CreateMenuParametersComponent,
     MenuViewComponent,
-    ShoppingListsComponent
+    ShoppingListsComponent,
+    PipeDataComponent
   ],
   imports: [
     BrowserModule,

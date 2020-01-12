@@ -12,6 +12,7 @@ export class MenuViewComponent implements OnInit {
   @Input() menus: Array<Menu>;
 
   private getMenuSubscription: Subscription;
+  private deleteMenuSubscription: Subscription;
 
   constructor(private readonly menusService: MenusService) {
 
@@ -42,10 +43,33 @@ export class MenuViewComponent implements OnInit {
     return;
   }
 
+  deleteMenu(menu: Menu, numberOnList: number): void {
+    this.deleteMenuSubscription = this.menusService.deleteMenu(menu.id).subscribe(
+      (menu) => {
+         console.log("menu deleted");
+         console.log(menu);
+         this.menus.splice(numberOnList);
+
+      },
+      error => {
+          console.log(error);
+          // let errorDetails = '';
+          // if (typeof error.error === 'string' || error.error instanceof String) {
+          //     errorDetails = ' --- ' + error.error;
+          // }
+          // reject(`${error.message} ${errorDetails}`);
+      });
+  }
+
+
+
   ngOnDestroy(): void {
     if (this.getMenuSubscription) {
         this.getMenuSubscription.unsubscribe();
     }
+    if (this.deleteMenuSubscription) {
+      this.deleteMenuSubscription.unsubscribe();
+  }
 }
 
 }
