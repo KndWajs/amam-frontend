@@ -60,6 +60,10 @@ export class PipeDataComponent implements OnInit {
     this.ingredient = this.ingredients.pop();
   }
 
+  addCategoryToList(category: string) {
+    this.categories.push(category);
+  }
+
   ngOnDestroy(): void {
     if (this.allIngredientsSubscription) {
       this.allIngredientsSubscription.unsubscribe();
