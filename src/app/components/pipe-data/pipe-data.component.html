@@ -1,1 +1,17 @@
-<p>pipe-data works!</p>
+<div style="margin-bottom: 10px;">
+  <label>Name</label>
+  <input [(ngModel)]="ingredient.name" [ngModelOptions]="{standalone: true}">
+  <label>Unit</label>
+  <input [(ngModel)]="ingredient.ingredientUnit" [ngModelOptions]="{standalone: true}">
+  <label>Category</label>
+  <input [(ngModel)]="ingredient.category" [ngModelOptions]="{standalone: true}">
+</div>
+
+{{msg}}
+<div style="display: flex; flex-direction: row; margin: 20px;">
+  <div *ngFor="let category of categories " style="margin: 20px;">
+    <button id="new-meal-btn" class="btn btn-primary" (click)="addIngredientCategory($event)">{{category}}</button>
+  </div>
+
+  <button id="new-meal-btn" class="btn btn-secondary" (click)="addIngredientCategory($event)">dalej</button>
+</div>

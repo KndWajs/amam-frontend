@@ -17,6 +17,16 @@ export class IngredientsService {
      .pipe(map(value => new Ingredient(value)));
   }
 
+  updateIngredient(ingredient: Ingredient): Observable<Ingredient> {
+    return this.httpClientService.getHttpClient().put<Ingredient>(this.httpClientService.endpoint + 'ingredient/' + ingredient.id, ingredient, this.httpClientService.httpOptions)
+     .pipe(map(value => new Ingredient(value)));
+  }
+
+  getIngredientsFromHttp(): Observable<Array<Ingredient>> {
+    return this.httpClientService.getHttpClient().get<Array<Ingredient>>(this.httpClientService.endpoint + 'ingredients/', this.httpClientService.httpOptions)
+     .pipe(map(values => values.map(value => new Ingredient(value))));
+  }
+
   getIngredientsByPartialName(name: string, numberOfResults: number): Observable<Array<Ingredient>> {
     if (!name.trim()) {
       return of([]);
