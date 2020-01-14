@@ -1,10 +1,7 @@
-
-
-
 <div class="card border-primary mb-3" style="max-width: 20rem;">
   <div class="card-header">Zmień lub ustaw kategorię dla:</div>
   <div class="card-body">
-    <div style="margin-bottom: 10px;">
+    <div style="margin-bottom: 10px;" *ngIf="ingredient">
       <label>Name</label>
       <input [(ngModel)]="ingredient.name" [ngModelOptions]="{standalone: true}"><br>
       <label>Unit</label>
