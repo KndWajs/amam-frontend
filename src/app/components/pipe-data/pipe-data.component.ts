@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IngredientsService } from 'src/app/services/ingredients.service';
 import { Ingredient } from 'src/app/models/ingredient';
 import { Subscription } from 'rxjs';
+import { AdminService } from 'src/app/services/admin.service';
+import { IngredientCategory } from 'src/app/models/admin/ingredient-category';
 
 @Component({
   selector: 'app-pipe-data',
@@ -12,16 +14,19 @@ export class PipeDataComponent implements OnInit {
   ingredients: Array<Ingredient>;
   private allIngredientsSubscription: Subscription;
   private updateIngredientSubscription: Subscription;
+  private getCategoriesSubscription: Subscription;
+  private addCategoriesSubscription: Subscription;
 
   ingredient: Ingredient;
 
   msg: String;
 
-  categories: Array<String> = ["nabiał", "mrożonki", "warzywa", "owoce", "dania_gotowe", "słodycze", "napoje", "wędliny", "mięso", "pieczywo", "sery"];
+  categories: Array<IngredientCategory>;
 
-  constructor(private readonly ingredientsService: IngredientsService) { }
+  constructor(private readonly ingredientsService: IngredientsService, private readonly adminService: AdminService) { }
 
   ngOnInit() {
+    this.getCategories();
     this.getIngredients();
 
   }
@@ -38,6 +43,17 @@ export class PipeDataComponent implements OnInit {
     return;
   }
 
+  getCategories(): void {
+    this.getCategoriesSubscription = this.adminService.getIngredientCategories().subscribe
+      (categories => {
+        this.categories = categories;
+      },
+        error => {
+          console.log('there is no categories');
+        });
+    return;
+  }
+
   updateIngredeint(ingr: Ingredient): void {
     this.updateIngredientSubscription = this.ingredientsService.updateIngredient(ingr).subscribe
       (ingredient => {
@@ -50,7 +66,7 @@ export class PipeDataComponent implements OnInit {
   }
 
   addIngredientCategory(event) {
-    this.ingredient.category = event.srcElement.innerText;
+    this.addCategoriesSubscription = this.ingredient.category = event.srcElement.innerText;
     if(!(event.srcElement.innerText == "dalej")){
       this.updateIngredeint(this.ingredient);
     }    
@@ -60,8 +76,15 @@ export class PipeDataComponent implements OnInit {
     this.ingredient = this.ingredients.pop();
   }
 
-  addCategoryToList(category: string) {
-    this.categories.push(category);
+  addCategoryToList(categoryName: string) {
+    this.adminService.addIngredientCategory(new IngredientCategory({id: '', category: `${categoryName}`})).subscribe
+    (categories => {
+      this.getCategories();
+    },
+      error => {
+        console.log('can not add category');
+      });
+  return;
   }
 
   ngOnDestroy(): void {
@@ -70,6 +93,12 @@ export class PipeDataComponent implements OnInit {
     }
     if (this.updateIngredientSubscription) {
       this.updateIngredientSubscription.unsubscribe();
+    }
+    if (this.addCategoriesSubscription) {
+      this.addCategoriesSubscription.unsubscribe();
+    }
+    if (this.getCategoriesSubscription) {
+      this.getCategoriesSubscription.unsubscribe();
     }
   }
 

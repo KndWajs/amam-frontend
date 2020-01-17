@@ -16,7 +16,7 @@
 
 <div style="display: flex; flex-direction: row; margin: 20px; flex-wrap: wrap;">
   <div *ngFor="let category of categories " style="margin: 20px;">
-    <button id="new-meal-btn" class="btn btn-primary" (click)="addIngredientCategory($event)">{{category}}</button>
+    <button id="new-meal-btn" class="btn btn-primary" (click)="addIngredientCategory($event)">{{category.category}}</button>
   </div>
 
   <button id="new-meal-btn" class="btn btn-secondary" (click)="addIngredientCategory($event)">dalej</button>

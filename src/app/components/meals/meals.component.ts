@@ -33,6 +33,9 @@ export class MealsComponent {
                 // }
             },
                 error => {
+                    console.log(error);
+                    console.log(error.error.toString());
+                    
                     console.log('there is no meals');
                 });
 
