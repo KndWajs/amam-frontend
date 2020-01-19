@@ -1,0 +1,22 @@
+{
+    "envname": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-amam-angular-envname-224948-authRole",
+            "UnauthRoleArn": "arn:aws:iam::918308541697:role/amplify-amam-angular-envname-224948-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::918308541697:role/amplify-amam-angular-envname-224948-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "amplify-amam-angular-envname-224948-deployment",
+            "UnauthRoleName": "amplify-amam-angular-envname-224948-unauthRole",
+            "StackName": "amplify-amam-angular-envname-224948",
+            "StackId": "arn:aws:cloudformation:eu-central-1:918308541697:stack/amplify-amam-angular-envname-224948/73ea38c0-3a3c-11ea-ab42-02012ecdd3ee",
+            "AmplifyAppId": "d3jeecs1xpc03j"
+        },
+        "categories": {
+            "auth": {
+                "amamangular5733c694": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"123asd\",\"client_secret\":\"123asd\"},{\"ProviderName\":\"Google\",\"client_id\":\"123asd\",\"client_secret\":\"123asd\"}]"
+                }
+            }
+        }
+    }
+}

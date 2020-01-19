@@ -4,7 +4,7 @@
     <br> 
     <div class="alert alert-dismissible alert-success">
         It's a menu <strong>{{dataSource.name}}</strong> for <strong>{{dataSource.numberOfPeople}}</strong> people.
-        <button id="new-ingredient-btn" class="btn btn-danger" (click)="deleteMenu(dataSource, i)">Delete</button>
+        <button *ngIf="dataSource.id" id="new-ingredient-btn" class="btn btn-danger" (click)="deleteMenu(dataSource, i)">Delete</button>
     </div>
     <dx-data-grid id="gridContainer" 
     [dataSource]="dataSource.meals"
@@ -17,7 +17,7 @@
         <dxo-paging [enabled]="true"></dxo-paging>
         <dxo-editing mode="row" 
         [allowUpdating]="false" 
-        [allowDeleting]="false" 
+        [allowDeleting]="true" 
         [allowAdding]="false">
         </dxo-editing>
 

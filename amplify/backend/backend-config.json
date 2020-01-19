@@ -1,0 +1,10 @@
+{
+	"auth": {
+		"amamangular5733c694": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	}
+}

@@ -19,7 +19,15 @@ import { AddIngredientComponent } from './ingredients/add-ingredient/add-ingredi
 import { CreateMenuParametersComponent } from './components/create-menu/create-menu-parameters/create-menu-parameters.component';
 import { MenuViewComponent } from './components/menu-view/menu-view.component';
 import { ShoppingListsComponent } from './components/shopping-lists/shopping-lists.component';
-import { PipeDataComponent } from './components/pipe-data/pipe-data.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { PipeDataComponent } from './components/admin/pipe-data/pipe-data.component';
+
+
+import { AmplifyAngularModule, AmplifyService, AmplifyModules } from 'aws-amplify-angular';
+import Auth from '@aws-amplify/auth';
+import Interactions from '@aws-amplify/interactions';
+import Storage from '@aws-amplify/storage';
 
 
 @NgModule({
@@ -36,7 +44,9 @@ import { PipeDataComponent } from './components/pipe-data/pipe-data.component';
     CreateMenuParametersComponent,
     MenuViewComponent,
     ShoppingListsComponent,
-    PipeDataComponent
+    PipeDataComponent,
+    AdminComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -47,10 +57,21 @@ import { PipeDataComponent } from './components/pipe-data/pipe-data.component';
     DxButtonModule,
     DxTabPanelModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    AmplifyAngularModule
     
   ],
-  providers: [Globals],
+  providers: [Globals,
+    {
+      provide: AmplifyService,
+      useFactory:  () => {
+        return AmplifyModules({
+          Auth,
+          Storage,
+          Interactions
+        });
+      }
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

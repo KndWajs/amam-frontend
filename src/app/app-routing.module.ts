@@ -7,23 +7,38 @@ import { AddMealComponent } from './components/add-meal/add-meal.component';
 import { CreateMenuComponent } from './components/create-menu/create-menu.component';
 import { MenuViewComponent } from './components/menu-view/menu-view.component';
 import { ShoppingListsComponent } from './components/shopping-lists/shopping-lists.component';
-import { PipeDataComponent } from './components/pipe-data/pipe-data.component';
+import { PipeDataComponent } from './components/admin/pipe-data/pipe-data.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
-  { path: '', component: WelcomePageComponent },
   { path: 'info', component: InfoPageComponent },
   { path: 'add-meal', component: AddMealComponent },
   { path: 'all-meals', component: MealsComponent },
   { path: 'create-menu', component: CreateMenuComponent },
   { path: 'show-menu', component: MenuViewComponent },
   { path: 'shopping-lists', component: ShoppingListsComponent },
-  { path: 'admin', component: PipeDataComponent }
+  {
+    path: 'admin',
+    children: [
+      {
+        path: 'assign-ingredient-categories',
+        component: PipeDataComponent
+      },
+      {
+        path: '',
+        component: AdminComponent
+      }
+    ]
+  },
+  { path: '', component: WelcomePageComponent },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes),
-    RouterModule.forRoot(routes, { useHash: true })],
+  RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
