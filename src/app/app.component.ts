@@ -1,5 +1,8 @@
 import { NgModule, Component, enableProdMode } from '@angular/core';
 import { Service } from './app.service';
+import { AmplifyService } from 'aws-amplify-angular';
+import { AuthState } from 'aws-amplify-angular/dist/src/providers';
+import { Auth } from 'aws-amplify';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +10,54 @@ import { Service } from './app.service';
   styleUrls: ['./app.component.css'],
   providers: [Service]
 })
-export class AppComponent  {
+export class AppComponent {
+  signedIn: boolean;
+  user: any;
+  greeting: string;
+  usernameAttributes: 'My user name';
+  authState: AuthState;
 
-  constructor(service: Service) {
-
+  constructor(service: Service, private amplifyService: AmplifyService) {
+    this.amplifyService.authStateChange$
+      .subscribe(authState => {
+        this.signedIn = authState.state === 'signedIn';
+        this.authState = authState;
+        if (!authState.user) {
+          this.user = null;
+        } else {
+          this.user = authState.user;
+          this.greeting = "Hello " + this.user.username;
+        }
+      });
   }
 
-  
+  signOut(): void {
+    Auth.signOut()
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
   }
+
+  signUpConfig = {
+    header: 'My Customized Sign Up',
+    hideAllDefaults: true,
+    defaultCountryCode: '1',
+    signUpFields: [
+      {
+        label: 'My user name',
+        key: 'username',
+        required: true,
+        displayOrder: 1,
+        type: 'string',
+      },
+      {
+        label: 'Password',
+        key: 'password',
+        required: true,
+        displayOrder: 2,
+        type: 'password'
+      }
+    ]
+  }
+
+
+}

@@ -1,6 +1,11 @@
 <app-navbar></app-navbar>
 <div id="main-container">
 
-<router-outlet></router-outlet>
-</div>
+    <button type="button" class="btn btn-secondary" routerLink="/" (click)="signOut()" *ngIf="signedIn">sign out</button>
 
+    <amplify-authenticator [signUpConfig]="signUpConfig" [usernameAttributes]="usernameAttributes"
+        [hide]="['Greetings']"></amplify-authenticator>
+
+
+    <router-outlet *ngIf="signedIn"></router-outlet>
+</div>
