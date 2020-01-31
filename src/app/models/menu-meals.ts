@@ -2,7 +2,6 @@ import { Ingredient } from './ingredient';
 import { Meal } from './meal';
 
 export class MenuMeal {
-    id: number;
     meal: Meal;
     dayNumber: number;
 

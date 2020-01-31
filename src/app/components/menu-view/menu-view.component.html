@@ -7,12 +7,13 @@
         <button *ngIf="dataSource.id" id="new-ingredient-btn" class="btn btn-danger" (click)="deleteMenu(dataSource, i)">Delete</button>
     </div>
     <dx-data-grid id="gridContainer" 
-    [dataSource]="dataSource.meals"
+        [dataSource]="dataSource.meals"
         [masterDetail]="{ enabled: true, template: 'detail' }" 
-        keyExpr="dayNumber" 
+        keyExpr="meal" 
         [allowColumnReordering]="true"
         [showBorders]="true" 
-        [columnAutoWidth]="true">
+        [columnAutoWidth]="true"
+        (onRowRemoving)="onRowRemoving(dataSource, $event)"  >
 
         <dxo-paging [enabled]="true"></dxo-paging>
         <dxo-editing mode="row" 
