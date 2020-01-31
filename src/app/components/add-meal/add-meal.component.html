@@ -1,6 +1,7 @@
 <div class="d-flex flex-row">
   <div class="col">
-    <h3>Add new meal</h3>
+    <h3 *ngIf='mealId == ""'>Add new meal</h3>
+    <h3 *ngIf='mealId != ""'>Edit meal</h3>
     <hr />
     <div>
       <form [formGroup]="newMealForm" (submit)="saveNewMeal(newMealForm.value)">
@@ -75,7 +76,7 @@
               </div>
             </div>
             <div>
-              <app-quick-search (emitableIngredient)="addIngredientToFormArray($event)"></app-quick-search>
+              <app-quick-search (emitableIngredient)="addIngredientToFormArray($event, null)"></app-quick-search>
             </div>
 
           </div>
@@ -83,7 +84,6 @@
         <button id="new-meal-btn" type="submit" class="btn btn-primary"
           [disabled]="newMealForm.invalid || isIngredientsListEmpty()">
           Add meal</button>
-
       </form>
     </div>
   </div>

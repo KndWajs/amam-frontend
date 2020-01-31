@@ -94,4 +94,9 @@ p {
 .btnMenu{
     margin:10px;
 }
+.mealRecipe {
+    width: 450px;
+    margin: 100px;
+    white-space: pre-line;
+}
 

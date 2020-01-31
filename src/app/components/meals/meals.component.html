@@ -5,13 +5,16 @@
   [allowColumnReordering]="true" 
   [showBorders]="true" 
   (onRowRemoving)="onRowRemoving($event)" 
-  >
+  (onEditingStart)="duplicate($event)">
 
   <dxo-paging [enabled]="true"></dxo-paging>
   <dxo-editing mode="row"
-   [allowUpdating]="false"
+   [allowUpdating]="true"
     [allowDeleting]="true" 
     [allowAdding]="false">
+     <dxo-texts
+    editRow="Duplicate">
+    </dxo-texts>  
   </dxo-editing>
 
   <!-- <dxi-column dataField="id"></dxi-column> -->

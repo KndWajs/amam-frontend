@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { IngredientUnit } from 'src/app/enums/ingredient-unit';
 import { Ingredient } from 'src/app/models/ingredient';
 import { MealType } from 'src/app/enums/meal-type';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-meals',
@@ -18,7 +19,7 @@ export class MealsComponent {
     private allMealsSubscription: Subscription;
     private deleteMealSubscription: Subscription;
 
-    constructor(private readonly mealsService: MealsService) {
+    constructor(private readonly mealsService: MealsService, private readonly router: Router) {
         this.getMeals();
     }
 
@@ -40,6 +41,11 @@ export class MealsComponent {
                 });
 
         return;
+    }
+
+    duplicate(e: any): void {
+        this.router.navigate([`/add-meal/${e.data.id}`]);
+        console.log(e.data.id)
     }
 
     onRowRemoving(e: any): void {

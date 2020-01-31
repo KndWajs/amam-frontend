@@ -15,6 +15,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 const routes: Routes = [
   { path: 'info', component: InfoPageComponent },
   { path: 'add-meal', component: AddMealComponent },
+  { path: 'add-meal/:id', component: AddMealComponent },
   { path: 'all-meals', component: MealsComponent },
   { path: 'create-menu', component: CreateMenuComponent },
   { path: 'show-menu', component: MenuViewComponent },
