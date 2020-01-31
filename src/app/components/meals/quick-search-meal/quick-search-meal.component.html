@@ -1,0 +1,26 @@
+<div id="search-master-component">
+    <div id="search-component">
+        <h5>Add Meal:</h5>
+        <div style="display: flex; flex-direction: column; flex-wrap:nowrap;">
+            <div>
+                <input #searchBox autocomplete="off" id="search-box" (input)="search(searchBox.value)"
+                    [(ngModel)]="searchBoxText" />
+                <ul class="search-result">
+                    <li *ngFor="let meal of meals$ | async" (click)="choseMeal(meal)" tabindex="0">
+                        <h6>
+                            <strong>{{ meal.name }}</strong><br>
+                            {{ meal.typeOfMeal }}
+                        </h6>
+                    </li>
+                </ul>
+            </div>
+            <div style="display: flex; flex-direction: row; flex-wrap:nowrap;">
+                <h5>day number:</h5>
+                <input type="number" style="width: 60px; margin-left: 20px; margin-right: 20px;" class="form-control"
+                     [(ngModel)]="dayNumber">
+                <button id="new-ingredient-btn" class="btn btn-primary" (click)="emitMenuMeal()"
+                    [disabled]="dayNumber == null || searchBoxText == null">Add meal</button>
+            </div>
+        </div>
+    </div>
+</div>

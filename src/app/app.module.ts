@@ -28,6 +28,7 @@ import { AmplifyAngularModule, AmplifyService, AmplifyModules } from 'aws-amplif
 import Auth from '@aws-amplify/auth';
 import Interactions from '@aws-amplify/interactions';
 import Storage from '@aws-amplify/storage';
+import { QuickSearchMealComponent } from './components/meals/quick-search-meal/quick-search-meal.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import Storage from '@aws-amplify/storage';
     ShoppingListsComponent,
     PipeDataComponent,
     AdminComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    QuickSearchMealComponent
   ],
   imports: [
     BrowserModule,

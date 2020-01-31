@@ -66,7 +66,7 @@ export class PipeDataComponent implements OnInit {
   }
 
   addIngredientCategory(event) {
-    this.addCategoriesSubscription = this.ingredient.category = event.srcElement.innerText;
+    this.ingredient.category = event.srcElement.innerText;
     if(!(event.srcElement.innerText == "dalej")){
       this.updateIngredeint(this.ingredient);
     }    

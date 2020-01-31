@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Menu } from 'src/app/models/menu';
 import { MenusService } from 'src/app/services/menus.service';
 import { Subscription } from 'rxjs';
+import { Meal } from 'src/app/models/meal';
+import { MenuMeal } from 'src/app/models/menu-meals';
 
 @Component({
   selector: 'app-menu-view',
@@ -11,13 +13,15 @@ import { Subscription } from 'rxjs';
 export class MenuViewComponent implements OnInit {
   @Input() menus: Array<Menu>;
 
+  addMeal:String;
+
   private getMenuSubscription: Subscription;
   private deleteMenuSubscription: Subscription;
   private deleteMenuMealSubscription: Subscription;
 
 
   constructor(private readonly menusService: MenusService) {
-
+    this.addMeal = null;
   }
 
   ngOnInit() {
@@ -61,15 +65,29 @@ export class MenuViewComponent implements OnInit {
       });
   }
 
+  addMealToMenu(menuMeal: MenuMeal, menu: Menu, menuId: number): void {
+    let newMenu = new Menu(menu);
+    newMenu.meals.push(menuMeal);
+    this.menus[menuId] = newMenu;
+
+    this.updateMenu(newMenu, null);
+  }
+
   onRowRemoving(menu: any, e: any): void {
 
     let newMenu = new Menu(menu);
-    newMenu.id = null;
     const indexMealToDelete = newMenu.meals.findIndex(menuMeal=> menuMeal.dayNumber == e.data.dayNumber && menuMeal.meal.id == e.data.meal.id);
     newMenu.meals.splice(indexMealToDelete, 1);
 
-    if(menu.id != null){
-      e.cancel = new Promise((resolve, reject) => {
+    this.updateMenu(newMenu, e);
+  }
+
+  updateMenu(menu: Menu, e: any){
+    let newMenu = new Menu(menu);
+    newMenu.id = null;
+
+    if(menu.id != null){      
+       let answer = new Promise((resolve, reject) => {
         this.deleteMenuMealSubscription =  this.menusService.addMenu(newMenu).subscribe(
           (m) => {
             console.log("done adding");
@@ -85,6 +103,9 @@ export class MenuViewComponent implements OnInit {
             reject(`${error.message} ${errorDetails}`);
           });
       });
+      if(e!=null){
+        e.cancel = answer;
+      }      
     }  
   }
 
