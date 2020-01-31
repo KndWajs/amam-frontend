@@ -6,20 +6,14 @@
 
     <button type="button" class="btn btn-primary" routerLink="/all-meals">All meals</button>
 
-    <button type="button" class="btn btn-primary">edit meal(in v2 avaliable)</button>
-
     <button type="button" class="btn btn-success" routerLink="/create-menu">create menu</button>
-
-
-    <button type="button" class="btn btn-success">edit menu(in v2 avaliable)</button>
-
 
     <button type="button" class="btn btn-success" routerLink="/show-menu">show menus</button>
 
-
     <button type="button" class="btn btn-danger" routerLink="/shopping-lists">show shopping lists</button>
 
-
     <button type="button" class="btn btn-secondary" routerLink="/info">info page</button>
+
+    <button type="button" class="btn btn-link" routerLink="/" (click)="signOut()" *ngIf="signedIn">sign out</button>
 
 </div>

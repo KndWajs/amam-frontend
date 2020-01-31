@@ -31,12 +31,6 @@ export class AppComponent {
       });
   }
 
-  signOut(): void {
-    Auth.signOut()
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
-  }
-
   signUpConfig = {
     header: 'My Customized Sign Up',
     hideAllDefaults: true,
