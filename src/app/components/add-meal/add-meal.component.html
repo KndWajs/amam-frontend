@@ -1,7 +1,7 @@
 <div class="d-flex flex-row">
   <div class="col">
-    <h3 *ngIf='mealId == ""'>Add new meal</h3>
-    <h3 *ngIf='mealId != ""'>Edit meal</h3>
+    <h3 *ngIf='mealId == null'>Add new meal</h3>
+    <h3 *ngIf='mealId != null'>Edit meal</h3>
     <hr />
     <div>
       <form [formGroup]="newMealForm" (submit)="saveNewMeal(newMealForm.value)">

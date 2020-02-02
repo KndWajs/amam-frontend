@@ -17,6 +17,7 @@ export class CreateMenuParametersComponent implements OnInit {
   private addMenuParametersSubscription: Subscription;
   newMenuParametersForm: FormGroup;
   menuParameters: MenuParameters;
+  waitingForMenu: boolean;
 
   @Output() readonly emitableMenuMeals = new EventEmitter<Menu>();
 
@@ -30,7 +31,7 @@ export class CreateMenuParametersComponent implements OnInit {
   ];
 
   constructor(private readonly formBuilder: FormBuilder, private readonly menuService: MenusService) {
-
+    this.waitingForMenu = false;
   }
 
   private addCheckboxes() {
@@ -45,13 +46,15 @@ export class CreateMenuParametersComponent implements OnInit {
       name: ['', Validators.required],
       numberOfDays: ['', Validators.required],
       numberOfPersons: ['', Validators.required],
+      isDinnerForTwoDays: [''],
       mealTypes: this.formBuilder.array([])
     });
     this.addCheckboxes();
   }
 
-  saveNewMenu(newMenuParametersForm): void {
-    this.menuParameters = new MenuParameters(newMenuParametersForm);
+  createNewMenuProposal(newMenuParametersForm): void {
+    this.waitingForMenu = true;
+    this.menuParameters = new MenuParameters(newMenuParametersForm);    
 
     this.menuParameters.mealTypes = this.newMenuParametersForm.value.mealTypes
     .map((v, i) => v ? this.mealsList[i].name as MealType : null)
@@ -62,9 +65,11 @@ export class CreateMenuParametersComponent implements OnInit {
           console.log("menu created");
           console.log(menu);
           this.emitMenuMeals(menu);
+          this.waitingForMenu = false;
        },
        error => {
            console.log(error);
+          this.waitingForMenu = false;
        });
   }
 

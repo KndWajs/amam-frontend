@@ -71,12 +71,15 @@ p {
 }
 
 #tabs {
-    width: 600px;
-}
+    width: 350px;
+    margin: 0px;
+    padding: 0px;
+} 
 
 #tabs-container {
+    padding: 0px;
     display: flex;
-    justify-content: center;
+    justify-content: left;    
 }
 
 .menu {
@@ -95,8 +98,10 @@ p {
     margin:10px;
 }
 .mealRecipe {
-    width: 450px;
-    margin: 100px;
+    width: 350px;
+    margin: 5px;
+    margin-top: 100px;
+    margin-bottom: 100px;
     white-space: pre-line;
 }
 

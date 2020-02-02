@@ -34,7 +34,17 @@ export class PipeDataComponent implements OnInit {
   getIngredients(): void {
     this.allIngredientsSubscription = this.ingredientsService.getIngredientsFromHttp().subscribe
       (ingredients => {
-        this.ingredients = ingredients;
+        ingredients.sort(
+          (a, b) => {
+            if (a.category == null){
+              return 1;
+            } else if (b.category == null){
+              return -1;
+            }
+            return 0;
+          }        
+        )        
+        this.ingredients = ingredients;        
         this.ingredient = this.ingredients.pop();
       },
         error => {

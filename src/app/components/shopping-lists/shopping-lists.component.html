@@ -12,12 +12,13 @@
         [showBorders]="true"
         [columnAutoWidth]="true">
 
-            <dxo-paging [enabled]="true"></dxo-paging>
+            <dxo-paging [enabled]="false"></dxo-paging>
             <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
             </dxo-editing>
 
             <dxi-column dataField="ingredient.name"></dxi-column>
             <dxi-column dataField="amount"></dxi-column>
+            <dxi-column dataField="ingredient.ingredientUnit"></dxi-column>
             <dxi-column caption="category" dataField="ingredient.category" [groupIndex]="0"></dxi-column>
         </dx-data-grid>
     </div>

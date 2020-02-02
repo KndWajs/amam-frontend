@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class CreateMenuComponent implements OnInit {
   private saveMenuSubscription: Subscription;
   menu: Array<Menu>;
+  waitingForMenu: boolean;
 
   constructor(private readonly menusService: MenusService, private readonly router: Router) {
 

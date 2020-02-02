@@ -43,8 +43,11 @@ export class AddMealComponent implements OnInit {
     });
 
     this.mealId = new Number(this.route.snapshot.paramMap.get("id"));
+    if(this.mealId <= 0){
+      this.mealId = null;
+    }
+    
     this.getMeal(this.mealId);
-
   }
 
   createMealIngredientFormGroup(ingredient: Ingredient, name: string, unit: IngredientUnit, amount: number): FormGroup {
