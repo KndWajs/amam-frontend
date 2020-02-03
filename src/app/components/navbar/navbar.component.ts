@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { Auth } from 'aws-amplify';
 import { AuthState } from 'aws-amplify-angular/dist/src/providers';
+import { Globals } from 'src/app/globals';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +16,7 @@ export class NavbarComponent implements OnInit {
   usernameAttributes: 'My user name';
   authState: AuthState;
 
-  constructor(private amplifyService: AmplifyService) {
+  constructor(private amplifyService: AmplifyService, public globals: Globals) {
     this.amplifyService.authStateChange$
       .subscribe(authState => {
         this.signedIn = authState.state === 'signedIn';
@@ -25,12 +26,24 @@ export class NavbarComponent implements OnInit {
         } else {
           this.user = authState.user;
           this.greeting = "Hello " + this.user.username;
-        }
+          globals.IS_GUEST = this.checkIfGuestIsSignIn(this.authState.user);
+        }        
       });
   }
 
   ngOnInit() {
+   
   }
+
+  checkIfGuestIsSignIn(user: any): boolean {
+    const groups: any[] = user.signInUserSession.accessToken.payload['cognito:groups'];
+    if(groups.find(group => group === "guest")){
+      return true;
+    }
+    return false;
+  }
+
+
 
   signOut(): void {
     Auth.signOut()

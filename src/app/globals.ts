@@ -4,5 +4,6 @@ import { Injectable } from '@angular/core';
 export class Globals {
     ANGULAR_VERSION = "1.1";
     REST_VERSION = "V1";
+    IS_GUEST;
 } 
 
