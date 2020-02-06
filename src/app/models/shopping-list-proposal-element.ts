@@ -1,17 +1,14 @@
-import { MealIngredient } from './meal-ingredient';
-
 import { Ingredient } from './ingredient';
+import { Menu } from './menu';
 
-export class ShoppingElement {
-    id: number;
+export class ShoppingListProposalElement {
     ingredient: Ingredient;
     amount: number;
-    alreadyBought: boolean;
+    menu: Menu;
 
     constructor(obj: any) {
-        this.id = obj.id;
         this.ingredient = obj.ingredient;
         this.amount = obj.amount;
-        this.alreadyBought = obj.alreadyBought;
+        this.menu = obj.menu;
     }    
 }

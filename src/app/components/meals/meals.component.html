@@ -1,20 +1,14 @@
-<dx-data-grid id="gridContainer" 
-[dataSource]="dataSource" 
-[masterDetail]="{ enabled: true, template: 'detail' }"
-  keyExpr="id" 
-  [allowColumnReordering]="true" 
-  [showBorders]="true" 
-  (onRowRemoving)="onRowRemoving($event)" 
-  (onEditingStart)="duplicate($event)">
+<h3>All meals</h3>
+<hr />
+<app-spinner *ngIf="!dataSource"></app-spinner>
+<dx-data-grid *ngIf="dataSource" id="gridContainer" [dataSource]="dataSource"
+  [masterDetail]="{ enabled: true, template: 'detail' }" keyExpr="id" [allowColumnReordering]="true"
+  [showBorders]="true" (onRowRemoving)="onRowRemoving($event)" (onEditingStart)="duplicate($event)">
 
   <dxo-paging [enabled]="true"></dxo-paging>
-  <dxo-editing mode="row"
-   [allowUpdating]="true"
-    [allowDeleting]="true" 
-    [allowAdding]="false">
-     <dxo-texts
-    editRow="Duplicate">
-    </dxo-texts>  
+  <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="false">
+    <dxo-texts editRow="Duplicate">
+    </dxo-texts>
   </dxo-editing>
 
   <!-- <dxi-column dataField="id"></dxi-column> -->
@@ -27,15 +21,9 @@
     <dx-tab-panel id="tabs">
       <dxi-item title="Ingredients for 1 person" template="ingredientsTab"></dxi-item>
       <div *dxTemplate="let ingredientsTabItem of 'ingredientsTab'">
-        <dx-data-grid 
-        [dataSource]="meal.data.ingredients" 
-        [showBorders]="true"
-        [columnAutoWidth]="true">
+        <dx-data-grid [dataSource]="meal.data.ingredients" [showBorders]="true" [columnAutoWidth]="true">
 
-          <dxo-editing mode="row" 
-          [allowUpdating]="false" 
-          [allowDeleting]="false" 
-          [allowAdding]="false"></dxo-editing>
+          <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false"></dxo-editing>
 
           <dxi-column dataField="ingredient.name"></dxi-column>
           <dxi-column dataField="amount"></dxi-column>
@@ -46,6 +34,6 @@
       <div *dxTemplate="let recipeTabItem of 'recipeTab'">
         <p class="mealRecipe">{{meal.data.recipe}}</p>
       </div>
-      </dx-tab-panel>
+    </dx-tab-panel>
   </div>
 </dx-data-grid>

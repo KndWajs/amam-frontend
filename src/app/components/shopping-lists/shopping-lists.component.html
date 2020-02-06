@@ -1,16 +1,74 @@
-<div class="shopping-lists">
+<h3>My shopping lists:</h3>
+<hr />
+<app-spinner *ngIf="!shoppingLists"></app-spinner>
+<div class="shopping-lists" *ngIf="shoppingLists">
     <div class="shopping-list" *ngFor="let shoppingList of shoppingLists; let i = index;">
-        <br>
         <div class="alert alert-dismissible alert-success">
-            It's a shopping list <strong>{{shoppingList[0].menu.name}}</strong> for
-            <strong>{{shoppingList[0].menu.numberOfPeople}}</strong> people.
+            It's a shopping list <strong>{{shoppingList.name}}</strong> for <strong>{{shoppingList.numberOfPeople}}</strong> people.
+            <button *ngIf="!waitingForNewShoppingList" class="btn btn-danger btnMenu" (click)="deleteShoppingList(shoppingList)">Delete</button>
+            <button *ngIf="waitingForNewShoppingList" class="btn btn-danger btnMenu" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+
+            <button *ngIf="addMeal == null" class="btn btn-primary btnMenu" (click)="addMeal = i">Add item</button>
+            <button *ngIf="addMeal == i" class="btn btn-danger btnMenu" (click)="addMeal = null">Cancel adding item</button>
         </div>
         <dx-data-grid id="gridContainer" 
-        [dataSource]="shoppingList" 
+            [dataSource]="shoppingList.shoppingElements" 
+            keyExpr="ingredient.name"
+            [allowColumnReordering]="true" 
+            [showBorders]="true" 
+            [columnAutoWidth]="true"
+            (onRowRemoving)="onRowRemoving(shoppingList, $event)" 
+            (onRowUpdating)="onRowUpdating(shoppingList, $event)"
+            (onEditorPreparing)="onEditorPreparing($event)">
+
+            <dxo-grouping 
+            expandMode="rowClick" 
+            [autoExpandAll]="true">
+            </dxo-grouping>
+
+            <dxo-paging [enabled]="true"></dxo-paging>
+            <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="false">
+            </dxo-editing>
+
+            <dxi-column dataField="ingredient.name"></dxi-column>
+            <dxi-column caption="Amt." dataField="amount"></dxi-column>
+            <dxi-column caption="Unit" dataField="ingredient.ingredientUnit"></dxi-column>
+            <dxi-column caption="v" dataField="alreadyBought"></dxi-column>
+            <dxi-column caption="Category" dataField="ingredient.category" [groupIndex]="2"></dxi-column>
+        </dx-data-grid>
+    </div>
+</div>
+
+<h4 style="margin-top: 50px;">Shopping list proposals:</h4>
+<hr />
+<app-spinner *ngIf="!shoppingListProposals"></app-spinner>
+<div *ngIf="shoppingListProposals" class="shopping-lists">
+    <div class="shopping-list" *ngFor="let shoppingListProposal of shoppingListProposals; let i = index;">
+        <div class="alert alert-dismissible alert-success">
+            It's a proposal based on menu <strong>{{shoppingListProposal[0].menu.name}}</strong> for
+            <strong>{{shoppingListProposal[0].menu.numberOfPeople}}</strong> people.
+            
+        <button *ngIf="!waitingForNewShoppingList" class="btn btn-danger btnMenu" (click)="createShoppingList(shoppingListProposal)">Add to my shopping lists</button> 
+
+        <button *ngIf="waitingForNewShoppingList" class="btn btn-danger btnMenu" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+
+        </div>
+        <dx-data-grid id="gridContainer" 
+        [dataSource]="shoppingListProposal" 
         keyExpr="ingredient.name"
         [allowColumnReordering]="true" 
         [showBorders]="true"
         [columnAutoWidth]="true">
+        <dxo-grouping 
+        expandMode="rowClick"
+        [autoExpandAll]="false">
+        </dxo-grouping>
 
             <dxo-paging [enabled]="false"></dxo-paging>
             <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
@@ -18,8 +76,8 @@
 
             <dxi-column dataField="ingredient.name"></dxi-column>
             <dxi-column dataField="amount"></dxi-column>
-            <dxi-column dataField="ingredient.ingredientUnit"></dxi-column>
-            <dxi-column caption="category" dataField="ingredient.category" [groupIndex]="0"></dxi-column>
+            <dxi-column caption="Unit" dataField="ingredient.ingredientUnit"></dxi-column>
+            <dxi-column caption="category" dataField="ingredient.category" [groupIndex]="2"></dxi-column>
         </dx-data-grid>
     </div>
 </div>
