@@ -14,8 +14,9 @@
 
     <button type="button" class="btn btn-secondary" routerLink="/info">info page</button>
 
-    <button type="button" class="btn btn-link" routerLink="/" (click)="signOut(); globals.IS_GUEST=false" *ngIf="signedIn">sign out</button>
+    <button type="button" class="btn btn-link" routerLink="/" (click)="signOut(); globals.IS_GUEST=false" *ngIf="this.globals.signedIn">sign out</button>
 
-    <h6 *ngIf="globals.IS_GUEST" class="text-danger"> Guest log in - adding and editing don't work!
+    <h6 *ngIf="globals.IS_GUEST" class="text-danger"> Demo version - adding and editing don't work!
     </h6>
+    <hr />
 </div>

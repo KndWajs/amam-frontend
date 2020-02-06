@@ -11,9 +11,12 @@ export class Menu {
     meals: Array<MenuMeal>;
 
     constructor(obj: any) {
-        this.id = obj.id;
-        this.numberOfPeople = obj.numberOfPeople;
-        this.name = obj.name;
-        this.meals = (obj.meals as Array<MenuMeal>).map(value => new MenuMeal(value));
+        if(obj == null){
+        } else {
+            this.id = obj.id;
+            this.numberOfPeople = obj.numberOfPeople;
+            this.name = obj.name;
+            this.meals = (obj.meals as Array<MenuMeal>).map(value => new MenuMeal(value));
+        }
     }    
 }

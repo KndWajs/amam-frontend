@@ -1,5 +1,8 @@
+<h3>Show menus</h3>
+<hr />
+<app-spinner *ngIf="!menus"></app-spinner>
 
-<div class="menus">
+<div class="menus" *ngIf="menus">
     <div class="menu" *ngFor="let dataSource of menus; let i = index;">
     <br> 
     <div class="alert alert-dismissible alert-success">

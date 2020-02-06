@@ -37,18 +37,16 @@ export class NavbarComponent implements OnInit {
 
   checkIfGuestIsSignIn(user: any): boolean {
     const groups: any[] = user.signInUserSession.accessToken.payload['cognito:groups'];
-    if(groups.find(group => group === "guest")){
+    if(groups != null && groups.find(group => group === "guest")){
       return true;
     }
     return false;
   }
 
-
-
   signOut(): void {
+    this.globals.signedIn = false;
     Auth.signOut()
       .then(data => console.log(data))
       .catch(err => console.log(err));
   }
-
 }

@@ -3,6 +3,7 @@ import { Service } from './app.service';
 import { AmplifyService } from 'aws-amplify-angular';
 import { AuthState } from 'aws-amplify-angular/dist/src/providers';
 import { Auth } from 'aws-amplify';
+import { Globals } from './globals';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +18,10 @@ export class AppComponent {
   usernameAttributes: 'My user name';
   authState: AuthState;
 
-  constructor(service: Service, private amplifyService: AmplifyService) {
+  constructor(service: Service, private amplifyService: AmplifyService, private globals: Globals) {
     this.amplifyService.authStateChange$
       .subscribe(authState => {
-        this.signedIn = authState.state === 'signedIn';
+        this.globals.signedIn = authState.state === 'signedIn';
         this.authState = authState;
         if (!authState.user) {
           this.user = null;
@@ -30,6 +31,13 @@ export class AppComponent {
         }
       });
   }
+
+
+  logInToDemo(): void {
+    this.globals.signedIn = true;
+    this.globals.IS_GUEST = true;
+  }
+
 
   signUpConfig = {
     header: 'My Customized Sign Up',
