@@ -38,7 +38,6 @@ export class ShoppingListsComponent implements OnInit {
       id: null,
       name: shoppingListProposalElement[0].menu.name,
       numberOfPeople: shoppingListProposalElement[0].menu.numberOfPeople,
-      menu: shoppingListProposalElement[0].menu,
       shoppingElements: this.createShoppingElementListFromProposal(shoppingListProposalElement)
     })
 
