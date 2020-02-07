@@ -11,9 +11,10 @@
                 Loading...
             </button>
 
-            <button *ngIf="addMeal == null" class="btn btn-primary btnMenu" (click)="addMeal = i">Add item</button>
-            <button *ngIf="addMeal == i" class="btn btn-danger btnMenu" (click)="addMeal = null">Cancel adding item</button>
+            <button *ngIf="addIngredient == null" class="btn btn-primary btnMenu" (click)="addIngredient = i">Add item</button>
+            <button *ngIf="addIngredient == i" class="btn btn-danger btnMenu" (click)="addIngredient = null">Cancel adding item</button>
         </div>
+        <app-quick-search-shopping-element (emitableShoppingElement)="addIngredientToShoppingList($event, i)" *ngIf="addIngredient == i"></app-quick-search-shopping-element>
         <dx-data-grid id="gridContainer" 
             [dataSource]="shoppingList.shoppingElements" 
             keyExpr="ingredient.name"

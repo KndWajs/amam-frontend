@@ -30,6 +30,7 @@ import Interactions from '@aws-amplify/interactions';
 import Storage from '@aws-amplify/storage';
 import { QuickSearchMealComponent } from './components/meals/quick-search-meal/quick-search-meal.component';
 import { SpinnerComponent } from './components/decorations/spinner/spinner.component';
+import { QuickSearchShoppingElementComponent } from './components/shopping-lists/quick-search-shopping-element/quick-search-shopping-element.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { SpinnerComponent } from './components/decorations/spinner/spinner.compo
     AdminComponent,
     PageNotFoundComponent,
     QuickSearchMealComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    QuickSearchShoppingElementComponent
   ],
   imports: [
     BrowserModule,

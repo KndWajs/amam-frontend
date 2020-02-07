@@ -18,7 +18,7 @@ export class AppComponent {
   usernameAttributes: 'My user name';
   authState: AuthState;
 
-  constructor(service: Service, private amplifyService: AmplifyService, private globals: Globals) {
+  constructor(service: Service, private amplifyService: AmplifyService, public globals: Globals) {
     this.amplifyService.authStateChange$
       .subscribe(authState => {
         this.globals.signedIn = authState.state === 'signedIn';

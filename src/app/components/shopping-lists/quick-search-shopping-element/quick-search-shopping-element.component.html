@@ -1,0 +1,29 @@
+<div id="search-master-component">
+    <div id="search-component">
+        <h5>Add Ingredient:</h5>
+        <div style="display: flex; flex-direction: column; flex-wrap:nowrap;">
+            <div>
+                <input #searchBox autocomplete="off" id="search-box" (input)="search(searchBox.value)"
+                    [(ngModel)]="searchBoxText" />
+                <ul class="search-result">
+                    <li *ngFor="let ingredient of ingredients$ | async" (click)="choseIngredient(ingredient)" tabindex="0">
+                        <h6>
+                            <strong>{{ ingredient.name }}</strong><br>
+                            {{ ingredient.ingredientUnit }}
+                        </h6>
+                    </li>
+                </ul>
+            </div>
+            <div style="display: flex; flex-direction: row; flex-wrap:nowrap;">
+                <h5>amount:</h5>
+                <input type="number" pattern="^\d*(\.\d{0,2})?$" style="width: 80px; margin-left: 20px; margin-right: 20px;" class="form-control"
+                min="0" step='0.01'
+                      value='0.00'
+                     [(ngModel)]="amount">
+
+                <button id="new-ingredient-btn" class="btn btn-primary" (click)="emitShoppingElement()"
+                    [disabled]="amount == null || searchBoxText == null">Add ingredient</button>
+            </div>
+        </div>
+    </div>
+</div>

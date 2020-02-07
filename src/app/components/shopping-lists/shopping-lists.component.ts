@@ -4,6 +4,7 @@ import { ShoppingListsService } from 'src/app/services/shopping-lists.service';
 import { ShoppingListProposalElement } from 'src/app/models/shopping-list-proposal-element';
 import { ShoppingList } from 'src/app/models/shopping-list';
 import { ShoppingElement } from 'src/app/models/shopping-element';
+import { Ingredient } from 'src/app/models/ingredient';
 
 @Component({
   selector: 'app-shopping-lists',
@@ -13,6 +14,8 @@ import { ShoppingElement } from 'src/app/models/shopping-element';
 export class ShoppingListsComponent implements OnInit {
   shoppingListProposals: Array<Array<ShoppingListProposalElement>>;
   shoppingLists: Array<ShoppingList>;
+
+  addIngredient: String;
 
   private getShoppingListsSubscription: Subscription;
   private getShoppingListProposalsSubscription: Subscription;
@@ -147,6 +150,18 @@ export class ShoppingListsComponent implements OnInit {
           console.log('updating problems...');
           this.getshoppingLists();
         });
+  }
+
+  addIngredientToShoppingList(shoppingElement: ShoppingElement, shoppingListIndex: number): void {
+
+    const alreadyExistingIngredientIndex = this.shoppingLists[shoppingListIndex].shoppingElements.map(function (e) { return e.ingredient.id; }).indexOf(shoppingElement.ingredient.id);
+    if (alreadyExistingIngredientIndex >= 0) {
+      let oldShoppingElement = this.shoppingLists[shoppingListIndex].shoppingElements[alreadyExistingIngredientIndex];
+      oldShoppingElement.amount = oldShoppingElement.amount + shoppingElement.amount;
+    } else {
+      this.shoppingLists[shoppingListIndex].shoppingElements.push(shoppingElement);
+    }
+    this.updateShoppingList(this.shoppingLists[shoppingListIndex]);
   }
 
   ngOnDestroy(): void {
