@@ -3,16 +3,30 @@
 <app-spinner *ngIf="!shoppingLists"></app-spinner>
 <div class="shopping-lists" *ngIf="shoppingLists">
     <div class="shopping-list" *ngFor="let shoppingList of shoppingLists; let i = index;">
-        <div class="alert alert-dismissible alert-success">
+        <div class="alert alert-success">
             It's a shopping list <strong>{{shoppingList.name}}</strong> for <strong>{{shoppingList.numberOfPeople}}</strong> people.
-            <button *ngIf="!waitingForNewShoppingList" class="btn btn-danger btnMenu" (click)="deleteShoppingList(shoppingList)">Delete</button>
-            <button *ngIf="waitingForNewShoppingList" class="btn btn-danger btnMenu" type="button" disabled>
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Loading...
-            </button>
-
-            <button *ngIf="addIngredient == null" class="btn btn-primary btnMenu" (click)="addIngredient = i">Add item</button>
-            <button *ngIf="addIngredient == i" class="btn btn-danger btnMenu" (click)="addIngredient = null">Cancel adding item</button>
+            <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 20px;">
+                <button *ngIf="!waitingForNewShoppingList" class="btn btn-danger btnMenu"
+                    (click)="deleteShoppingList(shoppingList)">Delete</button>
+                <button *ngIf="waitingForNewShoppingList" class="btn btn-danger btnMenu" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+                <button *ngIf="addIngredient == null" class="btn btn-primary btnMenu" (click)="addIngredient = i">Add item</button>
+                <button *ngIf="addIngredient == i" class="btn btn-danger btnMenu" (click)="addIngredient = null">Cancel adding
+                    item</button>  
+             <ul class="nav nav-pills"> 
+                <li class="nav-item dropdown" style="width: 200px;">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Combine with other menu</a>
+                    <div class="dropdown-menu" style="">
+                        <div *ngFor="let otherShoppingList of shoppingLists; let i = index;" >
+                      <a class="dropdown-item" 
+                      *ngIf="!(shoppingList.id == otherShoppingList.id)"
+                      (click)="createCombinedShoppingList(shoppingList, otherShoppingList)">{{otherShoppingList.name}}</a></div>
+                    </div>
+                </li>
+            </ul>  
+            </div>
         </div>
         <app-quick-search-shopping-element (emitableShoppingElement)="addIngredientToShoppingList($event, i)" *ngIf="addIngredient == i"></app-quick-search-shopping-element>
         <dx-data-grid id="gridContainer" 

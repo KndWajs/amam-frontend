@@ -36,6 +36,7 @@ export class ShoppingListsComponent implements OnInit {
   }
 
   createShoppingList(shoppingListProposalElement: Array<ShoppingListProposalElement>): void {
+    this.waitingForNewShoppingList = true;
     let newShoppingList: ShoppingList;
     newShoppingList = new ShoppingList({
       id: null,
@@ -43,13 +44,17 @@ export class ShoppingListsComponent implements OnInit {
       numberOfPeople: shoppingListProposalElement[0].menu.numberOfPeople,
       shoppingElements: this.createShoppingElementListFromProposal(shoppingListProposalElement)
     })
+    this.saveShoppingList(newShoppingList);
+  }
 
+  saveShoppingList(shoppingList: ShoppingList): void {
     this.saveShoppingListSubscription =
-      this.shoppingListsService.addShoppingList(newShoppingList).subscribe((shoppingList) => {
+      this.shoppingListsService.addShoppingList(shoppingList).subscribe((newShoppingList) => {
         this.getshoppingLists();
       },
         error => {
           console.log(error);
+          this.waitingForNewShoppingList = false;
         });
   }
 
@@ -85,11 +90,13 @@ export class ShoppingListsComponent implements OnInit {
   }
 
   deleteShoppingList(shoppingList: ShoppingList): void {
+    this.waitingForNewShoppingList = true;
     this.deleteShoppingListSubscription = this.shoppingListsService.deleteShoppingList(shoppingList.id).subscribe(
       (shoppingList) => {
         this.getshoppingLists();
       },
       error => {
+        this.waitingForNewShoppingList = false;
         console.log(error);
       });
   }
@@ -162,6 +169,44 @@ export class ShoppingListsComponent implements OnInit {
       this.shoppingLists[shoppingListIndex].shoppingElements.push(shoppingElement);
     }
     this.updateShoppingList(this.shoppingLists[shoppingListIndex]);
+  }
+
+  createCombinedShoppingList(shoppingList: ShoppingList, secondShoppingList: ShoppingList): void {
+    this.waitingForNewShoppingList = true;
+    let newShoppingList: ShoppingList;
+    newShoppingList = new ShoppingList({
+      id: null,
+      name: shoppingList.name + " & " + secondShoppingList.name,
+      numberOfPeople: shoppingList.numberOfPeople + secondShoppingList.numberOfPeople,
+      shoppingElements: this.combineShoppingElements(shoppingList.shoppingElements, secondShoppingList.shoppingElements)
+    })
+
+    this.saveShoppingList(newShoppingList);
+  }
+
+  combineShoppingElements(shoppingElementList: Array<ShoppingElement>, secondShoppingElementList: Array<ShoppingElement>): Array<ShoppingElement> {
+    let newShoppingElementList: Array<ShoppingElement>;
+    newShoppingElementList = Object.assign(shoppingElementList, newShoppingElementList);
+    secondShoppingElementList.forEach(element => newShoppingElementList = this.addShoppingElementToList(newShoppingElementList, element));
+
+    newShoppingElementList.map(element => {element.id = null;})
+
+    return newShoppingElementList;
+  }
+
+  addShoppingElementToList(shoppingElementList: Array<ShoppingElement>, shoppingElement: ShoppingElement): Array<ShoppingElement> {
+    let newShoppingElementList: Array<ShoppingElement>;
+    newShoppingElementList = Object.assign(shoppingElementList, newShoppingElementList);
+    const alreadyExistingIngredientIndex = shoppingElementList.map(function (e) { return e.ingredient.id; }).indexOf(shoppingElement.ingredient.id);
+
+    if (alreadyExistingIngredientIndex >= 0) {
+      let oldShoppingElement = shoppingElementList[alreadyExistingIngredientIndex];
+      oldShoppingElement.amount = oldShoppingElement.amount + shoppingElement.amount;
+      oldShoppingElement.alreadyBought = oldShoppingElement.alreadyBought && shoppingElement.alreadyBought;
+    } else {
+      newShoppingElementList.push(shoppingElement);
+    }
+    return newShoppingElementList;
   }
 
   ngOnDestroy(): void {
