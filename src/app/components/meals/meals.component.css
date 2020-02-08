@@ -55,22 +55,24 @@ clear: both;
     font-weight: bold;
 }
 
-.mealRecipe {
-    width: 450px;
-    margin: 50px;
-    white-space: pre-line;
-}
-
-p {
-    word-break: normal;
-    white-space: normal;
-}
-
 #tabs {
-    width: 600px;
-}
+    width: 450px;
+    margin: 0px;
+    padding: 0px;
+} 
 
 #tabs-container {
+    padding: 0px;
     display: flex;
-    justify-content: center;
+    justify-content: left;    
+}
+
+.mealRecipe {
+    width: 440px;
+    margin: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    white-space: pre-wrap;
+    display: inline-block;
 }

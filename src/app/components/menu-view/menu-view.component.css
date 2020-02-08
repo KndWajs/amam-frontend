@@ -58,20 +58,13 @@ clear: both;
 ::ng-deep .address-form label {
     font-weight: bold;
 }
-
-.mealRecipe {
-    width: 450px;
-    margin: 100px;
-    white-space: pre-line;
-}
-
-p {
+/* p {
     word-break: normal;
     white-space: normal;
-}
+} */
 
 #tabs {
-    width: 350px;
+    width: 450px;
     margin: 0px;
     padding: 0px;
 } 
@@ -97,11 +90,14 @@ p {
 .btnMenu{
     margin:10px;
 }
+
 .mealRecipe {
-    width: 350px;
+    width: 440px;
     margin: 5px;
-    margin-top: 100px;
-    margin-bottom: 100px;
-    white-space: pre-line;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    white-space: pre-wrap;
+    display: inline-block;
 }
 
