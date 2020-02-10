@@ -42,10 +42,6 @@ clear: both;
     border-bottom: none;
 }
 
-::ng-deep #gridContainer {
-    /* height: 620px; */
-}
-
 ::ng-deep .dx-datagrid-rowsview .dx-master-detail-row:not(.dx-datagrid-edit-form) > .dx-datagrid-group-space,
 .dx-datagrid-rowsview .dx-master-detail-row:not(.dx-datagrid-edit-form) .dx-master-detail-cell {
     background-color: transparent;
@@ -57,12 +53,6 @@ clear: both;
 
 ::ng-deep .address-form label {
     font-weight: bold;
-}
-
-.mealRecipe {
-    width: 450px;
-    margin: 100px;
-    white-space: pre-line;
 }
 
 p {
@@ -80,8 +70,8 @@ p {
 }
 
 .shopping-list {
-    margin: 10px;
-    width: 500px;
+    margin: 2px;
+    width: 450px;
 }
 
 .shopping-lists {

@@ -4,7 +4,9 @@
 <dx-data-grid *ngIf="dataSource" id="gridContainer" [dataSource]="dataSource"
   [masterDetail]="{ enabled: true, template: 'detail' }" keyExpr="id" [allowColumnReordering]="true"
   [showBorders]="true" (onRowRemoving)="onRowRemoving($event)" (onEditingStart)="duplicate($event)">
-
+  <dxo-grouping 
+  expandMode="rowClick" 
+  [autoExpandAll]="false">
   <dxo-paging [enabled]="true"></dxo-paging>
   <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="false">
     <dxo-texts editRow="Duplicate">

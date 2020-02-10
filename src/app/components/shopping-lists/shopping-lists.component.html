@@ -45,14 +45,23 @@
             </dxo-grouping>
 
             <dxo-paging [enabled]="true"></dxo-paging>
-            <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="false">
+            <dxo-editing mode="cell" 
+            [allowUpdating]="true" 
+            [allowDeleting]="true" 
+            [allowAdding]="false">
+                <dxo-texts
+                deleteRow="X">
+                </dxo-texts>
             </dxo-editing>
-
+            
+            <dxi-column caption="v" dataField="alreadyBought" [width]="40"></dxi-column>
             <dxi-column dataField="ingredient.name"></dxi-column>
-            <dxi-column caption="Amt." dataField="amount"></dxi-column>
-            <dxi-column caption="Unit" dataField="ingredient.ingredientUnit"></dxi-column>
-            <dxi-column caption="v" dataField="alreadyBought"></dxi-column>
+            <dxi-column caption="Amt." dataField="amount" [width]="50"></dxi-column>
+            <dxi-column caption="Unit" dataField="ingredient.ingredientUnit" [width]="100"></dxi-column>
             <dxi-column caption="Category" dataField="ingredient.category" [groupIndex]="2"></dxi-column>
+            <dxi-column type="buttons" >
+                <dxi-button name="delete"></dxi-button>
+            </dxi-column>
         </dx-data-grid>
     </div>
 </div>

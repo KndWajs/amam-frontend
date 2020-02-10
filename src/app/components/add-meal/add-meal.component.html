@@ -9,7 +9,7 @@
           <div id="meal-parameters">
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" formControlName="name" #title class="form-control" placeholder="Enter name">
+              <input type="text" formControlName="name" #title class="form-control" placeholder="Enter name" maxlength="50">
               <h6 *ngIf="newMealForm.hasError('required', 'name')" class="text-danger"> Field is required!</h6>
             </div>
 
