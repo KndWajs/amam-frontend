@@ -1,45 +1,50 @@
 <form [formGroup]="newMenuParametersForm" (submit)="createNewMenuProposal(newMenuParametersForm.value)">
     <div id="new-menu-parameters-form">
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" formControlName="name" class="form-control" placeholder="Enter name">
-            <h6 *ngIf="newMenuParametersForm.hasError('required', 'name')" class="text-danger"> Field is required!
-            </h6>
+        <div style="width: 350px; padding-right: 20px; padding-left: 20px;">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" formControlName="name" class="form-control" placeholder="Enter name">
+                <h6 *ngIf="newMenuParametersForm.hasError('required', 'name')" class="text-danger"> Field is required!
+                </h6>
+            </div>
+            <div class="form-group">
+                <label for="name">Number of days:</label>
+                <input type="number" formControlName="numberOfDays" class="form-control">
+                <h6 *ngIf="newMenuParametersForm.hasError('required', 'numberOfDays')" class="text-danger"> Field is
+                    required!
+                </h6>
+            </div>
+            <div class="form-group">
+                <label for="name">Number of people:</label>
+                <input type="number" formControlName="numberOfPersons" class="form-control">
+                <h6 *ngIf="newMenuParametersForm.hasError('required', 'numberOfPersons')" class="text-danger"> Field is
+                    required!
+                </h6>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="name">Number of days:</label>
-            <input type="number" formControlName="numberOfDays" class="form-control">
-            <h6 *ngIf="newMenuParametersForm.hasError('required', 'numberOfDays')" class="text-danger"> Field is
-                required!
-            </h6>
-        </div>
-        <div class="form-group">
-            <label for="name">Number of people:</label>
-            <input type="number" formControlName="numberOfPersons" class="form-control">
-            <h6 *ngIf="newMenuParametersForm.hasError('required', 'numberOfPersons')" class="text-danger"> Field is
-                required!
-            </h6>
-        </div>
+        <div style="width: 350px; padding-right: 20px; padding-left: 20px; display: flex;
+        justify-content: center;
+        flex-direction: row;">
+            <div class="menu-meals">
+                <label for="category">Meals in menu:</label><br>
+                <label formArrayName="mealTypes"
+                    *ngFor="let mealType of newMenuParametersForm.get('mealTypes')['controls']; let i = index">
+                    <input type="checkbox" [formControlName]="i">{{mealsList[i].name}}<br>
+                </label>
+                <hr>
+                <label>
+                    <input type="checkbox" formControlName="isDinnerForTwoDays"> Dinner for 2 days
+                </label>
+                <br>
+            </div>
+            <button *ngIf="!waitingForMenu" id="new-menu-btn" type="submit" class="btn btn-primary"
+                [disabled]="newMenuParametersForm.invalid">Create
+                menu</button>
 
-        <div class="menu-meals">
-            <label for="category">Meals in menu:</label><br>
-            <label formArrayName="mealTypes"
-                *ngFor="let mealType of newMenuParametersForm.get('mealTypes')['controls']; let i = index">
-                <input type="checkbox" [formControlName]="i">{{mealsList[i].name}}<br>
-            </label>
-            <hr>
-            <label>
-                <input type="checkbox" formControlName="isDinnerForTwoDays"> Dinner for 2 days
-            </label>
-            <br>
+            <button *ngIf="waitingForMenu" class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
         </div>
-        <button *ngIf="!waitingForMenu" id="new-menu-btn" type="submit" class="btn btn-primary"
-            [disabled]="newMenuParametersForm.invalid">Create
-            menu</button>
-
-        <button *ngIf="waitingForMenu" class="btn btn-primary" type="button" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Loading...
-        </button>
     </div>
 </form>

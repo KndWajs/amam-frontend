@@ -1,22 +1,43 @@
-<div>
-
-    <button type="button" class="btn btn-secondary" routerLink="/">Home</button>
-
-    <button type="button" class="btn btn-primary" routerLink="/add-meal">add meal</button>
-
-    <button type="button" class="btn btn-primary" routerLink="/all-meals">All meals</button>
-
-    <button type="button" class="btn btn-success" routerLink="/create-menu">create menu</button>
-
-    <button type="button" class="btn btn-success" routerLink="/show-menu">show menus</button>
-
-    <button type="button" class="btn btn-danger" routerLink="/shopping-lists">show shopping lists</button>
-
-    <button type="button" class="btn btn-secondary" routerLink="/info">info page</button>
-
-    <button type="button" class="btn btn-link" routerLink="/" (click)="signOut(); globals.IS_GUEST=false" *ngIf="this.globals.signedIn">sign out</button>
-
-    <h6 *ngIf="globals.IS_GUEST" class="text-danger"> Demo version - adding and editing don't work!
-    </h6>
-    <hr />
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="display: flex; flex-direction: column;  padding-right: 0px; padding-left: 0px; ">
+    <div style="display: flex; flex-direction: row; justify-content: space-around;">
+        <a class="navbar-brand" routerLink="/">AMAM</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarColor01" style="width:100%;">
+        <ul class="navbar-nav mr-auto" style="display: flex; flex-direction: column; width:100%;">
+            <li class="nav-item" routerLink="/add-meal">
+                <a class="nav-link" routerLink="/add-meal">ADD MEAL</a>
+            </li>
+            <li class="nav-item" routerLink="/all-meals">
+                <a class="nav-link" routerLink="/all-meals">ALL MEALS</a>
+            </li>
+            <li class="nav-item" routerLink="/create-menu">
+                <a class="nav-link" routerLink="/create-menu">CREATE MENU</a>
+            </li>
+            <li class="nav-item" routerLink="/show-menu">
+                <a class="nav-link" routerLink="/show-menu">SHOW MENU</a>
+            </li>
+            <li class="nav-item" routerLink="/shopping-lists">
+                <a class="nav-link" routerLink="/shopping-lists">SHOW SHOPPING LISTS</a>
+            </li>
+            <li class="nav-item" routerLink="/info">
+                <a class="nav-link" routerLink="/info">INFO PAGE</a>
+            </li>
+            <li *ngIf="this.globals.signedIn" class="nav-item"  routerLink="/">
+                <button type="button" class="btn btn-warning " routerLink="/"
+                    (click)="signOut(); globals.IS_GUEST = false" >
+                    sign out
+                </button>
+            </li>
+            <li *ngIf="globals.IS_GUEST" class="nav-item">
+                <br>
+                <h6 class="text-danger">
+                    Demo version - adding and editing don't work!
+                </h6>
+            </li>
+        </ul>
+    </div>
+</nav>
