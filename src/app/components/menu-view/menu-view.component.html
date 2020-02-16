@@ -12,15 +12,18 @@
         <button *ngIf="addMeal == i" class="btn btn-danger btnMenu" (click)="addMeal = null">Cancel add meal</button>
     </div>
     <app-quick-search-meal (emitableMenuMeal)="addMealToMenu($event, dataSource, i)" *ngIf="addMeal == i"></app-quick-search-meal>
+    <div>
     <dx-data-grid id="gridContainer" 
         [dataSource]="dataSource.meals"
         [masterDetail]="{ enabled: true, template: 'detail' }" 
-        keyExpr="meal" 
-        [allowColumnReordering]="true"
-        [showBorders]="true" 
-        [columnAutoWidth]="true"
-        (onRowRemoving)="onRowRemoving(dataSource, $event)"  >
+        keyExpr="meal.id" 
+        [allowColumnReordering]="false"
+        [showBorders]="false"
+        (onRowRemoving)="onRowRemoving(dataSource, $event)"
+        (onRowClick)="onRowClick($event)" >
 
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-grouping expandMode="rowClick" [autoExpandAll]="false"> </dxo-grouping>
         <dxo-paging [enabled]="true"></dxo-paging>
         <dxo-editing mode="row" 
         [allowUpdating]="false" 
@@ -28,34 +31,49 @@
         [allowAdding]="false">
         </dxo-editing>
 
-        <dxi-column caption="name" dataField="meal.name"></dxi-column>
-        <dxi-column caption="type" dataField="meal.typeOfMeal"></dxi-column>
-        <dxi-column caption="preparing" dataField="meal.typeOfPreparing"></dxi-column>
-        <dxi-column caption="minutes" dataField="meal.minutesToPrepare"></dxi-column>
+        <dxi-column caption="name" dataField="meal.name" [width]="185"></dxi-column>
         <dxi-column caption="dayNumber" dataField="dayNumber" [groupIndex]="0"></dxi-column>
+        <dxi-column caption="type" dataField="meal.typeOfMeal" [width]="105"></dxi-column>
 
+        <dxi-column type="buttons"  [width]="45">
+            <dxi-button name="delete"></dxi-button>    
+        </dxi-column>
+        
 
-        <div id="tabs-container" *dxTemplate="let meal of 'detail'">
+        <div id="tabs-container" *dxTemplate="let meal of 'detail'" style="display: flex; flex-direction: column;">
+            <div style="margin-bottom: 10px;">
+                Preparing type: {{meal.data.meal.typeOfPreparing}}<br>
+                Minutes to prepare: {{meal.data.meal.minutesToPrepare}}<br>
+            </div> 
             <dx-tab-panel id="tabs">
-                <dxi-item title="Ingredients" template="ingredientsTab"></dxi-item>
-                <div *dxTemplate="let ingredientsTabItem of 'ingredientsTab'">
-                    <dx-data-grid [dataSource]="meal.data.meal.ingredients" [showBorders]="true"
-                        [columnAutoWidth]="true">
-
-                        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
-                        </dxo-editing>
-
-                        <dxi-column dataField="ingredient.name"></dxi-column>
-                        <dxi-column dataField="amount"></dxi-column>
-                        <dxi-column caption="Unit" dataField="ingredient.ingredientUnit"></dxi-column>
-                    </dx-data-grid>
-                </div>
-                <dxi-item title="Recipe" template="recipeTab"></dxi-item>
-                <div *dxTemplate="let recipeTabItem of 'recipeTab'">
-                    <p class="mealRecipe">{{meal.data.meal.recipe}}</p>
-                </div>
+              <dxi-item
+                title="Ingredients for 1 person"
+                template="ingredientsTab"
+              ></dxi-item>
+              <div *dxTemplate="let ingredientsTabItem of 'ingredientsTab'">
+                <dx-data-grid
+                  [dataSource]="meal.data.meal.ingredients"
+                  [showBorders]="false"
+                  [columnAutoWidth]="true"
+                >
+                  <dxo-editing
+                    mode="row"
+                    [allowUpdating]="false"
+                    [allowDeleting]="false"
+                    [allowAdding]="false"
+                  ></dxo-editing>
+                  <dxi-column dataField="ingredient.name" [width]="170"></dxi-column>
+                  <dxi-column dataField="amount" [width]="55"></dxi-column>
+                  <dxi-column caption="Unit" dataField="ingredient.ingredientUnit" [width]="91"></dxi-column>
+                </dx-data-grid>
+              </div>
+              <dxi-item title="Recipe" template="recipeTab"></dxi-item>
+              <div *dxTemplate="let recipeTabItem of 'recipeTab'">
+                <p class="mealRecipe">{{ meal.data.meal.recipe}}</p>
+              </div>
             </dx-tab-panel>
-        </div>
+          </div>
     </dx-data-grid>
+</div>
 </div>
 </div>

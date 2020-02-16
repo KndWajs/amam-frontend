@@ -1,19 +1,22 @@
 <h3>All meals</h3>
 <hr />
 <app-spinner *ngIf="!dataSource"></app-spinner>
+<div style="display: flex; justify-content: space-around;">
+<div style="width: 340px;">
 <dx-data-grid
   *ngIf="dataSource"
   id="gridContainer"
   [dataSource]="dataSource"
   [masterDetail]="{ enabled: true, template: 'detail' }"
   keyExpr="id"
-  [allowColumnReordering]="true"
-  [showBorders]="true"
+  [allowColumnReordering]="false"
+  [showBorders]="false"
   (onRowRemoving)="onRowRemoving($event)"
   (onEditingStart)="duplicate($event)"
->
-  <dxo-grouping expandMode="rowClick" [autoExpandAll]="false"> </dxo-grouping>
+  (onRowClick)="onRowClick($event)" >
 
+  <dxo-selection mode="single"></dxo-selection>
+  <dxo-grouping expandMode="rowClick" [autoExpandAll]="false"> </dxo-grouping>
   <dxo-paging [enabled]="true"></dxo-paging>
   <dxo-editing
     mode="row"
@@ -21,13 +24,17 @@
     [allowDeleting]="true"
     [allowAdding]="false"
   >
-    <dxo-texts editRow="Duplicate"> </dxo-texts>
+  <dxo-texts editRow="Duplicate"> </dxo-texts>
   </dxo-editing>
   <!-- <dxi-column dataField="id"></dxi-column> -->
-  <dxi-column dataField="name"></dxi-column>
+  <dxi-column caption="name" dataField="name" [width]="165"></dxi-column>
   <dxi-column dataField="typeOfMeal" [groupIndex]="0"></dxi-column>
-  <dxi-column dataField="typeOfPreparing"></dxi-column>
-  <dxi-column dataField="minutesToPrepare"></dxi-column>
+  <dxi-column dataField="typeOfPreparing" [width]="55"></dxi-column>
+  <dxi-column dataField="minutesToPrepare" [width]="45"></dxi-column>
+  <dxi-column type="buttons"  [width]="70">
+    <dxi-button name="edit"></dxi-button>
+    <dxi-button name="delete"></dxi-button>    
+  </dxi-column>
 
   <div id="tabs-container" *dxTemplate="let meal of 'detail'">
     <dx-tab-panel id="tabs">
@@ -38,7 +45,7 @@
       <div *dxTemplate="let ingredientsTabItem of 'ingredientsTab'">
         <dx-data-grid
           [dataSource]="meal.data.ingredients"
-          [showBorders]="true"
+          [showBorders]="false"
           [columnAutoWidth]="true"
         >
           <dxo-editing
@@ -47,12 +54,9 @@
             [allowDeleting]="false"
             [allowAdding]="false"
           ></dxo-editing>
-          <dxi-column dataField="ingredient.name"></dxi-column>
-          <dxi-column dataField="amount"></dxi-column>
-          <dxi-column
-            caption="Unit"
-            dataField="ingredient.ingredientUnit"
-          ></dxi-column>
+          <dxi-column dataField="ingredient.name" [width]="170"></dxi-column>
+          <dxi-column dataField="amount" [width]="55"></dxi-column>
+          <dxi-column caption="Unit" dataField="ingredient.ingredientUnit" [width]="91"></dxi-column>
         </dx-data-grid>
       </div>
       <dxi-item title="Recipe" template="recipeTab"></dxi-item>
@@ -62,3 +66,5 @@
     </dx-tab-panel>
   </div>
 </dx-data-grid>
+</div>
+</div>

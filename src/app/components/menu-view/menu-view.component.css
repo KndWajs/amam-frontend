@@ -1,99 +1,31 @@
-::ng-deep #events {
-    background-color: rgba(191, 191, 191, 0.15);
-    padding: 20px;
-    margin-top: 20px;
-}
-
-::ng-deep #events > div {
-    padding-bottom: 5px;
-}
-
-::ng-deep #events > div:after {
-    content: "";
-    display: table;
-clear: both;
-}
-
-::ng-deep #events #clear {
-    float: right;
-}
-
-::ng-deep #events .caption {
-    float: left;
-    font-weight: bold;
-    font-size: 115%;
-    line-height: 115%;
-    padding-top: 7px;
-}
-
-::ng-deep #events ul {
-    list-style: none;
-    max-height: 100px;
-    overflow: auto;
-    margin: 0;
-}
-
-::ng-deep #events ul li {
-    padding: 7px 0;
-    border-bottom: 1px solid #dddddd;
-}
-
-::ng-deep #events ul li:last-child {
-    border-bottom: none;
-}
-
-::ng-deep #gridContainer {
-    /* height: 620px; */
-}
-
-::ng-deep .dx-datagrid-rowsview .dx-master-detail-row:not(.dx-datagrid-edit-form) > .dx-datagrid-group-space,
-.dx-datagrid-rowsview .dx-master-detail-row:not(.dx-datagrid-edit-form) .dx-master-detail-cell {
-    background-color: transparent;
-}
-
-::ng-deep .form-container {
-    padding: 20px;
-}
-
-::ng-deep .address-form label {
-    font-weight: bold;
-}
-/* p {
-    word-break: normal;
-    white-space: normal;
-} */
-
-#tabs {
-    width: 450px;
-    margin: 0px;
-    padding: 0px;
-} 
-
-#tabs-container {
-    padding: 0px;
-    display: flex;
-    justify-content: left;    
-}
-
 .menu {
-    margin: 10px;
-    width: 600px;
+    margin: 5px;
+    width: 340px;
 }
 
 .menus {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: space-around;
 }
 
 .btnMenu{
     margin:10px;
 }
 
+#tabs {
+    margin: 0px;
+    padding: 0px;
+} 
+
+#tabs-container {
+    padding: 0px;
+    display: flex; 
+   justify-content: left;    
+}
+
 .mealRecipe {
-    width: 440px;
-    margin: 5px;
     margin-top: 10px;
     margin-bottom: 10px;
 

@@ -5,36 +5,36 @@
     <div class="shopping-list" *ngFor="let shoppingList of shoppingLists; let i = index;">
         <div class="alert alert-success">
             It's a shopping list <strong>{{shoppingList.name}}</strong> for <strong>{{shoppingList.numberOfPeople}}</strong> people.
+           
             <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 20px;">
                 <button *ngIf="!waitingForNewShoppingList" class="btn btn-danger btnMenu"
-                    (click)="deleteShoppingList(shoppingList)">Delete</button>
-                <button *ngIf="waitingForNewShoppingList" class="btn btn-danger btnMenu" type="button" disabled>
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Loading...
-                </button>
+                (click)="deleteShoppingList(shoppingList)">Delete</button>
+            <button *ngIf="waitingForNewShoppingList" class="btn btn-danger btnMenu" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
                 <button *ngIf="addIngredient == null" class="btn btn-primary btnMenu" (click)="addIngredient = i">Add item</button>
                 <button *ngIf="addIngredient == i" class="btn btn-danger btnMenu" (click)="addIngredient = null">Cancel adding
                     item</button>  
-             <ul class="nav nav-pills"> 
+             
+            </div>
+            <ul class="nav nav-pills"> 
                 <li class="nav-item dropdown" style="width: 200px;">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Combine with other menu</a>
-                    <div class="dropdown-menu" style="">
+                    <div class="dropdown-menu" >
                         <div *ngFor="let otherShoppingList of shoppingLists; let i = index;" >
                       <a class="dropdown-item" 
                       *ngIf="!(shoppingList.id == otherShoppingList.id)"
                       (click)="createCombinedShoppingList(shoppingList, otherShoppingList)">{{otherShoppingList.name}}</a></div>
                     </div>
                 </li>
-            </ul>  
-            </div>
+             </ul> 
         </div>
         <app-quick-search-shopping-element (emitableShoppingElement)="addIngredientToShoppingList($event, i)" *ngIf="addIngredient == i"></app-quick-search-shopping-element>
         <dx-data-grid id="gridContainer" 
             [dataSource]="shoppingList.shoppingElements" 
             keyExpr="ingredient.name"
-            [allowColumnReordering]="true" 
-            [showBorders]="true" 
-            [columnAutoWidth]="true"
+            [allowColumnReordering]="false" 
             (onRowRemoving)="onRowRemoving(shoppingList, $event)" 
             (onRowUpdating)="onRowUpdating(shoppingList, $event)"
             (onEditorPreparing)="onEditorPreparing($event)">
@@ -54,12 +54,13 @@
                 </dxo-texts>
             </dxo-editing>
             
-            <dxi-column caption="v" dataField="alreadyBought" [width]="40"></dxi-column>
-            <dxi-column dataField="ingredient.name"></dxi-column>
+            <dxi-column caption="Already bought" dataField="alreadyBought" [groupIndex]="1"></dxi-column>
+            <dxi-column caption=" " dataField="alreadyBought" [width]="40" ></dxi-column>
+            <dxi-column caption="Name" dataField="ingredient.name"></dxi-column>
             <dxi-column caption="Amt." dataField="amount" [width]="50"></dxi-column>
             <dxi-column caption="Unit" dataField="ingredient.ingredientUnit" [width]="100"></dxi-column>
-            <dxi-column caption="Category" dataField="ingredient.category" [groupIndex]="2"></dxi-column>
-            <dxi-column type="buttons" >
+            <dxi-column caption="(" dataField="ingredient.category" [groupIndex]="2"></dxi-column>
+            <dxi-column type="buttons" [width]="45">
                 <dxi-button name="delete"></dxi-button>
             </dxi-column>
         </dx-data-grid>
@@ -86,9 +87,8 @@
         <dx-data-grid id="gridContainer" 
         [dataSource]="shoppingListProposal" 
         keyExpr="ingredient.name"
-        [allowColumnReordering]="true" 
-        [showBorders]="true"
-        [columnAutoWidth]="true">
+        [allowColumnReordering]="false" 
+        >
         <dxo-grouping 
         expandMode="rowClick"
         [autoExpandAll]="false">

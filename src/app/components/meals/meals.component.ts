@@ -66,6 +66,17 @@ export class MealsComponent {
         });
     }
 
+    onRowClick(e) {
+        if (e.rowType == "data") {
+          if (e.isExpanded) {
+            e.component.collapseRow(e.key);
+          } else {
+            e.component.collapseAll(-1);
+            e.component.expandRow(e.key);
+          }
+        }
+      }
+
     ngOnDestroy(): void {
         if (this.allMealsSubscription) {
             this.allMealsSubscription.unsubscribe();
@@ -74,9 +85,6 @@ export class MealsComponent {
             this.deleteMealSubscription.unsubscribe();
         }
     }
-
-
-
 
     private currentData;
     rowInserting(e) {
