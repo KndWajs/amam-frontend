@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  endpoint: 'http://api.fit-amam.pl/v1/api/'  
+  endpoint: 'http://api.fit-amam.pl/v1/'  
 };
