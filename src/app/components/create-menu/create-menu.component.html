@@ -2,9 +2,7 @@
 <hr />
 <app-create-menu-parameters (emitableMenuMeals)="addMenu($event)"></app-create-menu-parameters>
 
-<div *ngIf="menu" style="display: flex; flex-direction: row; justify-content: center;">   
-
-<app-menu-view [menus]=menu></app-menu-view>
-<button id="save-menu-btn" type="submit" class="btn btn-primary" (click)="saveMenu()">Save menu in my list</button>
-
+<div *ngIf="menu" style="display: flex; flex-direction: column; justify-content: center; margin-top: 10px;">
+    <app-menu-view [menus]=menu></app-menu-view>
+    <button id="save-menu-btn" type="submit" class="btn btn-primary" (click)="saveMenu()">Save menu in my list</button>
 </div>
