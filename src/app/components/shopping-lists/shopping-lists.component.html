@@ -53,7 +53,7 @@
 
                 <dxi-column caption="Already bought" dataField="alreadyBought" [groupIndex]="1"></dxi-column>
                 <dxi-column caption=" " dataField="alreadyBought" [width]="40"></dxi-column>
-                <dxi-column caption="Name" dataField="ingredient.name"></dxi-column>
+                <dxi-column caption="Name" dataField="ingredient.name" [width]="110"></dxi-column>
                 <dxi-column caption="Amt." dataField="amount" [width]="50"></dxi-column>
                 <dxi-column caption="Unit" dataField="ingredient.ingredientUnit" [width]="100"></dxi-column>
                 <dxi-column caption="(" dataField="ingredient.category" [groupIndex]="2"></dxi-column>
@@ -70,7 +70,7 @@
 <app-spinner *ngIf="!shoppingLists"></app-spinner>
 <div class="shopping-lists" *ngIf="shoppingLists">
     <div *ngFor="let shoppingList of shoppingLists; let i = index;">
-        <div *ngIf="!shoppingList.archival" class="shopping-list">
+        <div *ngIf="shoppingList.archival" class="shopping-list">
             <div class="alert alert-success">
                 It's a shopping list <strong>{{shoppingList.name}}</strong> for
                 <strong>{{shoppingList.numberOfPeople}}</strong> people.
