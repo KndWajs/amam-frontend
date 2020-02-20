@@ -4,7 +4,6 @@ import { ShoppingListsService } from 'src/app/services/shopping-lists.service';
 import { ShoppingListProposalElement } from 'src/app/models/shopping-list-proposal-element';
 import { ShoppingList } from 'src/app/models/shopping-list';
 import { ShoppingElement } from 'src/app/models/shopping-element';
-import { Ingredient } from 'src/app/models/ingredient';
 
 @Component({
   selector: 'app-shopping-lists',
@@ -207,6 +206,14 @@ export class ShoppingListsComponent implements OnInit {
       newShoppingElementList.push(shoppingElement);
     }
     return newShoppingElementList;
+  }
+
+  changeArchivalFlag(shoppingList: ShoppingList, shoppingListIndex: number, e: any, ): void {
+    console.log(shoppingList)
+    console.log(e)
+    let newShoppingList = new ShoppingList(shoppingList);
+    newShoppingList.archival = e.target.checked;
+    this.updateShoppingList(newShoppingList);
   }
 
   ngOnDestroy(): void {

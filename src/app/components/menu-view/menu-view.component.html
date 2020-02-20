@@ -3,7 +3,7 @@
 <app-spinner *ngIf="!menus"></app-spinner>
 
 <div class="menus" *ngIf="menus">
-  <div *ngFor="let dataSource of menus; let i = index;">
+  <ng-container *ngFor="let dataSource of menus; let i = index;">
     <div *ngIf="!dataSource.archival" class="menu"> 
       <br>
       <div class="alert alert-dismissible alert-success">
@@ -69,14 +69,14 @@
         </dx-data-grid>
       </div>
     </div>
-  </div>
+  </ng-container>
 </div>
 
 <h3 style="margin-top: 50px;" id="archival">Archival menus</h3>
 <hr />
 
 <div class="menus" *ngIf="menus">
-  <div *ngFor="let dataSource of menus; let i = index;">
+  <ng-container *ngFor="let dataSource of menus; let i = index;">
     <div class="menu" *ngIf="dataSource.archival">
       <br>
       <div class="alert alert-dismissible alert-success">
@@ -142,5 +142,5 @@
         </dx-data-grid>
       </div>
     </div>
-  </div>
+  </ng-container>
 </div>
