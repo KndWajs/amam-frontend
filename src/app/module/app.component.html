@@ -1,0 +1,23 @@
+<div class="main-container" role="main">
+  <div class="menu bg-primary">
+
+    <app-navbar></app-navbar>
+
+  </div>
+  <div class="submenu-and-content">
+    <div class="submenu">
+    </div>
+    <div class="content">
+      <amplify-authenticator *ngIf="!this.globals.signedIn" [signUpConfig]="signUpConfig"
+        [usernameAttributes]="usernameAttributes" [hide]="['Greetings']"></amplify-authenticator>
+
+      <button *ngIf="!this.globals.signedIn" type="button" class="btn btn-secondary"
+        style="width: 300px; margin-top: 20px;" routerLink="/info" (click)="logInToDemo()">
+        Log in to demo
+      </button>
+      <div style="width: 100%">
+        <router-outlet *ngIf="this.globals.signedIn"></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

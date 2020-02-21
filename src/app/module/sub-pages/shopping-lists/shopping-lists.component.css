@@ -1,0 +1,16 @@
+p {
+    word-break: normal;
+    white-space: normal;
+}
+
+.shopping-list {
+    margin: 5px;
+    width: 340px;
+}
+
+.shopping-lists {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
