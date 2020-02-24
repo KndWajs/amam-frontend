@@ -1,50 +1,34 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Menu } from "src/app/shared/models/menu";
 import { MenusService } from "src/app/core/services/menus.service";
 import { Subscription } from "rxjs";
-import { Meal } from "src/app/shared/models/meal";
 import { MenuMeal } from "src/app/shared/models/menu-meals";
 
 @Component({
-  selector: "app-menu-view",
-  templateUrl: "./menu-view.component.html",
-  styleUrls: ["./menu-view.component.css"]
+  selector: "app-menu-list",
+  templateUrl: "./menu-list.component.html",
+  styleUrls: ["./menu-list.component.css"]
 })
-export class MenuViewComponent implements OnInit {
-  @Input() menus: Array<Menu>;
+export class MenuListComponent implements OnInit {
+  @Input() menu: Menu; 
+  @Input() autoExpandAll: boolean;
+  
+  @Output() readonly deleteMenuEvent = new EventEmitter<Menu>();
+  @Output() readonly updateMenuEvent = new EventEmitter<Menu>();
 
-  addMeal: String;
+  addMeal: boolean;
 
   private getMenuSubscription: Subscription;
   private deleteMenuSubscription: Subscription;
   private deleteMenuMealSubscription: Subscription;
 
   constructor(private readonly menusService: MenusService) {
-    this.addMeal = null;
   }
 
   ngOnInit() {
-    if (!this.menus) {
-      this.getMenu();
+    if(this.autoExpandAll == null){
+      this.autoExpandAll = true;
     }
-  }
-
-  getMenu(): void {
-    this.getMenuSubscription = this.menusService.getMenusFromHttp().subscribe(
-      menu => {
-        this.menus = menu;
-        // if (!book) {
-        //   this.errorMessage = `book with isbn: ${isbn} does not exist`;
-        // } else {
-        //   this.book = book;
-        // }
-      },
-      error => {
-        console.log("there is no menu");
-      }
-    );
-
-    return;
   }
 
   deleteMenu(menu: Menu): void {
@@ -54,7 +38,7 @@ export class MenuViewComponent implements OnInit {
         menu => {
           console.log("menu deleted");
           console.log(menu);
-          this.getMenu();
+          this.deleteMenuEvent.emit(menu);
         },
         error => {
           console.log(error);
@@ -67,10 +51,10 @@ export class MenuViewComponent implements OnInit {
       );
   }
 
-  addMealToMenu(menuMeal: MenuMeal, menu: Menu, menuId: number): void {
+  addMealToMenu(menuMeal: MenuMeal, menu: Menu): void {
     let newMenu = new Menu(menu);
     newMenu.meals.push(menuMeal);
-    this.menus[menuId] = newMenu;
+    this.menu = newMenu;
 
     this.updateMenu(newMenu, null);
   }
@@ -99,6 +83,7 @@ export class MenuViewComponent implements OnInit {
             m => {
               console.log("done adding");
               this.deleteMenu(menu);
+              this.updateMenuEvent.emit(m);
               resolve();
             },
             error => {
@@ -113,22 +98,13 @@ export class MenuViewComponent implements OnInit {
               reject(`${error.message} ${errorDetails}`);
             }
           );
-      });
+      });      
       if (e != null) {
         e.cancel = answer;
       }
+    } else {      
+      this.updateMenuEvent.emit(menu);
     }
-  }
-
-  findMeal(pips: number): boolean {
-    return (
-      pips === 1 ||
-      pips === 2 ||
-      pips === 3 ||
-      pips === 4 ||
-      pips === 5 ||
-      pips === 6
-    );
   }
 
   onRowClick(e) {

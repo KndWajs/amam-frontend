@@ -3,6 +3,11 @@
 <app-create-menu-parameters (emitableMenuMeals)="addMenu($event)"></app-create-menu-parameters>
 
 <div *ngIf="menu" style="display: flex; flex-direction: column; justify-content: center; margin-top: 10px;">
-    <app-menu-view [menus]=menu></app-menu-view>
-    <button id="save-menu-btn" type="submit" class="btn btn-primary" (click)="saveMenu()">Save menu in my list</button>
+    <app-menu-list [menu]="menu" [autoExpandAll]="true" (updateMenuEvent)="addMenu($event)"></app-menu-list>
+    <button *ngIf="!savingMenu" id="save-menu-btn" type="submit" class="btn btn-primary" (click)="saveMenu()">Save menu in my list</button>
+
+    <button *ngIf="savingMenu" class="btn btn-primary" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
 </div>

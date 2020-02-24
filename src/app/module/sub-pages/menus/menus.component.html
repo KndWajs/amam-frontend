@@ -1,0 +1,22 @@
+<h3>Menus </h3>
+<hr />
+<app-spinner *ngIf="!menus"></app-spinner>
+
+<div class="menus" *ngIf="menus">
+  <ng-container *ngFor="let dataSource of menus; let i = index;">
+    <div *ngIf="!dataSource.archival"> 
+      <app-menu-list [menu]="dataSource" [autoExpandAll]="true" (deleteMenuEvent)="deleteMenu($event)"></app-menu-list>
+    </div>
+  </ng-container>
+</div>
+
+<h3 style="margin-top: 50px;" id="archival">Archival menus</h3>
+<hr />
+
+<div class="menus" *ngIf="menus">
+  <ng-container *ngFor="let dataSource of menus; let i = index;">
+    <div *ngIf="dataSource.archival"> 
+      <app-menu-list [menu]="dataSource" [autoExpandAll]="false" (deleteMenuEvent)="deleteMenu($event)"></app-menu-list>
+    </div>
+  </ng-container>
+</div>

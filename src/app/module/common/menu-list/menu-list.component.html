@@ -1,0 +1,68 @@
+<div class="menu">
+  <br>
+  <div class="alert alert-dismissible alert-success">
+    It's a menu <strong>{{menu.name}}</strong> for <strong>{{menu.numberOfPeople}}</strong> people.
+
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a *ngIf="menu.id" class="nav-link text-danger" (click)="deleteMenu(menu)"
+          href="javascript:;">Delete</a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="!addMeal" class="nav-link" (click)="addMeal = true" href="javascript:;">Add meal</a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="addMeal" class="nav-link " (click)="addMeal = false" href="javascript:;">Cancel add meal</a>
+      </li>
+    </ul>
+  </div>
+  <app-quick-search-meal *ngIf="addMeal" (emitableMenuMeal)="addMealToMenu($event, menu)" >
+  </app-quick-search-meal>
+  <div>
+    <dx-data-grid [dataSource]="menu.meals"
+      [masterDetail]="{ enabled: true, template: 'detail' }" 
+      keyExpr="meal.id" [allowColumnReordering]="false"
+      [showBorders]="false" 
+      (onRowRemoving)="onRowRemoving(menu, $event)" 
+      (onRowClick)="onRowClick($event)">
+
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-grouping expandMode="rowClick" [autoExpandAll]="autoExpandAll"> </dxo-grouping>
+      <dxo-paging [enabled]="true"></dxo-paging>
+      <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="true" [allowAdding]="false">
+      </dxo-editing>
+
+      <dxi-column caption="name" dataField="meal.name" [width]="185"></dxi-column>
+      <dxi-column caption="dayNumber" dataField="dayNumber" [groupIndex]="0"></dxi-column>
+      <dxi-column caption="type" dataField="meal.typeOfMeal" [width]="105"></dxi-column>
+
+      <dxi-column type="buttons" [width]="45">
+        <dxi-button name="delete"></dxi-button>
+      </dxi-column>
+
+
+      <div id="tabs-container" *dxTemplate="let meal of 'detail'" style="display: flex; flex-direction: column;">
+        <div style="margin-bottom: 10px;">
+          Preparing type: {{meal.data.meal.typeOfPreparing}}<br>
+          Minutes to prepare: {{meal.data.meal.minutesToPrepare}}<br>
+        </div>
+        <dx-tab-panel id="tabs">
+          <dxi-item title="Ingredients for 1 person" template="ingredientsTab"></dxi-item>
+          <div *dxTemplate="let ingredientsTabItem of 'ingredientsTab'">
+            <dx-data-grid [dataSource]="meal.data.meal.ingredients" [showBorders]="false" [columnAutoWidth]="true">
+              <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+              </dxo-editing>
+              <dxi-column dataField="ingredient.name" [width]="170"></dxi-column>
+              <dxi-column dataField="amount" [width]="55"></dxi-column>
+              <dxi-column caption="Unit" dataField="ingredient.ingredientUnit" [width]="91"></dxi-column>
+            </dx-data-grid>
+          </div>
+          <dxi-item title="Recipe" template="recipeTab"></dxi-item>
+          <div *dxTemplate="let recipeTabItem of 'recipeTab'">
+            <p class="mealRecipe">{{ meal.data.meal.recipe}}</p>
+          </div>
+        </dx-tab-panel>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>

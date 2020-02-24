@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 })
 export class CreateMenuComponent implements OnInit {
   private saveMenuSubscription: Subscription;
-  menu: Array<Menu>;
-  waitingForMenu: boolean;
+  menu: Menu;
+  savingMenu: boolean;
 
   constructor(private readonly menusService: MenusService, private readonly router: Router) {
 
@@ -22,25 +22,28 @@ export class CreateMenuComponent implements OnInit {
   }
 
   addMenu(menu: Menu) {
-    this.menu = new Array<Menu>(menu);
+    this.menu = menu;
   }
 
   saveMenu(): void {
-      this.saveMenuSubscription =
-        this.menusService.addMenu(this.menu[0]).subscribe((menu) => {
-            console.log("menu added succesfully");
-            console.log(menu);
-            this.router.navigate(['/show-menu']);
-         },
-         error => {
-             console.log(error);
-         });
-    }
+    this.savingMenu = true;
+    this.saveMenuSubscription =
+      this.menusService.addMenu(this.menu).subscribe((menu) => {
+        console.log("menu added succesfully");
+        console.log(menu);
+        this.savingMenu = false;
+        this.router.navigate(['/menus']);
+      },
+        error => {
+          this.savingMenu = false;
+          console.log(error);
+        });
+  }
 
-    ngOnDestroy(): void {
-      if (this.saveMenuSubscription) {
-        this.saveMenuSubscription.unsubscribe();
-      }
+  ngOnDestroy(): void {
+    if (this.saveMenuSubscription) {
+      this.saveMenuSubscription.unsubscribe();
     }
+  }
 
 }

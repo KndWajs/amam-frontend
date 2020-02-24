@@ -3,17 +3,6 @@
     width: 340px;
 }
 
-.menus {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-.btnMenu{
-    margin:10px;
-}
-
 #tabs {
     margin: 0px;
     padding: 0px;

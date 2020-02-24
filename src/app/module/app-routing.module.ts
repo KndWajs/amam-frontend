@@ -5,7 +5,7 @@ import { InfoPageComponent } from './sub-pages/info-page/info-page.component';
 import { MealsComponent } from './sub-pages/meals/meals.component';
 import { AddMealComponent } from './sub-pages/add-meal/add-meal.component';
 import { CreateMenuComponent } from './sub-pages/create-menu/create-menu.component';
-import { MenuViewComponent } from './sub-pages/menu-view/menu-view.component';
+import { MenusComponent } from './sub-pages/menus/menus.component';
 import { ShoppingListsComponent } from './sub-pages/shopping-lists/shopping-lists.component';
 import { PipeDataComponent } from './sub-pages/info-page/admin/pipe-data/pipe-data.component';
 import { AdminComponent } from './sub-pages/info-page/admin/admin.component';
@@ -13,13 +13,13 @@ import { PageNotFoundComponent } from '../core/page-not-found/page-not-found.com
 
 
 const routes: Routes = [
-  { path: 'info', component: InfoPageComponent },
   { path: 'add-meal', component: AddMealComponent },
   { path: 'add-meal/:id', component: AddMealComponent },
   { path: 'all-meals', component: MealsComponent },
   { path: 'create-menu', component: CreateMenuComponent },
-  { path: 'show-menu', component: MenuViewComponent },
+  { path: 'menus', component: MenusComponent },
   { path: 'shopping-lists', component: ShoppingListsComponent },
+  { path: 'info-page', component: InfoPageComponent },
   {
     path: 'admin',
     children: [

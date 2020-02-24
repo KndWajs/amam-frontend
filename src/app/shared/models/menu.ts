@@ -20,5 +20,5 @@ export class Menu {
             this.meals = (obj.meals as Array<MenuMeal>).map(value => new MenuMeal(value));
             this.archival = obj.archival;
         }
-    }    
+    }
 }
