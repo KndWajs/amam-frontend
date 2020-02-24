@@ -3,6 +3,7 @@ import { Menu } from "src/app/shared/models/menu";
 import { MenusService } from "src/app/core/services/menus.service";
 import { Subscription } from "rxjs";
 import { MenuMeal } from "src/app/shared/models/menu-meals";
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: "app-menu-list",
@@ -18,11 +19,11 @@ export class MenuListComponent implements OnInit {
 
   addMeal: boolean;
 
-  private getMenuSubscription: Subscription;
   private deleteMenuSubscription: Subscription;
   private deleteMenuMealSubscription: Subscription;
 
-  constructor(private readonly menusService: MenusService) {
+  constructor(private readonly menusService: MenusService, 
+    private readonly alertService: AlertService) {
   }
 
   ngOnInit() {
@@ -36,17 +37,16 @@ export class MenuListComponent implements OnInit {
       .deleteMenu(menu.id)
       .subscribe(
         menu => {
-          console.log("menu deleted");
-          console.log(menu);
+          this.alertService.warn(`menu ${menu.name} was deleted`, {
+            autoClose: true
+          });
           this.deleteMenuEvent.emit(menu);
         },
         error => {
-          console.log(error);
-          // let errorDetails = '';
-          // if (typeof error.error === 'string' || error.error instanceof String) {
-          //     errorDetails = ' --- ' + error.error;
-          // }
-          // reject(`${error.message} ${errorDetails}`);
+          this.alertService.createErrorMessageForHttpResponseWithTitle(
+          error,
+          "Delete menu"
+        );
         }
       );
   }
@@ -81,21 +81,18 @@ export class MenuListComponent implements OnInit {
           .addMenu(newMenu)
           .subscribe(
             m => {
-              console.log("done adding");
+              this.alertService.success(`menu ${m.name} was updated`, {
+                autoClose: true
+              });
               this.deleteMenu(menu);
               this.updateMenuEvent.emit(m);
               resolve();
             },
             error => {
-              console.log(error);
-              let errorDetails = "";
-              if (
-                typeof error.error === "string" ||
-                error.error instanceof String
-              ) {
-                errorDetails = " --- " + error.error;
-              }
-              reject(`${error.message} ${errorDetails}`);
+              this.alertService.createErrorMessageForHttpResponseWithTitle(
+                error,
+                "Update menu"
+              );
             }
           );
       });      
@@ -119,9 +116,6 @@ export class MenuListComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.getMenuSubscription) {
-      this.getMenuSubscription.unsubscribe();
-    }
     if (this.deleteMenuMealSubscription) {
       this.deleteMenuMealSubscription.unsubscribe();
     }

@@ -7,6 +7,7 @@ import { MenusService } from 'src/app/core/services/menus.service';
 import { Meal } from 'src/app/shared/models/meal';
 import { MenuMeal } from 'src/app/shared/models/menu-meals';
 import { Menu } from 'src/app/shared/models/menu';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-create-menu-parameters',
@@ -30,7 +31,8 @@ export class CreateMenuParametersComponent implements OnInit {
     { id: 6, name: 'SUPPER' }
   ];
 
-  constructor(private readonly formBuilder: FormBuilder, private readonly menuService: MenusService) {
+  constructor(private readonly formBuilder: FormBuilder, private readonly menuService: MenusService, 
+    private readonly alertService: AlertService)  {
     this.waitingForMenu = false;
   }
 
@@ -62,14 +64,18 @@ export class CreateMenuParametersComponent implements OnInit {
 
     this.addMenuParametersSubscription =
       this.menuService.createMenu(this.menuParameters).subscribe((menu) => {
-          console.log("menu created");
-          console.log(menu);
           this.emitMenuMeals(menu);
           this.waitingForMenu = false;
+          this.alertService.success(`menu proposal ${menu.name} was created`, {
+            autoClose: true
+          });
        },
        error => {
-           console.log(error);
           this.waitingForMenu = false;
+          this.alertService.createErrorMessageForHttpResponseWithTitle(
+            error,
+            "Create menu proposal"
+          );
        });
   }
 

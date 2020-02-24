@@ -32,6 +32,7 @@ import Storage from '@aws-amplify/storage';
 
 import { SpinnerComponent } from './common/spinner/spinner.component';
 import { MenuListComponent } from './common/menu-list/menu-list.component';
+import { AlertComponent } from './common/alert/alert.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { MenuListComponent } from './common/menu-list/menu-list.component';
     QuickSearchMealComponent,
     SpinnerComponent,
     QuickSearchShoppingElementComponent,
-    MenuListComponent
+    MenuListComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

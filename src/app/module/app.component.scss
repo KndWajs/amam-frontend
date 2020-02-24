@@ -65,3 +65,10 @@
 .content-title {
   width: 100%;
 }
+
+.alert {
+  position: fixed;
+  z-index: 999;
+  bottom: 0;
+  right: 0;
+}

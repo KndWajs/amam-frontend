@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  // endpoint: 'http://localhost:8080/v1/' 
-  endpoint: 'http://api.fit-amam.pl/v1/'  
+  endpoint: 'http://localhost:8080/v1/' 
 };
 
 /*
