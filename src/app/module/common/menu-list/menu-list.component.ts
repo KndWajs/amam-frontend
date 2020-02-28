@@ -4,6 +4,8 @@ import { MenusService } from "src/app/core/services/menus.service";
 import { Subscription } from "rxjs";
 import { MenuMeal } from "src/app/shared/models/menu-meals";
 import { AlertService } from 'src/app/core/services/alert.service';
+import { ShoppingListsService } from 'src/app/core/services/shopping-lists.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-menu-list",
@@ -11,23 +13,24 @@ import { AlertService } from 'src/app/core/services/alert.service';
   styleUrls: ["./menu-list.component.css"]
 })
 export class MenuListComponent implements OnInit {
-  @Input() menu: Menu; 
+  @Input() menu: Menu;
   @Input() autoExpandAll: boolean;
-  
+
   @Output() readonly deleteMenuEvent = new EventEmitter<Menu>();
   @Output() readonly updateMenuEvent = new EventEmitter<Menu>();
 
-  addMeal: boolean;
+  creatingShoppingList: boolean;
 
   private deleteMenuSubscription: Subscription;
   private deleteMenuMealSubscription: Subscription;
+  private createShoppingListSubscription: Subscription;
 
-  constructor(private readonly menusService: MenusService, 
+  constructor(private readonly menusService: MenusService, private readonly shoppingListsService: ShoppingListsService, private readonly router: Router,
     private readonly alertService: AlertService) {
   }
 
   ngOnInit() {
-    if(this.autoExpandAll == null){
+    if (this.autoExpandAll == null) {
       this.autoExpandAll = true;
     }
   }
@@ -44,9 +47,9 @@ export class MenuListComponent implements OnInit {
         },
         error => {
           this.alertService.createErrorMessageForHttpResponseWithTitle(
-          error,
-          "Delete menu"
-        );
+            error,
+            "Delete menu"
+          );
         }
       );
   }
@@ -71,35 +74,44 @@ export class MenuListComponent implements OnInit {
     this.updateMenu(newMenu, e);
   }
 
-  updateMenu(menu: Menu, e: any) {
-    let newMenu = new Menu(menu);
-    newMenu.id = null;
-
-    if (menu.id != null) {
-      let answer = new Promise((resolve, reject) => {
-        this.deleteMenuMealSubscription = this.menusService
-          .addMenu(newMenu)
-          .subscribe(
-            m => {
-              this.alertService.success(`menu ${m.name} was updated`, {
-                autoClose: true
-              });
-              this.deleteMenu(menu);
-              this.updateMenuEvent.emit(m);
-              resolve();
-            },
-            error => {
-              this.alertService.createErrorMessageForHttpResponseWithTitle(
-                error,
-                "Update menu"
-              );
-            }
+  createShoppingList(menu: Menu, e: any) {
+    this.creatingShoppingList = true;
+    this.createShoppingListSubscription = this.shoppingListsService
+      .createShoppingList(menu)
+      .subscribe(
+        m => {
+          this.creatingShoppingList = false;
+          this.router.navigate(['/shopping-lists']);
+        },
+        error => {
+          this.creatingShoppingList = false;
+          this.alertService.createErrorMessageForHttpResponseWithTitle(
+            error,
+            "Create Shopping list"
           );
-      });      
-      if (e != null) {
-        e.cancel = answer;
-      }
-    } else {      
+        }
+      );
+  }
+
+  updateMenu(menu: Menu, e: any) {
+    if (menu.id != null) {
+      this.deleteMenuMealSubscription = this.menusService
+        .updateMenu(menu)
+        .subscribe(
+          m => {
+            this.alertService.success(`menu ${m.name} was updated`, {
+              autoClose: true
+            });
+            this.updateMenuEvent.emit(m);
+          },
+          error => {
+            this.alertService.createErrorMessageForHttpResponseWithTitle(
+              error,
+              "Update menu"
+            );
+          }
+        );
+    } else {
       this.updateMenuEvent.emit(menu);
     }
   }
@@ -115,9 +127,12 @@ export class MenuListComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
+  createShoppingListSubscriptionngOnDestroy(): void {
     if (this.deleteMenuMealSubscription) {
       this.deleteMenuMealSubscription.unsubscribe();
+    }
+    if (this.createShoppingListSubscription) {
+      this.createShoppingListSubscription.unsubscribe();
     }
     if (this.deleteMenuSubscription) {
       this.deleteMenuSubscription.unsubscribe();

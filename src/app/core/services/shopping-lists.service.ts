@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ShoppingListProposalElement } from '../../shared/models/shopping-list-proposal-element';
 import { map } from 'rxjs/operators';
 import { ShoppingList } from '../../shared/models/shopping-list';
+import { Menu } from 'src/app/shared/models/menu';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,14 @@ export class ShoppingListsService {
       return new Observable();
     }
     return this.httpClientService.getHttpClient().post<ShoppingList>(this.httpClientService.endpoint + 'shopping-list/', shoppingList, this.httpClientService.httpOptions)
+     .pipe(map(value => new ShoppingList(value)));
+  }
+
+  createShoppingList(menu: Menu): Observable<ShoppingList> {
+    if (this.httpClientService.isGuestLogIn) {
+      return new Observable();
+    }
+    return this.httpClientService.getHttpClient().post<ShoppingList>(this.httpClientService.endpoint + 'shopping-list/create-from-menu', menu, this.httpClientService.httpOptions)
      .pipe(map(value => new ShoppingList(value)));
   }
 
@@ -37,7 +46,7 @@ export class ShoppingListsService {
   }
 
   getShoppingListsFromHttp(): Observable<Array<ShoppingList>> {
-    return this.httpClientService.getHttpClient().get<Array<ShoppingList>>(this.httpClientService.endpoint + 'shopping-lists/', this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient().get<Array<ShoppingList>>(this.httpClientService.endpoint + 'shopping-list/', this.httpClientService.httpOptions)
      .pipe(map(values => values.map(value => new ShoppingList(value))));
   }
 
