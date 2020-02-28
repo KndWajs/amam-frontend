@@ -21,6 +21,15 @@ export class MenusService {
      .pipe(map(value => new Menu(value)));
   }
 
+  updateMenu(menu: Menu): Observable<Menu> {
+    if (this.httpClientService.isGuestLogIn) {
+      return new Observable();
+    }
+    return this.httpClientService.getHttpClient().put<Menu>(this.httpClientService.endpoint + 'menu/', menu, this.httpClientService.httpOptions)
+     .pipe(map(value => new Menu(value)));
+  }
+  
+
   getMenusFromHttp(): Observable<Array<Menu>> {
     return this.httpClientService.getHttpClient().get<Array<Menu>>(this.httpClientService.endpoint + 'menus/', this.httpClientService.httpOptions)
      .pipe(map(values => values.map(value => new Menu(value))));

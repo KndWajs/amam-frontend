@@ -323,7 +323,6 @@ export class ShoppingListsComponent implements OnInit {
 
   changeArchivalFlag(
     shoppingList: ShoppingList,
-    shoppingListIndex: number,
     e: any
   ): void {
     console.log(shoppingList);
