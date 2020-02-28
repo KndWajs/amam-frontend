@@ -20,8 +20,8 @@
       <li class="nav-item">
         <div class=" nav-link">
             <div class="custom-control custom-checkbox">                            
-                <input type="checkbox" class="custom-control-input" id="customCheck{{i}}" [(ngModel)]="menu.archival" (click)="changeArchivalFlag(menu, $event)">
-              <label class="custom-control-label" for="customCheck{{i}}">Archival</label>
+                <input type="checkbox" class="custom-control-input" id="customCheck{{menu.name}}{{menu.id}}" [(ngModel)]="menu.archival" (click)="changeArchivalFlag(menu, $event)">
+              <label class="custom-control-label" for="customCheck{{menu.name}}{{menu.id}}">Archival</label>
             </div>
         </div>
     </li> 
