@@ -32,10 +32,14 @@ export class AlertService {
     }
 
     createErrorMessageForHttpResponseWithTitle(error: any, title: string) {
-        if(error.name == "HttpErrorResponse"){
-            this.error(title + " - http response error")          
+        if(error.status == 0){
+            this.error(title + " - http response error", {
+                autoClose: true
+              })          
           } else {
-            this.error(error.error.message)
+            this.error(error.error.message, {
+                autoClose: true
+              })
           }
     }
 
