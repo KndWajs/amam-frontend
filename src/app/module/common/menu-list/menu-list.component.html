@@ -17,6 +17,14 @@
       <li class="nav-item">
         <a *ngIf="!creatingShoppingList" class="nav-link"  (click)="createShoppingList(menu)" href="javascript:;">Create Shopping list</a>
       </li>
+      <li class="nav-item">
+        <div class=" nav-link">
+            <div class="custom-control custom-checkbox">                            
+                <input type="checkbox" class="custom-control-input" id="customCheck{{i}}" [(ngModel)]="menu.archival" (click)="changeArchivalFlag(menu, $event)">
+              <label class="custom-control-label" for="customCheck{{i}}">Archival</label>
+            </div>
+        </div>
+    </li> 
     </ul>
   </div>
   <app-quick-search-meal *ngIf="addMeal" (emitableMenuMeal)="addMealToMenu($event, menu)" >

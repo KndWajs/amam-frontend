@@ -59,7 +59,7 @@ export class MenuListComponent implements OnInit {
     newMenu.meals.push(menuMeal);
     this.menu = newMenu;
 
-    this.updateMenu(newMenu, null);
+    this.updateMenu(newMenu);
   }
 
   onRowRemoving(menu: any, e: any): void {
@@ -71,7 +71,7 @@ export class MenuListComponent implements OnInit {
     );
     newMenu.meals.splice(indexMealToDelete, 1);
 
-    this.updateMenu(newMenu, e);
+    this.updateMenu(newMenu);
   }
 
   createShoppingList(menu: Menu, e: any) {
@@ -93,7 +93,7 @@ export class MenuListComponent implements OnInit {
       );
   }
 
-  updateMenu(menu: Menu, e: any) {
+  updateMenu(menu: Menu) {
     if (menu.id != null) {
       this.deleteMenuMealSubscription = this.menusService
         .updateMenu(menu)
@@ -125,6 +125,15 @@ export class MenuListComponent implements OnInit {
         e.component.expandRow(e.key);
       }
     }
+  }
+
+  changeArchivalFlag(
+    menu: Menu,
+    e: any
+  ): void {
+    let newMenu = new Menu(menu);
+    newMenu.archival = e.target.checked;
+    this.updateMenu(newMenu);
   }
 
   createShoppingListSubscriptionngOnDestroy(): void {
