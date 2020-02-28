@@ -23,7 +23,7 @@
                 <div class="form-group">
                   <label for="category">Meal type:</label>
                   <select class="custom-select" formControlName="typeOfMeal">
-                    <option *ngFor="let mealType of mealTypes" value="{{ mealType.name }}">{{ mealType.id }}</option>
+                    <option *ngFor="let mealType of mealTypes | keyvalue" value="{{ mealType.key }}">{{ mealType.key }} - {{ mealType.value }} </option>
                   </select>
                   <h6 *ngIf="newMealForm.hasError('required', 'typeOfMeal')" class="text-danger"> Field is required!
                   </h6>

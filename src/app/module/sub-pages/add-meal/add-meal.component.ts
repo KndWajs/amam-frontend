@@ -15,19 +15,21 @@ import { MealIngredient } from 'src/app/shared/models/meal-ingredient';
   templateUrl: './add-meal.component.html',
   styleUrls: ['./add-meal.component.css']
 })
+
 export class AddMealComponent implements OnInit {
   private addMealSubscription: Subscription;
   private getMealSubscription: Subscription;
-  readonly mealTypes: Array<Object>;
+  public mealTypes = MealType;
   readonly preparingTypes: Array<Object>;
   newMealForm: FormGroup;
   meal: Meal;
   mealId: Number;
   ingredients: FormArray;
   numberOfPeoplee: number;
+  
 
   constructor(private readonly formBuilder: FormBuilder, private readonly mealsService: MealsService, private readonly router: Router, private route: ActivatedRoute) {
-    this.mealTypes = this.buildMealTypesArray();
+    // this.mealTypes = this.buildMealTypesArray();
     this.preparingTypes = this.buildPreparingTypesArray();
     this.numberOfPeoplee = 1;
   }
@@ -116,6 +118,7 @@ export class AddMealComponent implements OnInit {
   }
 
   saveNewMeal(newMealForm): void {
+    console.log(this.newMealForm);
     this.meal = new Meal(newMealForm);
     this.meal.ingredients = this.meal.ingredients.map(ingredient => this.calculateIngredientAmountToOnePerson(ingredient));
     console.log(this.meal);

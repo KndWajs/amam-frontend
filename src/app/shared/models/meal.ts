@@ -15,7 +15,7 @@ export class Meal {
     constructor(obj: any) {
         this.id = obj.id;
         this.name = obj.name;
-        this.typeOfMeal = MealType[obj.typeOfMeal] as MealType;
+        this.typeOfMeal = obj.typeOfMeal;
         this.typeOfPreparing = PreparingType[obj.typeOfPreparing] as PreparingType;
         this.recipe = obj.recipe;
         this.minutesToPrepare = obj.minutesToPrepare;
