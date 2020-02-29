@@ -19,6 +19,7 @@ export class MenuListComponent implements OnInit {
   @Output() readonly deleteMenuEvent = new EventEmitter<Menu>();
   @Output() readonly updateMenuEvent = new EventEmitter<Menu>();
 
+  addMeal: boolean;
   creatingShoppingList: boolean;
 
   private deleteMenuSubscription: Subscription;

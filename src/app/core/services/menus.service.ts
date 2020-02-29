@@ -30,8 +30,13 @@ export class MenusService {
   }
   
 
-  getMenusFromHttp(): Observable<Array<Menu>> {
-    return this.httpClientService.getHttpClient().get<Array<Menu>>(this.httpClientService.endpoint + 'menus/', this.httpClientService.httpOptions)
+  // getMenusFromHttp(): Observable<Array<Menu>> {
+  //   return this.httpClientService.getHttpClient().get<Array<Menu>>(this.httpClientService.endpoint + 'menu/', this.httpClientService.httpOptions)
+  //    .pipe(map(values => values.map(value => new Menu(value))));
+  // }
+
+  getMenusFromHttp(archival: boolean): Observable<Array<Menu>> {
+    return this.httpClientService.getHttpClient().get<Array<Menu>>(this.httpClientService.endpoint + `menus?archival=${archival}`, this.httpClientService.httpOptions)
      .pipe(map(values => values.map(value => new Menu(value))));
   }
 

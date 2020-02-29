@@ -12,13 +12,11 @@ import { AlertService } from "src/app/core/services/alert.service";
   styleUrls: ["./shopping-lists.component.css"]
 })
 export class ShoppingListsComponent implements OnInit {
-  shoppingListProposals: Array<Array<ShoppingListProposalElement>>;
   shoppingLists: Array<ShoppingList>;
-
   addIngredient: String;
+  archival: boolean;
 
   private getShoppingListsSubscription: Subscription;
-  private getShoppingListProposalsSubscription: Subscription;
   private saveShoppingListSubscription: Subscription;
   private deleteShoppingListSubscription: Subscription;
   private updateShoppingListSubscription: Subscription;
@@ -30,10 +28,10 @@ export class ShoppingListsComponent implements OnInit {
     private readonly alertService: AlertService
   ) {
     this.waitingForNewShoppingList = false;
+    this.archival = false
   }
 
   ngOnInit() {
-    this.getShoppingListsProposals();
     this.getshoppingLists();
   }
 
@@ -93,7 +91,7 @@ export class ShoppingListsComponent implements OnInit {
   getshoppingLists(): void {
     this.waitingForNewShoppingList = true;
     this.getShoppingListsSubscription = this.shoppingListsService
-      .getShoppingListsFromHttp()
+      .getShoppingListsFromHttp(this.archival)
       .subscribe(
         shoppingLists => {
           if (!shoppingLists) {
@@ -136,30 +134,6 @@ export class ShoppingListsComponent implements OnInit {
             "Delete shopping list"
           );
           this.waitingForNewShoppingList = false;
-        }
-      );
-  }
-
-  getShoppingListsProposals(): void {
-    this.getShoppingListProposalsSubscription = this.shoppingListsService
-      .getAllShoppingListsProposals()
-      .subscribe(
-        shoppingListProposals => {
-          if (!shoppingListProposals) {
-            this.alertService.warn("User don't have any shopping list!", {
-              autoClose: true
-            });
-            this.shoppingListProposals = new Array();
-          } else {
-            this.shoppingListProposals = shoppingListProposals;
-          }
-        },
-        error => {
-          this.alertService.createErrorMessageForHttpResponseWithTitle(
-            error,
-            "Get shopping list proposals"
-          );
-          this.shoppingListProposals = new Array();
         }
       );
   }
@@ -325,8 +299,6 @@ export class ShoppingListsComponent implements OnInit {
     shoppingList: ShoppingList,
     e: any
   ): void {
-    console.log(shoppingList);
-    console.log(e);
     let newShoppingList = new ShoppingList(shoppingList);
     newShoppingList.archival = e.target.checked;
     this.updateShoppingList(newShoppingList);
@@ -335,9 +307,6 @@ export class ShoppingListsComponent implements OnInit {
   ngOnDestroy(): void {
     if (this.getShoppingListsSubscription) {
       this.getShoppingListsSubscription.unsubscribe();
-    }
-    if (this.getShoppingListProposalsSubscription) {
-      this.getShoppingListProposalsSubscription.unsubscribe();
     }
     if (this.saveShoppingListSubscription) {
       this.saveShoppingListSubscription.unsubscribe();

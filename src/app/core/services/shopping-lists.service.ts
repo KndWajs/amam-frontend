@@ -45,8 +45,8 @@ export class ShoppingListsService {
      .pipe(map(value => new ShoppingList(value)));
   }
 
-  getShoppingListsFromHttp(): Observable<Array<ShoppingList>> {
-    return this.httpClientService.getHttpClient().get<Array<ShoppingList>>(this.httpClientService.endpoint + 'shopping-list/', this.httpClientService.httpOptions)
+  getShoppingListsFromHttp(archival: boolean): Observable<Array<ShoppingList>> {
+    return this.httpClientService.getHttpClient().get<Array<ShoppingList>>(this.httpClientService.endpoint + `shopping-list?archival=${archival}`, this.httpClientService.httpOptions)
      .pipe(map(values => values.map(value => new ShoppingList(value))));
   }
 
