@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 import { ShoppingListsService } from "src/app/core/services/shopping-lists.service";
 import { ShoppingListProposalElement } from "src/app/shared/models/shopping-list-proposal-element";
@@ -11,9 +11,9 @@ import { AlertService } from "src/app/core/services/alert.service";
   templateUrl: "./shopping-lists.component.html",
   styleUrls: ["./shopping-lists.component.css"]
 })
-export class ShoppingListsComponent implements OnInit {
+export class ShoppingListsComponent implements OnInit, OnDestroy {
   shoppingLists: Array<ShoppingList>;
-  addIngredient: String;
+  addIngredient: string;
   archival: boolean;
 
   private getShoppingListsSubscription: Subscription;
@@ -28,36 +28,21 @@ export class ShoppingListsComponent implements OnInit {
     private readonly alertService: AlertService
   ) {
     this.waitingForNewShoppingList = false;
-    this.archival = false
+    this.archival = false;
   }
 
   ngOnInit() {
     this.getshoppingLists();
   }
 
-  createShoppingList(
-    shoppingListProposalElement: Array<ShoppingListProposalElement>
-  ): void {
-    this.waitingForNewShoppingList = true;
-    let newShoppingList: ShoppingList;
-    newShoppingList = new ShoppingList({
-      id: null,
-      name: shoppingListProposalElement[0].menu.name,
-      numberOfPeople: shoppingListProposalElement[0].menu.numberOfPeople,
-      shoppingElements: this.createShoppingElementListFromProposal(
-        shoppingListProposalElement
-      )
-    });
-    this.saveShoppingList(newShoppingList);
-  }
 
   saveShoppingList(shoppingList: ShoppingList): void {
     this.saveShoppingListSubscription = this.shoppingListsService
       .addShoppingList(shoppingList)
       .subscribe(
-        shoppingList => {
+        shoppingL => {
           this.getshoppingLists();
-          this.alertService.success(`shopping list ${shoppingList.name} was added`, {
+          this.alertService.success(`shopping list ${shoppingL.name} was added`, {
             autoClose: true
           });
         },
@@ -69,23 +54,6 @@ export class ShoppingListsComponent implements OnInit {
           this.waitingForNewShoppingList = false;
         }
       );
-  }
-
-  createShoppingElementListFromProposal(
-    shoppingListProposalElements: Array<ShoppingListProposalElement>
-  ): Array<ShoppingElement> {
-    let newShoppingElementList: Array<ShoppingElement> = new Array();
-    shoppingListProposalElements.forEach(element => {
-      let newShoppingElement: ShoppingElement = new ShoppingElement({
-        id: null,
-        ingredient: element.ingredient,
-        amount: element.amount,
-        alreadyBought: false
-      });
-      newShoppingElementList.push(newShoppingElement as ShoppingElement);
-    });
-
-    return newShoppingElementList;
   }
 
   getshoppingLists(): void {
@@ -122,9 +90,9 @@ export class ShoppingListsComponent implements OnInit {
     this.deleteShoppingListSubscription = this.shoppingListsService
       .deleteShoppingList(shoppingList.id)
       .subscribe(
-        shoppingList => {
-          this.getshoppingLists();          
-          this.alertService.warn(`shopping list ${shoppingList.name} was deleted`, {
+        shoppingL => {
+          this.getshoppingLists();
+          this.alertService.warn(`shopping list ${shoppingL.name} was deleted`, {
             autoClose: true
           });
         },
@@ -151,25 +119,17 @@ export class ShoppingListsComponent implements OnInit {
   }
 
   onRowRemoving(shoppingList: ShoppingList, e: any): void {
-    let newShoppingList = new ShoppingList(shoppingList);
-    const indexRowToRemove = newShoppingList.shoppingElements
-      .map(function(e) {
-        return e.id;
-      })
-      .indexOf(e.data.id);
+    const newShoppingList = new ShoppingList(shoppingList);
+    const indexRowToRemove = newShoppingList.shoppingElements.map(element => element.id).indexOf(e.data.id);
     newShoppingList.shoppingElements.splice(indexRowToRemove, 1);
 
     this.updateShoppingList(newShoppingList);
   }
 
   onRowUpdating(shoppingList: ShoppingList, e: any): void {
-    let newShoppingList = new ShoppingList(shoppingList);
-    const indexRowToUpdate = newShoppingList.shoppingElements
-      .map(function(e) {
-        return e.id;
-      })
-      .indexOf(e.oldData.id);
-    let newShoppingElement = new ShoppingElement(e.oldData);
+    const newShoppingList = new ShoppingList(shoppingList);
+    const indexRowToUpdate = newShoppingList.shoppingElements.map(element => element.id).indexOf(e.oldData.id);
+    const newShoppingElement = new ShoppingElement(e.oldData);
     if (e.newData.amount != null) {
       newShoppingElement.amount = e.newData.amount;
     } else if (e.newData.alreadyBought != null) {
@@ -184,8 +144,8 @@ export class ShoppingListsComponent implements OnInit {
     this.updateShoppingListSubscription = this.shoppingListsService
       .updateShoppingList(shoppingList)
       .subscribe(
-        shoppingList => {
-          this.alertService.success(`shopping list ${shoppingList.name} was updated`, {
+        shoppingL => {
+          this.alertService.success(`shopping list ${shoppingL.name} was updated`, {
             autoClose: true
           });
         },
@@ -205,13 +165,9 @@ export class ShoppingListsComponent implements OnInit {
   ): void {
     const alreadyExistingIngredientIndex = this.shoppingLists[
       shoppingListIndex
-    ].shoppingElements
-      .map(function(e) {
-        return e.ingredient.id;
-      })
-      .indexOf(shoppingElement.ingredient.id);
+    ].shoppingElements.map(element => element.ingredient.id).indexOf(shoppingElement.ingredient.id);
     if (alreadyExistingIngredientIndex >= 0) {
-      let oldShoppingElement = this.shoppingLists[shoppingListIndex]
+      const oldShoppingElement = this.shoppingLists[shoppingListIndex]
         .shoppingElements[alreadyExistingIngredientIndex];
       oldShoppingElement.amount =
         oldShoppingElement.amount + shoppingElement.amount;
@@ -276,14 +232,11 @@ export class ShoppingListsComponent implements OnInit {
       shoppingElementList,
       newShoppingElementList
     );
-    const alreadyExistingIngredientIndex = shoppingElementList
-      .map(function(e) {
-        return e.ingredient.id;
-      })
+    const alreadyExistingIngredientIndex = shoppingElementList.map(element => element.ingredient.id)
       .indexOf(shoppingElement.ingredient.id);
 
     if (alreadyExistingIngredientIndex >= 0) {
-      let oldShoppingElement =
+      const oldShoppingElement =
         shoppingElementList[alreadyExistingIngredientIndex];
       oldShoppingElement.amount =
         oldShoppingElement.amount + shoppingElement.amount;
@@ -299,7 +252,7 @@ export class ShoppingListsComponent implements OnInit {
     shoppingList: ShoppingList,
     e: any
   ): void {
-    let newShoppingList = new ShoppingList(shoppingList);
+    const newShoppingList = new ShoppingList(shoppingList);
     newShoppingList.archival = e.target.checked;
     this.updateShoppingList(newShoppingList);
   }
