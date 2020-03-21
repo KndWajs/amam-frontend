@@ -29,9 +29,9 @@ export class HttpClientService {
 
   updateHeaders() {
     this.httpOptions.headers = new HttpHeaders();
-    this.httpOptions.headers = this.httpOptions.headers.append('Content-Type', 'application/json');
-    this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', '*');
-    this.httpOptions.headers = this.httpOptions.headers.append("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+    // this.httpOptions.headers = this.httpOptions.headers.append('Content-Type', 'application/json');
+    // this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', '*');
+    // this.httpOptions.headers = this.httpOptions.headers.append("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
     // this.httpOptions.headers = this.httpOptions.headers.append('Authorization', 'Bearer '.concat(this.globalSrv.token));
   }
 
