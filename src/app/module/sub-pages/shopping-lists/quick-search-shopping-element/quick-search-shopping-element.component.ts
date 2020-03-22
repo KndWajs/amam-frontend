@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { ShoppingElement } from 'src/app/shared/models/shopping-element';
 import { Ingredient } from 'src/app/shared/models/ingredient';
 import { switchMap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { Subject, Observable } from 'rxjs';
   templateUrl: './quick-search-shopping-element.component.html',
   styleUrls: ['./quick-search-shopping-element.component.css']
 })
-export class QuickSearchShoppingElementComponent implements OnInit {
+export class QuickSearchShoppingElementComponent implements OnInit, OnDestroy {
   ingredient: Ingredient;
   addIngredientMessage: string;
 
@@ -46,7 +46,7 @@ export class QuickSearchShoppingElementComponent implements OnInit {
 
   emitShoppingElement(): void {
     this.search('');
-    this.searchBoxText = "";    
+    this.searchBoxText = '';
     this.emitableShoppingElement.emit(new ShoppingElement({ingredient: this.ingredient, amount: this.amount, alreadyBought: false}));
   }
 

@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { HttpClientService } from "../http/http-client.service";
-import { Menu } from "../../shared/models/menu";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { MenuParameters } from "../../shared/models/menu-parameters";
+import { Injectable } from '@angular/core';
+import { HttpClientService } from '../http/http-client.service';
+import { Menu } from '../../shared/models/menu';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { MenuParameters } from '../../shared/models/menu-parameters';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class MenusService {
 
@@ -18,7 +18,7 @@ export class MenusService {
       return new Observable();
     }
     return this.httpClientService.getHttpClient()
-    .post<Menu>(this.httpClientService.endpoint + "menu/", menu, this.httpClientService.httpOptions)
+    .post<Menu>(this.httpClientService.endpoint + 'menu/', menu, this.httpClientService.httpOptions)
      .pipe(map(value => new Menu(value)));
   }
 
@@ -27,7 +27,7 @@ export class MenusService {
       return new Observable();
     }
     return this.httpClientService.getHttpClient()
-    .put<Menu>(this.httpClientService.endpoint + "menu/", menu, this.httpClientService.httpOptions)
+    .put<Menu>(this.httpClientService.endpoint + 'menu/', menu, this.httpClientService.httpOptions)
      .pipe(map(value => new Menu(value)));
   }
 
@@ -48,7 +48,7 @@ export class MenusService {
 
   createMenu(menuParameters: MenuParameters): Observable<Menu> {
     return this.httpClientService.getHttpClient()
-    .post<Menu>(this.httpClientService.endpoint + "menu/parameters", menuParameters, this.httpClientService.httpOptions)
+    .post<Menu>(this.httpClientService.endpoint + 'menu/parameters', menuParameters, this.httpClientService.httpOptions)
      .pipe(map(value => new Menu(value)));
   }
 }

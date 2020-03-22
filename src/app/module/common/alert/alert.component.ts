@@ -1,13 +1,14 @@
-﻿import { Component, OnInit, OnDestroy, Input } from "@angular/core";
-import { Router, NavigationStart } from "@angular/router";
-import { Subscription } from "rxjs";
+﻿import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { Alert, AlertType } from "../../../shared/models/alert.model";
-import { AlertService } from "../../../core/services/alert.service";
+import { Alert, AlertType } from '../../../shared/models/alert.model';
+import { AlertService } from '../../../core/services/alert.service';
 
-@Component({ selector: "alert", templateUrl: "alert.component.html" })
+// tslint:disable-next-line: component-selector
+@Component({ selector: 'alert', templateUrl: 'alert.component.html' })
 export class AlertComponent implements OnInit, OnDestroy {
-  @Input() id = "default-alert";
+  @Input() id = 'default-alert';
   @Input() fade = true;
 
   alerts: Alert[] = [];
@@ -69,28 +70,28 @@ export class AlertComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAlertText(alertType: AlertType): string{
+  getAlertText(alertType: AlertType): string {
     return AlertType[alertType];
   }
 
   cssClass(alert: Alert) {
-    if (!alert) return;
+    if (!alert) { return; }
 
-    const classes = ["alert", "alert-dismissable"];
+    const classes = ['alert', 'alert-dismissable'];
 
     const alertTypeClass = {
-      [AlertType.Success]: "alert alert-success",
-      [AlertType.Error]: "alert alert-danger",
-      [AlertType.Info]: "alert alert-info",
-      [AlertType.Warning]: "alert alert-warning"
+      [AlertType.Success]: 'alert alert-success',
+      [AlertType.Error]: 'alert alert-danger',
+      [AlertType.Info]: 'alert alert-info',
+      [AlertType.Warning]: 'alert alert-warning'
     };
 
     classes.push(alertTypeClass[alert.type]);
 
     if (alert.fade) {
-      classes.push("fade");
+      classes.push('fade');
     }
 
-    return classes.join(" ");
+    return classes.join(' ');
   }
 }

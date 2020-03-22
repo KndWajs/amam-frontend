@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
-import { ShoppingListsService } from "src/app/core/services/shopping-lists.service";
-import { ShoppingListProposalElement } from "src/app/shared/models/shopping-list-proposal-element";
-import { ShoppingList } from "src/app/shared/models/shopping-list";
-import { ShoppingElement } from "src/app/shared/models/shopping-element";
-import { AlertService } from "src/app/core/services/alert.service";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ShoppingListsService } from 'src/app/core/services/shopping-lists.service';
+import { ShoppingList } from 'src/app/shared/models/shopping-list';
+import { ShoppingElement } from 'src/app/shared/models/shopping-element';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
-  selector: "app-shopping-lists",
-  templateUrl: "./shopping-lists.component.html",
-  styleUrls: ["./shopping-lists.component.css"]
+  selector: 'app-shopping-lists',
+  templateUrl: './shopping-lists.component.html',
+  styleUrls: ['./shopping-lists.component.css']
 })
 export class ShoppingListsComponent implements OnInit, OnDestroy {
   shoppingLists: Array<ShoppingList>;
@@ -49,7 +48,7 @@ export class ShoppingListsComponent implements OnInit, OnDestroy {
         error => {
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Save shopping lists"
+            'Save shopping lists'
           );
           this.waitingForNewShoppingList = false;
         }
@@ -63,7 +62,7 @@ export class ShoppingListsComponent implements OnInit, OnDestroy {
       .subscribe(
         shoppingLists => {
           if (!shoppingLists) {
-            this.alertService.warn("User don't have any shopping list!", {
+            this.alertService.warn('User don\'t have any shopping list!', {
               autoClose: true
             });
             this.shoppingLists = new Array();
@@ -75,7 +74,7 @@ export class ShoppingListsComponent implements OnInit, OnDestroy {
         error => {
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Get shopping lists"
+            'Get shopping lists'
           );
           this.waitingForNewShoppingList = false;
           this.shoppingLists = new Array();
@@ -99,7 +98,7 @@ export class ShoppingListsComponent implements OnInit, OnDestroy {
         error => {
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Delete shopping list"
+            'Delete shopping list'
           );
           this.waitingForNewShoppingList = false;
         }
@@ -107,12 +106,12 @@ export class ShoppingListsComponent implements OnInit, OnDestroy {
   }
 
   onEditorPreparing(e) {
-    if (e.parentType === "dataRow" && e.dataField === "ingredient.name") {
+    if (e.parentType === 'dataRow' && e.dataField === 'ingredient.name') {
       e.editorOptions.disabled = true;
     }
     if (
-      e.parentType === "dataRow" &&
-      e.dataField === "ingredient.ingredientUnit"
+      e.parentType === 'dataRow' &&
+      e.dataField === 'ingredient.ingredientUnit'
     ) {
       e.editorOptions.disabled = true;
     }
@@ -152,7 +151,7 @@ export class ShoppingListsComponent implements OnInit, OnDestroy {
         error => {
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Update shopping list"
+            'Update shopping list'
           );
           this.getshoppingLists();
         }
@@ -187,7 +186,7 @@ export class ShoppingListsComponent implements OnInit, OnDestroy {
     let newShoppingList: ShoppingList;
     newShoppingList = new ShoppingList({
       id: null,
-      name: shoppingList.name + " & " + secondShoppingList.name,
+      name: shoppingList.name + ' & ' + secondShoppingList.name,
       numberOfPeople:
         shoppingList.numberOfPeople + secondShoppingList.numberOfPeople,
       shoppingElements: this.combineShoppingElements(

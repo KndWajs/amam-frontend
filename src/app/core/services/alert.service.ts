@@ -32,18 +32,18 @@ export class AlertService {
     }
 
     createErrorMessageForHttpResponseWithTitle(error: any, title: string) {
-        if(error.status == 0){
-            this.error(title + " - http response error", {
+        if (error.status === 0) {
+            this.error(title + ' - http response error', {
                 autoClose: true
-              })          
+              });
           } else {
             this.error(error.error.message, {
                 autoClose: true
-              })
+              });
           }
     }
 
-    // main alert method    
+    // main alert method
     private alert(alert: Alert) {
         alert.id = alert.id || this.defaultId;
         this.subject.next(alert);

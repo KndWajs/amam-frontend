@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, OnDestroy } from "@angular/core";
-import { Menu } from "src/app/shared/models/menu";
-import { MenusService } from "src/app/core/services/menus.service";
-import { Subscription } from "rxjs";
-import { AlertService } from "src/app/core/services/alert.service";
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Menu } from 'src/app/shared/models/menu';
+import { MenusService } from 'src/app/core/services/menus.service';
+import { Subscription } from 'rxjs';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
-  selector: "app-menu-view",
-  templateUrl: "./menus.component.html",
-  styleUrls: ["./menus.component.css"]
+  selector: 'app-menu-view',
+  templateUrl: './menus.component.html',
+  styleUrls: ['./menus.component.css']
 })
 export class MenusComponent implements OnInit, OnDestroy {
   @Input() menus: Array<Menu>;
@@ -31,7 +31,7 @@ export class MenusComponent implements OnInit, OnDestroy {
     this.getMenuSubscription = this.menusService.getMenusFromHttp(this.archival).subscribe(
       menus => {
         if (!menus) {
-          this.alertService.warn("User don't have any menus!", {
+          this.alertService.warn('User don\'t have any menus!', {
             autoClose: true
           });
           this.menus = new Array();
@@ -40,7 +40,7 @@ export class MenusComponent implements OnInit, OnDestroy {
         }
       },
       error => {
-        this.alertService.createErrorMessageForHttpResponseWithTitle(error, "Getting menus");
+        this.alertService.createErrorMessageForHttpResponseWithTitle(error, 'Getting menus');
         this.menus = new Array();
       }
     );

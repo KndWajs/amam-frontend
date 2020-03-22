@@ -68,7 +68,6 @@ import { AlertComponent } from './common/alert/alert.component';
     ReactiveFormsModule,
     FormsModule,
     AmplifyAngularModule
-    
   ],
   providers: [Globals,
     {

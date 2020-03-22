@@ -1,16 +1,16 @@
-import { NgModule, Component, enableProdMode, Input } from "@angular/core";
-import { MealsService } from "../../../core/services/meals.service";
-import { Meal } from "src/app/shared/models/meal";
-import { Observable, Subscription } from "rxjs";
-import { Router } from "@angular/router";
-import { AlertService } from "src/app/core/services/alert.service";
+import {  Component, OnDestroy } from '@angular/core';
+import { MealsService } from '../../../core/services/meals.service';
+import { Meal } from 'src/app/shared/models/meal';
+import {  Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
-  selector: "app-meals",
-  templateUrl: "./meals.component.html",
-  styleUrls: ["./meals.component.css"]
+  selector: 'app-meals',
+  templateUrl: './meals.component.html',
+  styleUrls: ['./meals.component.css']
 })
-export class MealsComponent {
+export class MealsComponent implements OnDestroy {
   dataSource: Array<Meal>;
   events: Array<string> = [];
 
@@ -29,7 +29,7 @@ export class MealsComponent {
     this.allMealsSubscription = this.mealsService.getMealsFromHttp().subscribe(
       meals => {
         if (!meals) {
-          this.alertService.warn("User don't have any meals!", {
+          this.alertService.warn('User don\'t have any meals!', {
             autoClose: true
           });
           this.dataSource = new Array();
@@ -40,7 +40,7 @@ export class MealsComponent {
       error => {
         this.alertService.createErrorMessageForHttpResponseWithTitle(
           error,
-          "Get meals"
+          'Get meals'
         );
       }
     );
@@ -67,7 +67,7 @@ export class MealsComponent {
           error => {
             this.alertService.createErrorMessageForHttpResponseWithTitle(
               error,
-              "Delete meal"
+              'Delete meal'
             );
           }
         );
@@ -75,7 +75,7 @@ export class MealsComponent {
   }
 
   onRowClick(e) {
-    if (e.rowType == "data") {
+    if (e.rowType === 'data') {
       if (e.isExpanded) {
         e.component.collapseRow(e.key);
       } else {
