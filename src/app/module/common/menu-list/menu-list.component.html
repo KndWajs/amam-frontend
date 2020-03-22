@@ -31,20 +31,24 @@
   <div>
     <dx-data-grid [dataSource]="menu.meals"
       [masterDetail]="{ enabled: true, template: 'detail' }" 
-      keyExpr="meal.id" [allowColumnReordering]="false"
+      keyExpr="meal.id" 
+      [allowColumnReordering]="false"
       [showBorders]="false" 
       (onRowRemoving)="onRowRemoving(menu, $event)" 
       (onRowClick)="onRowClick($event)">
 
-      <dxo-selection mode="single"></dxo-selection>
-      <dxo-grouping expandMode="rowClick" [autoExpandAll]="autoExpandAll"> </dxo-grouping>
+
+      <dxo-grouping expandMode="rowClick" [autoExpandAll]="true"> </dxo-grouping>
       <dxo-paging [enabled]="true"></dxo-paging>
+      <dxo-selection mode="single"></dxo-selection>
       <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="true" [allowAdding]="false">
+        <dxo-texts deleteRow="X">
+        </dxo-texts>
       </dxo-editing>
 
+      <dxi-column caption="dayNumber" dataField="dayNumber" [groupIndex]="1"></dxi-column>
       <dxi-column caption="name" dataField="meal.name" [width]="185"></dxi-column>
-      <dxi-column caption="dayNumber" dataField="dayNumber" [groupIndex]="0"></dxi-column>
-      <dxi-column caption="type" dataField="meal.typeOfMeal" [width]="105"></dxi-column>
+      <dxi-column caption="type" dataField="meal.typeOfMeal" [width]="115"></dxi-column>
 
       <dxi-column type="buttons" [width]="45">
         <dxi-button name="delete"></dxi-button>

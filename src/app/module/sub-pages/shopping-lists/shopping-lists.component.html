@@ -58,14 +58,18 @@
             </div>
             <app-quick-search-shopping-element (emitableShoppingElement)="addIngredientToShoppingList($event, i)"
                 *ngIf="addIngredient == i"></app-quick-search-shopping-element>
-            <dx-data-grid id="gridContainer" [dataSource]="shoppingList.shoppingElements" keyExpr="ingredient.name"
-                [allowColumnReordering]="false" (onRowRemoving)="onRowRemoving(shoppingList, $event)"
-                (onRowUpdating)="onRowUpdating(shoppingList, $event)" (onEditorPreparing)="onEditorPreparing($event)">
+            <dx-data-grid id="gridContainer" 
+            [dataSource]="shoppingList.shoppingElements" 
+            keyExpr="ingredient.name"
+            [allowColumnReordering]="false" 
+            (onRowRemoving)="onRowRemoving(shoppingList, $event)"
+            (onRowUpdating)="onRowUpdating(shoppingList, $event)" 
+            (onEditorPreparing)="onEditorPreparing($event)">
 
                 <dxo-grouping expandMode="rowClick" [autoExpandAll]="true">
                 </dxo-grouping>
 
-                <dxo-paging [enabled]="true"></dxo-paging>
+                <dxo-paging [enabled]="false"></dxo-paging>
                 <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="false">
                     <dxo-texts deleteRow="X">
                     </dxo-texts>
