@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="display: flex; flex-direction: column;  padding-right: 0px; padding-left: 0px; background:none; ">
     <div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
-        <a class="navbar-brand" routerLink="/">AMAM</a>
+        <a class="navbar-brand" routerLink="/"><img src="../../assets/img/logo.png" width="220px"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
-    <div class="collapse navbar-collapse" id="navbarColor01" style="width:100%; border-bottom-left-radius: 20px;
+    <div class="collapse navbar-collapse" id="navbarColor01" style="width:100%; margin-top:20px; border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;" data-toggle="collapse" data-target="#navbarColor01">
         <ul class="navbar-nav mr-auto" style="display: flex; flex-direction: column; width:100%;" >
             <li class="nav-item" routerLink="/add-meal" >
@@ -28,14 +28,12 @@
                 <a class="nav-link" routerLink="/info-page">INFO PAGE</a>
             </li>
             <li *ngIf="this.globals.signedIn" class="nav-item"  routerLink="/">
-                <button type="button" class="btn btn-warning " routerLink="/"
-                    (click)="signOut(); globals.IS_GUEST = false" >
-                    sign out
-                </button>
+                <a class="nav-link text-success" routerLink="/"
+                (click)="signOut(); globals.IS_GUEST = false">SIGN OUT</a>
             </li>
             <li *ngIf="globals.IS_GUEST" class="nav-item">
                 <br>
-                <h6 class="text-danger">
+                <h6 class="text-warning">
                     Demo version - adding and editing don't work!
                 </h6>
             </li>
