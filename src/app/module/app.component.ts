@@ -32,6 +32,10 @@ export class AppComponent {
       });
   }
 
+  onLoginClick() {
+    Auth.federatedSignIn();
+  }
+
 
   logInToDemo(): void {
     this.globals.signedIn = true;

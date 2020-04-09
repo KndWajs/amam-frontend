@@ -25,6 +25,9 @@ import { PipeDataComponent } from './sub-pages/info-page/admin/pipe-data/pipe-da
 import { QuickSearchMealComponent } from './sub-pages/meals/quick-search-meal/quick-search-meal.component';
 import { QuickSearchShoppingElementComponent } from './sub-pages/shopping-lists/quick-search-shopping-element/quick-search-shopping-element.component';
 
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+
 import { AmplifyAngularModule, AmplifyService, AmplifyModules } from 'aws-amplify-angular';
 import Auth from '@aws-amplify/auth';
 import Interactions from '@aws-amplify/interactions';
@@ -55,7 +58,9 @@ import { AlertComponent } from './common/alert/alert.component';
     SpinnerComponent,
     QuickSearchShoppingElementComponent,
     MenuListComponent,
-    AlertComponent
+    AlertComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

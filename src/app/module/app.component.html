@@ -15,6 +15,11 @@
         style="width: 300px; margin-top: 20px;" routerLink="/info" (click)="logInToDemo()">
         Log in to demo
       </button>
+
+      <app-login></app-login>
+      <!-- <app-register></app-register> -->
+
+
       <div style="width: 100%">
         <router-outlet *ngIf="this.globals.signedIn"></router-outlet>
       </div>
