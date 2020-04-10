@@ -1,28 +1,34 @@
-<div class="container" style="width: 300px;">
-  <div class="row">
-    <div >
-      <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+<div class="container">
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
 
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" name="email" id="email" ngModel class="form-control" required>
-        </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" ngModel class="form-control" required>
+    </div>
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" name="password" id="password" ngModel class="form-control" required>
-        </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" ngModel class="form-control" required>
+    </div>
 
+    <div class="nav nav-pills" *ngIf="!loginAttempt" style="display: flex; justify-content: space-around">
         <button type="submit" class="btn btn-primary">Login</button>
 
-              <!-- <app-register></app-register> -->
-              
-        <button *ngIf="!this.globals.signedIn" type="button" class="btn btn-secondary"
-        style="width: 300px; margin-top: 20px;" routerLink="/info" (click)="logInToDemo()">
-        Log in to demo
-      </button>
-
-      </form>
+        <button type="submit" class="btn btn-primary" routerLink="/info" (click)="logInToDemo()">Log in to demo</button>      
     </div>
+    <div class="nav nav-pills" *ngIf="!loginAttempt" style="display: flex; justify-content: space-around; margin-top: 10px;">
+        <a class="text-success" >Register</a>
+        <a class="text-success" >Restore password</a>
+    </div>
+
+    <div class="nav nav-pills" *ngIf="loginAttempt" style="display: flex; justify-content: space-around; margin-top: 10px;">
+      <button class="btn btn-primary" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+      </button>
   </div>
+
+
+    <!-- <app-register></app-register> -->
+  </form>
 </div>

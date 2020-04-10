@@ -80,17 +80,7 @@ export class AuthorizationService {
 
         this.cognitoUser = cognitoUser;
 
-        Auth.signIn(email, password)
-            .then(user => {
-                console.log(
-                this.getAuthenticatedUser().getUsername())
-
-            })
-            .catch(error =>
-                this.alertService.error(error.message, {
-                    autoClose: true
-                  })
-            );
+        return Auth.signIn(email, password);
     }
 
     isLoggedIn() {
