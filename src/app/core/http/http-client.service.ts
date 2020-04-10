@@ -37,6 +37,8 @@ export class HttpClientService {
     // this.httpOptions.headers = this.httpOptions.headers.append('Authorization', 'Bearer '.concat(this.globalSrv.token));
   }
 
+
+  //TODO set token as httpOnly cookie!
   addToken(){
     var authenticatedUser = this.auth.getAuthenticatedUser();
     if (authenticatedUser == null) {
@@ -47,6 +49,7 @@ export class HttpClientService {
         console.log(err);
         return;
       }
+      console.log(session);
       const token = session.getIdToken().getJwtToken(); 
       console.log(token);
       this.httpOptions.headers.append('Authorization', token);

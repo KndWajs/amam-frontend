@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {AuthenticationDetails, CognitoUser, CognitoUserPool} from 'amazon-cognito-identity-js';
 import { Observable } from 'rxjs/Observable';
+import { AmplifyService } from 'aws-amplify-angular';
+
+import { Auth } from 'aws-amplify';
 
 const poolData = {
   UserPoolId: 'eu-central-1_ZnNlhQRCx', // Your user pool id here
@@ -15,7 +18,7 @@ const userPool = new CognitoUserPool(poolData);
 export class AuthorizationService {
   cognitoUser: any;
 
-  constructor() { }
+  constructor(private amplifyService: AmplifyService) { }
 
   register(email, password) {
 
@@ -71,21 +74,13 @@ export class AuthorizationService {
     const cognitoUser = new CognitoUser(userData);
     
     this.cognitoUser = cognitoUser;
-    return Observable.create(observer => {
 
-      cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: function (result) {
-          
-          //console.log(result);
-          observer.next(result);
-          observer.complete();
-        },
-        onFailure: function(err) {
-          console.log(err);
-          observer.error(err);
-        },
-      });
-    });
+
+  Auth.signIn(email, password)
+  .then(user => { 
+    console.log(user);
+  })
+  .catch(err => console.log(err));
   }
 
   isLoggedIn() {    

@@ -3,6 +3,8 @@ import {AuthorizationService} from "src/app/core/services/authorization.service"
 import {NgForm} from "@angular/forms";
 import { Router } from '@angular/router';
 
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,18 +17,18 @@ export class LoginComponent {
     private readonly auth: AuthorizationService,
     private readonly _router: Router
   ) {}
+  
 
   onSubmit(form: NgForm) {
 
     const email = form.value.email;
     const password = form.value.password;
     
-    this.auth.signIn(email, password).subscribe((data) => {
-      this._router.navigateByUrl('/add-meal');
-    }, (err)=> {
-      this.emailVerificationMessage = true;
-    });   
+    this.auth.signIn(email, password)
   }
+
+
+
 
   
   logOut(): void {

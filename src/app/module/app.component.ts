@@ -21,6 +21,11 @@ export class AppComponent {
   constructor(service: Service, private amplifyService: AmplifyService, public globals: Globals) {
     this.amplifyService.authStateChange$
       .subscribe(authState => {
+        
+        console.log(authState);
+        console.log(authState.user.signInUserSession.getIdToken().getJwtToken());
+
+
         this.globals.signedIn = authState.state === 'signedIn';
         this.authState = authState;
         if (!authState.user) {
