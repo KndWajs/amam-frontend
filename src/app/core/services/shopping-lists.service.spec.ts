@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ShoppingListsService } from '../../services/shopping-lists.service';
+import { ShoppingListsService } from '../services/shopping-lists.service';
 
 describe('ShoppingListsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Meal } from 'src/app/shared/models/meal';
 import { Observable, Subject } from 'rxjs';
 import { MealsService } from 'src/app/core/services/meals.service';
@@ -10,7 +10,7 @@ import { MenuMeal } from 'src/app/shared/models/menu-meals';
   templateUrl: './quick-search-meal.component.html',
   styleUrls: ['./quick-search-meal.component.css']
 })
-export class QuickSearchMealComponent implements OnInit {
+export class QuickSearchMealComponent implements OnInit, OnDestroy {
   meal: Meal;
   addMealMessage: string;
 
@@ -46,7 +46,7 @@ export class QuickSearchMealComponent implements OnInit {
 
   emitMenuMeal(): void {
     this.search('');
-    this.searchBoxText = "";    
+    this.searchBoxText = '';
     this.emitableMenuMeal.emit(new MenuMeal({meal: this.meal, dayNumber: this.dayNumber}));
   }
 

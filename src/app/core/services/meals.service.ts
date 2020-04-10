@@ -19,7 +19,8 @@ export class MealsService {
     if (this.httpClientService.isGuestLogIn) {
       return new Observable();
     }
-    return this.httpClientService.getHttpClient().post<Meal>(this.httpClientService.endpoint + 'meal/', meal, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient().post<Meal>
+    (this.httpClientService.endpoint + 'meal/', meal, this.httpClientService.httpOptions)
      .pipe(map(value => new Meal(value)));
   }
 
@@ -29,12 +30,14 @@ export class MealsService {
   }
 
   getMealsFromHttp(): Observable<Array<Meal>> {
-    return this.httpClientService.getHttpClient().get<Array<Meal>>(this.httpClientService.endpoint + 'meals/', this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient().get<Array<Meal>>
+    (this.httpClientService.endpoint + 'meals/', this.httpClientService.httpOptions)
      .pipe(map(values => values.map(value => new Meal(value))));
   }
 
   getMealFromHttp(id: number): Observable<Meal> {
-    return this.httpClientService.getHttpClient().get<Meal>(this.httpClientService.endpoint + `meal?id=${id}`, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient().get<Meal>
+    (this.httpClientService.endpoint + `meal?id=${id}`, this.httpClientService.httpOptions)
      .pipe(map(value => new Meal(value)));
   }
 
@@ -42,7 +45,8 @@ export class MealsService {
     if (this.httpClientService.isGuestLogIn) {
       return new Observable();
     }
-    return this.httpClientService.getHttpClient().delete<Meal>(`${this.httpClientService.endpoint}meal/${id}`, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient().delete<Meal>
+    (`${this.httpClientService.endpoint}meal/${id}`, this.httpClientService.httpOptions)
      .pipe(map(value => new Meal(value)));
   }
 
@@ -51,8 +55,8 @@ export class MealsService {
       return of([]);
     }
 
-    return this.httpClientService.getHttpClient()
-    .get<Array<Meal>>(this.httpClientService.endpoint + 'meals/' + name + '/' + numberOfResults, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient().get<Array<Meal>>
+    (this.httpClientService.endpoint + 'meals/' + name + '/' + numberOfResults, this.httpClientService.httpOptions)
     .pipe(map(values => values.map(value => new Meal(value))));
   }
 }

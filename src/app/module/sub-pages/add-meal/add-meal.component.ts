@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Meal } from 'src/app/shared/models/meal';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MealType } from 'src/app/shared/enums/meal-type';
 import { PreparingType } from 'src/app/shared/enums/preparing-type';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Ingredient } from 'src/app/shared/models/ingredient';
 import { IngredientUnit } from 'src/app/shared/enums/ingredient-unit';
 import { MealsService } from 'src/app/core/services/meals.service';
@@ -15,18 +15,19 @@ import { MealIngredient } from 'src/app/shared/models/meal-ingredient';
   templateUrl: './add-meal.component.html',
   styleUrls: ['./add-meal.component.css']
 })
-export class AddMealComponent implements OnInit {
+export class AddMealComponent implements OnInit, OnDestroy {
   private addMealSubscription: Subscription;
   private getMealSubscription: Subscription;
-  readonly mealTypes: Array<Object>;
-  readonly preparingTypes: Array<Object>;
+  readonly mealTypes: Array<object>;
+  readonly preparingTypes: Array<object>;
   newMealForm: FormGroup;
   meal: Meal;
-  mealId: Number;
+  mealId: number;
   ingredients: FormArray;
   numberOfPeoplee: number;
 
-  constructor(private readonly formBuilder: FormBuilder, private readonly mealsService: MealsService, private readonly router: Router, private route: ActivatedRoute) {
+  constructor(private readonly formBuilder: FormBuilder, private readonly mealsService: MealsService,
+              private readonly router: Router, private route: ActivatedRoute) {
     this.mealTypes = this.buildMealTypesArray();
     this.preparingTypes = this.buildPreparingTypesArray();
     this.numberOfPeoplee = 1;
@@ -42,24 +43,24 @@ export class AddMealComponent implements OnInit {
       ingredients: this.formBuilder.array([])
     });
 
-    this.mealId = new Number(this.route.snapshot.paramMap.get("id"));
-    if(this.mealId <= 0){
+    this.mealId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+    if (this.mealId <= 0) {
       this.mealId = null;
     }
-    
+
     this.getMeal(this.mealId);
   }
 
   createMealIngredientFormGroup(ingredient: Ingredient, name: string, unit: IngredientUnit, amount: number): FormGroup {
     let amountParam;
-    if(amount == null){
-      amountParam = ['', Validators.required]
+    if (amount == null) {
+      amountParam = ['', Validators.required];
     } else {
-      amountParam = amount
+      amountParam = amount;
     }
 
     return this.formBuilder.group({
-      ingredient: ingredient,
+      ingredient,
       ingredientName: name,
       ingredientUnit: unit,
       amount: amountParam
@@ -77,27 +78,26 @@ export class AddMealComponent implements OnInit {
     this.isIngredientsListEmpty();
   }
 
-  buildMealTypesArray(): Object[] {
-    return Object.keys(MealType).map(key => ({ id: MealType[key], name: key }))
+  buildMealTypesArray(): object[] {
+    return Object.keys(MealType).map(key => ({ id: MealType[key], name: key }));
   }
 
-  buildPreparingTypesArray(): Object[] {
-    return Object.keys(PreparingType).map(key => ({ id: PreparingType[key], name: key }))
+  buildPreparingTypesArray(): object[] {
+    return Object.keys(PreparingType).map(key => ({ id: PreparingType[key], name: key }));
   }
 
   goToSearchIngredient(event: any) {
-    //TODO reformat
-    let element = event.srcElement
+    // TODO reformat
+    const element = event.srcElement
       .parentElement.parentElement.parentElement.parentElement
       .nextElementSibling.firstElementChild.firstElementChild.firstElementChild.firstElementChild.nextElementSibling;
     element.focus();
 
   }
 
-  getMeal(id: Number): void{
+  getMeal(id: number): void {
     this.getMealSubscription =
     this.mealsService.getMealFromHttp(this.mealId as number).subscribe((meal) => {
-          
     this.newMealForm.get('name').setValue(`${meal.name}`);
     this.newMealForm.get('typeOfMeal').setValue(`${meal.typeOfMeal}`);
     this.newMealForm.get('typeOfPreparing').setValue(`${meal.typeOfPreparing}`);
@@ -121,7 +121,7 @@ export class AddMealComponent implements OnInit {
     console.log(this.meal);
     this.addMealSubscription =
       this.mealsService.addMeal(this.meal).subscribe((meal) => {
-        console.log("meal added succesfully");
+        console.log('meal added succesfully');
         console.log(meal);
         this.router.navigate(['/all-meals/']);
       },
@@ -132,7 +132,7 @@ export class AddMealComponent implements OnInit {
   }
 
   calculateIngredientAmountToOnePerson(mealIngredient: MealIngredient): MealIngredient {
-    let newMealIngredient: MealIngredient = new MealIngredient(mealIngredient);
+    const newMealIngredient: MealIngredient = new MealIngredient(mealIngredient);
     newMealIngredient.amount = mealIngredient.amount / this.numberOfPeoplee;
     return newMealIngredient;
   }
@@ -151,6 +151,6 @@ export class AddMealComponent implements OnInit {
       return true;
     }
 
-    return this.ingredients.value.length == 0;
+    return this.ingredients.value.length === 0;
   }
 }

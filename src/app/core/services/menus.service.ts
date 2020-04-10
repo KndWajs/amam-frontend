@@ -17,7 +17,8 @@ export class MenusService {
     if (this.httpClientService.isGuestLogIn) {
       return new Observable();
     }
-    return this.httpClientService.getHttpClient().post<Menu>(this.httpClientService.endpoint + 'menu/', menu, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient()
+    .post<Menu>(this.httpClientService.endpoint + 'menu/', menu, this.httpClientService.httpOptions)
      .pipe(map(value => new Menu(value)));
   }
 
@@ -25,13 +26,14 @@ export class MenusService {
     if (this.httpClientService.isGuestLogIn) {
       return new Observable();
     }
-    return this.httpClientService.getHttpClient().put<Menu>(this.httpClientService.endpoint + 'menu/', menu, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient()
+    .put<Menu>(this.httpClientService.endpoint + 'menu/', menu, this.httpClientService.httpOptions)
      .pipe(map(value => new Menu(value)));
   }
-  
 
-  getMenusFromHttp(): Observable<Array<Menu>> {
-    return this.httpClientService.getHttpClient().get<Array<Menu>>(this.httpClientService.endpoint + 'menus/', this.httpClientService.httpOptions)
+  getMenusFromHttp(archival: boolean): Observable<Array<Menu>> {
+    return this.httpClientService.getHttpClient()
+    .get<Array<Menu>>(this.httpClientService.endpoint + `menus?archival=${archival}`, this.httpClientService.httpOptions)
      .pipe(map(values => values.map(value => new Menu(value))));
   }
 
@@ -39,12 +41,14 @@ export class MenusService {
     if (this.httpClientService.isGuestLogIn) {
       return new Observable();
     }
-    return this.httpClientService.getHttpClient().delete<Menu>(`${this.httpClientService.endpoint}menu/${id}`, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient()
+    .delete<Menu>(`${this.httpClientService.endpoint}menu/${id}`, this.httpClientService.httpOptions)
      .pipe(map(value => new Menu(value)));
   }
 
   createMenu(menuParameters: MenuParameters): Observable<Menu> {
-    return this.httpClientService.getHttpClient().post<Menu>(this.httpClientService.endpoint + 'menu/parameters', menuParameters, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient()
+    .post<Menu>(this.httpClientService.endpoint + 'menu/parameters', menuParameters, this.httpClientService.httpOptions)
      .pipe(map(value => new Menu(value)));
   }
 }

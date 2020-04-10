@@ -1,24 +1,21 @@
-import { Component, OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
-import { ShoppingListsService } from "src/app/core/services/shopping-lists.service";
-import { ShoppingListProposalElement } from "src/app/shared/models/shopping-list-proposal-element";
-import { ShoppingList } from "src/app/shared/models/shopping-list";
-import { ShoppingElement } from "src/app/shared/models/shopping-element";
-import { AlertService } from "src/app/core/services/alert.service";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ShoppingListsService } from 'src/app/core/services/shopping-lists.service';
+import { ShoppingList } from 'src/app/shared/models/shopping-list';
+import { ShoppingElement } from 'src/app/shared/models/shopping-element';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
-  selector: "app-shopping-lists",
-  templateUrl: "./shopping-lists.component.html",
-  styleUrls: ["./shopping-lists.component.css"]
+  selector: 'app-shopping-lists',
+  templateUrl: './shopping-lists.component.html',
+  styleUrls: ['./shopping-lists.component.css']
 })
-export class ShoppingListsComponent implements OnInit {
-  shoppingListProposals: Array<Array<ShoppingListProposalElement>>;
+export class ShoppingListsComponent implements OnInit, OnDestroy {
   shoppingLists: Array<ShoppingList>;
-
-  addIngredient: String;
+  addIngredient: string;
+  archival: boolean;
 
   private getShoppingListsSubscription: Subscription;
-  private getShoppingListProposalsSubscription: Subscription;
   private saveShoppingListSubscription: Subscription;
   private deleteShoppingListSubscription: Subscription;
   private updateShoppingListSubscription: Subscription;
@@ -30,74 +27,42 @@ export class ShoppingListsComponent implements OnInit {
     private readonly alertService: AlertService
   ) {
     this.waitingForNewShoppingList = false;
+    this.archival = false;
   }
 
   ngOnInit() {
-    this.getShoppingListsProposals();
     this.getshoppingLists();
   }
 
-  createShoppingList(
-    shoppingListProposalElement: Array<ShoppingListProposalElement>
-  ): void {
-    this.waitingForNewShoppingList = true;
-    let newShoppingList: ShoppingList;
-    newShoppingList = new ShoppingList({
-      id: null,
-      name: shoppingListProposalElement[0].menu.name,
-      numberOfPeople: shoppingListProposalElement[0].menu.numberOfPeople,
-      shoppingElements: this.createShoppingElementListFromProposal(
-        shoppingListProposalElement
-      )
-    });
-    this.saveShoppingList(newShoppingList);
-  }
 
   saveShoppingList(shoppingList: ShoppingList): void {
     this.saveShoppingListSubscription = this.shoppingListsService
       .addShoppingList(shoppingList)
       .subscribe(
-        shoppingList => {
+        shoppingL => {
           this.getshoppingLists();
-          this.alertService.success(`shopping list ${shoppingList.name} was added`, {
+          this.alertService.success(`shopping list ${shoppingL.name} was added`, {
             autoClose: true
           });
         },
         error => {
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Save shopping lists"
+            'Save shopping lists'
           );
           this.waitingForNewShoppingList = false;
         }
       );
   }
 
-  createShoppingElementListFromProposal(
-    shoppingListProposalElements: Array<ShoppingListProposalElement>
-  ): Array<ShoppingElement> {
-    let newShoppingElementList: Array<ShoppingElement> = new Array();
-    shoppingListProposalElements.forEach(element => {
-      let newShoppingElement: ShoppingElement = new ShoppingElement({
-        id: null,
-        ingredient: element.ingredient,
-        amount: element.amount,
-        alreadyBought: false
-      });
-      newShoppingElementList.push(newShoppingElement as ShoppingElement);
-    });
-
-    return newShoppingElementList;
-  }
-
   getshoppingLists(): void {
     this.waitingForNewShoppingList = true;
     this.getShoppingListsSubscription = this.shoppingListsService
-      .getShoppingListsFromHttp()
+      .getShoppingListsFromHttp(this.archival)
       .subscribe(
         shoppingLists => {
           if (!shoppingLists) {
-            this.alertService.warn("User don't have any shopping list!", {
+            this.alertService.warn('User don\'t have any shopping list!', {
               autoClose: true
             });
             this.shoppingLists = new Array();
@@ -109,7 +74,7 @@ export class ShoppingListsComponent implements OnInit {
         error => {
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Get shopping lists"
+            'Get shopping lists'
           );
           this.waitingForNewShoppingList = false;
           this.shoppingLists = new Array();
@@ -124,78 +89,46 @@ export class ShoppingListsComponent implements OnInit {
     this.deleteShoppingListSubscription = this.shoppingListsService
       .deleteShoppingList(shoppingList.id)
       .subscribe(
-        shoppingList => {
-          this.getshoppingLists();          
-          this.alertService.warn(`shopping list ${shoppingList.name} was deleted`, {
+        shoppingL => {
+          this.getshoppingLists();
+          this.alertService.warn(`shopping list ${shoppingL.name} was deleted`, {
             autoClose: true
           });
         },
         error => {
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Delete shopping list"
+            'Delete shopping list'
           );
           this.waitingForNewShoppingList = false;
         }
       );
   }
 
-  getShoppingListsProposals(): void {
-    this.getShoppingListProposalsSubscription = this.shoppingListsService
-      .getAllShoppingListsProposals()
-      .subscribe(
-        shoppingListProposals => {
-          if (!shoppingListProposals) {
-            this.alertService.warn("User don't have any shopping list!", {
-              autoClose: true
-            });
-            this.shoppingListProposals = new Array();
-          } else {
-            this.shoppingListProposals = shoppingListProposals;
-          }
-        },
-        error => {
-          this.alertService.createErrorMessageForHttpResponseWithTitle(
-            error,
-            "Get shopping list proposals"
-          );
-          this.shoppingListProposals = new Array();
-        }
-      );
-  }
-
   onEditorPreparing(e) {
-    if (e.parentType === "dataRow" && e.dataField === "ingredient.name") {
+    if (e.parentType === 'dataRow' && e.dataField === 'ingredient.name') {
       e.editorOptions.disabled = true;
     }
     if (
-      e.parentType === "dataRow" &&
-      e.dataField === "ingredient.ingredientUnit"
+      e.parentType === 'dataRow' &&
+      e.dataField === 'ingredient.ingredientUnit'
     ) {
       e.editorOptions.disabled = true;
     }
   }
 
   onRowRemoving(shoppingList: ShoppingList, e: any): void {
-    let newShoppingList = new ShoppingList(shoppingList);
-    const indexRowToRemove = newShoppingList.shoppingElements
-      .map(function(e) {
-        return e.id;
-      })
-      .indexOf(e.data.id);
+    const newShoppingList = new ShoppingList(shoppingList);
+    const indexRowToRemove = newShoppingList.shoppingElements.map(element => element.id).indexOf(e.data.id);
     newShoppingList.shoppingElements.splice(indexRowToRemove, 1);
 
     this.updateShoppingList(newShoppingList);
   }
 
   onRowUpdating(shoppingList: ShoppingList, e: any): void {
-    let newShoppingList = new ShoppingList(shoppingList);
-    const indexRowToUpdate = newShoppingList.shoppingElements
-      .map(function(e) {
-        return e.id;
-      })
-      .indexOf(e.oldData.id);
-    let newShoppingElement = new ShoppingElement(e.oldData);
+    const newShoppingList = new ShoppingList(shoppingList);
+    const indexRowToUpdate = newShoppingList.shoppingElements.map(element => element.id).indexOf(e.oldData.id);
+    const newShoppingElement = new ShoppingElement(e.oldData);
     if (e.newData.amount != null) {
       newShoppingElement.amount = e.newData.amount;
     } else if (e.newData.alreadyBought != null) {
@@ -210,15 +143,15 @@ export class ShoppingListsComponent implements OnInit {
     this.updateShoppingListSubscription = this.shoppingListsService
       .updateShoppingList(shoppingList)
       .subscribe(
-        shoppingList => {
-          this.alertService.success(`shopping list ${shoppingList.name} was updated`, {
+        shoppingL => {
+          this.alertService.success(`shopping list ${shoppingL.name} was updated`, {
             autoClose: true
           });
         },
         error => {
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Update shopping list"
+            'Update shopping list'
           );
           this.getshoppingLists();
         }
@@ -231,13 +164,9 @@ export class ShoppingListsComponent implements OnInit {
   ): void {
     const alreadyExistingIngredientIndex = this.shoppingLists[
       shoppingListIndex
-    ].shoppingElements
-      .map(function(e) {
-        return e.ingredient.id;
-      })
-      .indexOf(shoppingElement.ingredient.id);
+    ].shoppingElements.map(element => element.ingredient.id).indexOf(shoppingElement.ingredient.id);
     if (alreadyExistingIngredientIndex >= 0) {
-      let oldShoppingElement = this.shoppingLists[shoppingListIndex]
+      const oldShoppingElement = this.shoppingLists[shoppingListIndex]
         .shoppingElements[alreadyExistingIngredientIndex];
       oldShoppingElement.amount =
         oldShoppingElement.amount + shoppingElement.amount;
@@ -257,7 +186,7 @@ export class ShoppingListsComponent implements OnInit {
     let newShoppingList: ShoppingList;
     newShoppingList = new ShoppingList({
       id: null,
-      name: shoppingList.name + " & " + secondShoppingList.name,
+      name: shoppingList.name + ' & ' + secondShoppingList.name,
       numberOfPeople:
         shoppingList.numberOfPeople + secondShoppingList.numberOfPeople,
       shoppingElements: this.combineShoppingElements(
@@ -302,14 +231,11 @@ export class ShoppingListsComponent implements OnInit {
       shoppingElementList,
       newShoppingElementList
     );
-    const alreadyExistingIngredientIndex = shoppingElementList
-      .map(function(e) {
-        return e.ingredient.id;
-      })
+    const alreadyExistingIngredientIndex = shoppingElementList.map(element => element.ingredient.id)
       .indexOf(shoppingElement.ingredient.id);
 
     if (alreadyExistingIngredientIndex >= 0) {
-      let oldShoppingElement =
+      const oldShoppingElement =
         shoppingElementList[alreadyExistingIngredientIndex];
       oldShoppingElement.amount =
         oldShoppingElement.amount + shoppingElement.amount;
@@ -325,9 +251,7 @@ export class ShoppingListsComponent implements OnInit {
     shoppingList: ShoppingList,
     e: any
   ): void {
-    console.log(shoppingList);
-    console.log(e);
-    let newShoppingList = new ShoppingList(shoppingList);
+    const newShoppingList = new ShoppingList(shoppingList);
     newShoppingList.archival = e.target.checked;
     this.updateShoppingList(newShoppingList);
   }
@@ -335,9 +259,6 @@ export class ShoppingListsComponent implements OnInit {
   ngOnDestroy(): void {
     if (this.getShoppingListsSubscription) {
       this.getShoppingListsSubscription.unsubscribe();
-    }
-    if (this.getShoppingListProposalsSubscription) {
-      this.getShoppingListProposalsSubscription.unsubscribe();
     }
     if (this.saveShoppingListSubscription) {
       this.saveShoppingListSubscription.unsubscribe();

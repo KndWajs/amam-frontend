@@ -1,16 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { Menu } from "src/app/shared/models/menu";
-import { MenusService } from "src/app/core/services/menus.service";
-import { Subscription } from "rxjs";
-import { MenuMeal } from "src/app/shared/models/menu-meals";
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Menu } from 'src/app/shared/models/menu';
+import { MenusService } from 'src/app/core/services/menus.service';
+import { Subscription } from 'rxjs';
+import { MenuMeal } from 'src/app/shared/models/menu-meals';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { ShoppingListsService } from 'src/app/core/services/shopping-lists.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: "app-menu-list",
-  templateUrl: "./menu-list.component.html",
-  styleUrls: ["./menu-list.component.css"]
+  selector: 'app-menu-list',
+  templateUrl: './menu-list.component.html',
+  styleUrls: ['./menu-list.component.css']
 })
 export class MenuListComponent implements OnInit {
   @Input() menu: Menu;
@@ -19,15 +19,19 @@ export class MenuListComponent implements OnInit {
   @Output() readonly deleteMenuEvent = new EventEmitter<Menu>();
   @Output() readonly updateMenuEvent = new EventEmitter<Menu>();
 
+  addMeal: boolean;
   creatingShoppingList: boolean;
 
   private deleteMenuSubscription: Subscription;
   private deleteMenuMealSubscription: Subscription;
   private createShoppingListSubscription: Subscription;
 
-  constructor(private readonly menusService: MenusService, private readonly shoppingListsService: ShoppingListsService, private readonly router: Router,
-    private readonly alertService: AlertService) {
-  }
+  constructor(
+    private readonly menusService: MenusService,
+    private readonly shoppingListsService: ShoppingListsService,
+    private readonly router: Router,
+    private readonly alertService: AlertService
+  ) {}
 
   ngOnInit() {
     if (this.autoExpandAll == null) {
@@ -39,23 +43,23 @@ export class MenuListComponent implements OnInit {
     this.deleteMenuSubscription = this.menusService
       .deleteMenu(menu.id)
       .subscribe(
-        menu => {
-          this.alertService.warn(`menu ${menu.name} was deleted`, {
+        deletedMenu => {
+          this.alertService.warn(`menu ${deletedMenu.name} was deleted`, {
             autoClose: true
           });
-          this.deleteMenuEvent.emit(menu);
+          this.deleteMenuEvent.emit(deletedMenu);
         },
         error => {
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Delete menu"
+            'Delete menu'
           );
         }
       );
   }
 
   addMealToMenu(menuMeal: MenuMeal, menu: Menu): void {
-    let newMenu = new Menu(menu);
+    const newMenu = new Menu(menu);
     newMenu.meals.push(menuMeal);
     this.menu = newMenu;
 
@@ -63,11 +67,11 @@ export class MenuListComponent implements OnInit {
   }
 
   onRowRemoving(menu: any, e: any): void {
-    let newMenu = new Menu(menu);
+    const newMenu = new Menu(menu);
     const indexMealToDelete = newMenu.meals.findIndex(
       menuMeal =>
-        menuMeal.dayNumber == e.data.dayNumber &&
-        menuMeal.meal.id == e.data.meal.id
+        menuMeal.dayNumber === e.data.dayNumber &&
+        menuMeal.meal.id === e.data.meal.id
     );
     newMenu.meals.splice(indexMealToDelete, 1);
 
@@ -87,7 +91,7 @@ export class MenuListComponent implements OnInit {
           this.creatingShoppingList = false;
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Create Shopping list"
+            'Create Shopping list'
           );
         }
       );
@@ -107,7 +111,7 @@ export class MenuListComponent implements OnInit {
           error => {
             this.alertService.createErrorMessageForHttpResponseWithTitle(
               error,
-              "Update menu"
+              'Update menu'
             );
           }
         );
@@ -117,7 +121,7 @@ export class MenuListComponent implements OnInit {
   }
 
   onRowClick(e) {
-    if (e.rowType == "data") {
+    if (e.rowType === 'data') {
       if (e.isExpanded) {
         e.component.collapseRow(e.key);
       } else {
@@ -127,11 +131,8 @@ export class MenuListComponent implements OnInit {
     }
   }
 
-  changeArchivalFlag(
-    menu: Menu,
-    e: any
-  ): void {
-    let newMenu = new Menu(menu);
+  changeArchivalFlag(menu: Menu, e: any): void {
+    const newMenu = new Menu(menu);
     newMenu.archival = e.target.checked;
     this.updateMenu(newMenu);
   }

@@ -1,11 +1,9 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MenuParameters } from 'src/app/shared/models/menu-parameters';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { MealType } from 'src/app/shared/enums/meal-type';
 import { MenusService } from 'src/app/core/services/menus.service';
-import { Meal } from 'src/app/shared/models/meal';
-import { MenuMeal } from 'src/app/shared/models/menu-meals';
 import { Menu } from 'src/app/shared/models/menu';
 import { AlertService } from 'src/app/core/services/alert.service';
 
@@ -14,7 +12,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
   templateUrl: './create-menu-parameters.component.html',
   styleUrls: ['./create-menu-parameters.component.css']
 })
-export class CreateMenuParametersComponent implements OnInit {
+export class CreateMenuParametersComponent implements OnInit, OnDestroy {
   private addMenuParametersSubscription: Subscription;
   newMenuParametersForm: FormGroup;
   menuParameters: MenuParameters;
@@ -31,8 +29,8 @@ export class CreateMenuParametersComponent implements OnInit {
     { id: 6, name: 'SUPPER' }
   ];
 
-  constructor(private readonly formBuilder: FormBuilder, private readonly menuService: MenusService, 
-    private readonly alertService: AlertService)  {
+  constructor(private readonly formBuilder: FormBuilder, private readonly menuService: MenusService,
+              private readonly alertService: AlertService)  {
     this.waitingForMenu = false;
   }
 
@@ -56,7 +54,7 @@ export class CreateMenuParametersComponent implements OnInit {
 
   createNewMenuProposal(newMenuParametersForm): void {
     this.waitingForMenu = true;
-    this.menuParameters = new MenuParameters(newMenuParametersForm);    
+    this.menuParameters = new MenuParameters(newMenuParametersForm);
 
     this.menuParameters.mealTypes = this.newMenuParametersForm.value.mealTypes
     .map((v, i) => v ? this.mealsList[i].name as MealType : null)
@@ -74,7 +72,7 @@ export class CreateMenuParametersComponent implements OnInit {
           this.waitingForMenu = false;
           this.alertService.createErrorMessageForHttpResponseWithTitle(
             error,
-            "Create menu proposal"
+            'Create menu proposal'
           );
        });
   }

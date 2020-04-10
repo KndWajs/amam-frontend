@@ -16,7 +16,8 @@ export class IngredientsService {
     if (this.httpClientService.isGuestLogIn) {
       return new Observable();
     }
-    return this.httpClientService.getHttpClient().post<Ingredient>(this.httpClientService.endpoint + 'ingredient/', ingredient, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient().post<Ingredient>
+    (this.httpClientService.endpoint + 'ingredient/', ingredient, this.httpClientService.httpOptions)
      .pipe(map(value => new Ingredient(value)));
   }
 
@@ -24,12 +25,14 @@ export class IngredientsService {
     if (this.httpClientService.isGuestLogIn) {
       return new Observable();
     }
-    return this.httpClientService.getHttpClient().put<Ingredient>(this.httpClientService.endpoint + 'ingredient/' + ingredient.id, ingredient, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient().put<Ingredient>
+    (this.httpClientService.endpoint + 'ingredient/' + ingredient.id, ingredient, this.httpClientService.httpOptions)
      .pipe(map(value => new Ingredient(value)));
   }
 
   getIngredientsFromHttp(): Observable<Array<Ingredient>> {
-    return this.httpClientService.getHttpClient().get<Array<Ingredient>>(this.httpClientService.endpoint + 'ingredients/', this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient().get<Array<Ingredient>>
+    (this.httpClientService.endpoint + 'ingredients/', this.httpClientService.httpOptions)
      .pipe(map(values => values.map(value => new Ingredient(value))));
   }
 
@@ -38,10 +41,8 @@ export class IngredientsService {
       return of([]);
     }
 
-    return this.httpClientService.getHttpClient()
-    .get<Array<Ingredient>>(this.httpClientService.endpoint + 'ingredients/' + name + '/' + numberOfResults, this.httpClientService.httpOptions)
+    return this.httpClientService.getHttpClient().get<Array<Ingredient>>
+    (this.httpClientService.endpoint + 'ingredients/' + name + '/' + numberOfResults, this.httpClientService.httpOptions)
     .pipe(map(values => values.map(value => new Ingredient(value))));
   }
-
-  
 }

@@ -1,9 +1,19 @@
-<h3>Shopping lists</h3>
-<hr />
+<h3>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" (click)="archival = false; getshoppingLists(); shoppingLists = null"
+                href="javascript:;">Shopping lists</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" (click)="archival = true; getshoppingLists(); shoppingLists = null"
+                href="javascript:;">Archival</a>
+        </li>
+    </ul>
+</h3>
 <app-spinner *ngIf="!shoppingLists"></app-spinner>
 <div class="shopping-lists" *ngIf="shoppingLists">
     <ng-container *ngFor="let shoppingList of shoppingLists; let i = index;">
-        <div *ngIf="!shoppingList.archival" class="shopping-list">
+        <div *ngIf="shoppingList.archival == archival" class="shopping-list">
             <div class="alert alert-success">
                 It's a shopping list <strong>{{shoppingList.name}}</strong> for
                 <strong>{{shoppingList.numberOfPeople}}</strong> people.
@@ -26,12 +36,14 @@
                     </li>
                     <li class="nav-item">
                         <div class=" nav-link">
-                            <div class="custom-control custom-checkbox">                            
-                                <input type="checkbox" class="custom-control-input" id="customCheck{{i}}" [(ngModel)]="shoppingList.archival" (click)="changeArchivalFlag(shoppingList, $event)">
-                              <label class="custom-control-label" for="customCheck{{i}}">Archival</label>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck{{i}}"
+                                    [(ngModel)]="shoppingList.archival"
+                                    (click)="changeArchivalFlag(shoppingList, $event)">
+                                <label class="custom-control-label" for="customCheck{{i}}">Archival</label>
                             </div>
                         </div>
-                    </li> 
+                    </li>
                     <li class="nav-item dropdown" style="width: 200px;">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="true" aria-expanded="false">Combine with other</a>
@@ -41,19 +53,23 @@
                                     (click)="createCombinedShoppingList(shoppingList, otherShoppingList)">{{otherShoppingList.name}}</a>
                             </div>
                         </div>
-                    </li>                  
+                    </li>
                 </ul>
             </div>
             <app-quick-search-shopping-element (emitableShoppingElement)="addIngredientToShoppingList($event, i)"
                 *ngIf="addIngredient == i"></app-quick-search-shopping-element>
-            <dx-data-grid id="gridContainer" [dataSource]="shoppingList.shoppingElements" keyExpr="ingredient.name"
-                [allowColumnReordering]="false" (onRowRemoving)="onRowRemoving(shoppingList, $event)"
-                (onRowUpdating)="onRowUpdating(shoppingList, $event)" (onEditorPreparing)="onEditorPreparing($event)">
+            <dx-data-grid id="gridContainer" 
+            [dataSource]="shoppingList.shoppingElements" 
+            keyExpr="ingredient.name"
+            [allowColumnReordering]="false" 
+            (onRowRemoving)="onRowRemoving(shoppingList, $event)"
+            (onRowUpdating)="onRowUpdating(shoppingList, $event)" 
+            (onEditorPreparing)="onEditorPreparing($event)">
 
                 <dxo-grouping expandMode="rowClick" [autoExpandAll]="true">
                 </dxo-grouping>
 
-                <dxo-paging [enabled]="true"></dxo-paging>
+                <dxo-paging [enabled]="false"></dxo-paging>
                 <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="false">
                     <dxo-texts deleteRow="X">
                     </dxo-texts>
@@ -71,114 +87,4 @@
             </dx-data-grid>
         </div>
     </ng-container>
-</div>
-
-<h3 style="margin-top: 50px;" id="archival">Archival shopping lists</h3>
-<hr />
-<app-spinner *ngIf="!shoppingLists"></app-spinner>
-<div class="shopping-lists" *ngIf="shoppingLists">
-    <ng-container *ngFor="let shoppingListArchival of shoppingLists; let i = index;">
-        <div *ngIf="shoppingListArchival.archival" class="shopping-list">
-            <div class="alert alert-success">
-                It's a shopping list <strong>{{shoppingListArchival.name}}</strong> for
-                <strong>{{shoppingListArchival.numberOfPeople}}</strong> people.
-                <ul class="nav nav-pills">
-                    <li *ngIf="!waitingForNewShoppingList" class="nav-item">
-                        <a class="nav-link text-danger" (click)="deleteShoppingList(shoppingListArchival)"
-                            href="javascript:;">Delete</a>
-                    </li>
-                    <li *ngIf="waitingForNewShoppingList" class="nav-item">
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Loading...
-                    </li>
-                    <li class="nav-item">
-                        <a *ngIf="addIngredient == null" class="nav-link" (click)="addIngredient = i"
-                            href="javascript:;">Add item</a>
-                    </li>
-                    <li class="nav-item">
-                        <a *ngIf="addIngredient == i" class="nav-link " (click)="addIngredient = null"
-                            href="javascript:;">Cancel adding item</a>
-                    </li>                    
-                    <li class="nav-item">                        
-                        <div class=" nav-link">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input" id="customCheckArchival{{i}}" [(ngModel)]="shoppingListArchival.archival" (click)="changeArchivalFlag(shoppingListArchival, i, $event)">
-                              <label class="custom-control-label" for="customCheckArchival{{i}}">Archival</label>
-                              </div>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown" style="width: 200px;">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                            aria-haspopup="true" aria-expanded="false">Combine with other</a>
-                        <div class="dropdown-menu">
-                            <div *ngFor="let otherShoppingList of shoppingLists; let i = index;">
-                                <a class="dropdown-item" *ngIf="!(shoppingListArchival.id == otherShoppingList.id)"
-                                    (click)="createCombinedShoppingList(shoppingListArchival, otherShoppingList)">{{otherShoppingList.name}}</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <app-quick-search-shopping-element (emitableShoppingElement)="addIngredientToShoppingList($event, i)"
-                *ngIf="addIngredient == i"></app-quick-search-shopping-element>
-            <dx-data-grid id="gridContainer" [dataSource]="shoppingListArchival.shoppingElements" keyExpr="ingredient.name"
-                [allowColumnReordering]="false" (onRowRemoving)="onRowRemoving(shoppingListArchival, $event)"
-                (onRowUpdating)="onRowUpdating(shoppingListArchival, $event)" (onEditorPreparing)="onEditorPreparing($event)">
-
-                <dxo-grouping expandMode="rowClick" [autoExpandAll]="false">
-                </dxo-grouping>
-
-                <dxo-paging [enabled]="true"></dxo-paging>
-                <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="false">
-                    <dxo-texts deleteRow="X">
-                    </dxo-texts>
-                </dxo-editing>
-
-                <dxi-column caption="Already bought" dataField="alreadyBought" [groupIndex]="1"></dxi-column>
-                <dxi-column caption=" " dataField="alreadyBought" [width]="40"></dxi-column>
-                <dxi-column caption="Name" dataField="ingredient.name" [width]="110"></dxi-column>
-                <dxi-column caption="Amt." dataField="amount" [width]="50"></dxi-column>
-                <dxi-column caption="Unit" dataField="ingredient.ingredientUnit" [width]="100"></dxi-column>
-                <dxi-column caption="(" dataField="ingredient.category" [groupIndex]="2"></dxi-column>
-                <dxi-column type="buttons" [width]="45">
-                    <dxi-button name="delete"></dxi-button>
-                </dxi-column>
-            </dx-data-grid>
-        </div>
-    </ng-container>
-</div>
-<h4 style="margin-top: 50px;">Shopping list proposals</h4>
-<hr />
-<app-spinner *ngIf="!shoppingListProposals"></app-spinner>
-<div *ngIf="shoppingListProposals" class="shopping-lists">
-    <div class="shopping-list" *ngFor="let shoppingListProposal of shoppingListProposals; let i = index;">
-        <div class="alert alert-dismissible alert-success">
-            It's a proposal based on menu <strong>{{shoppingListProposal[0].menu.name}}</strong> for
-            <strong>{{shoppingListProposal[0].menu.numberOfPeople}}</strong> people.
-
-            <button *ngIf="!waitingForNewShoppingList" class="btn btn-danger btnMenu"
-                (click)="createShoppingList(shoppingListProposal)">Add to my shopping lists</button>
-
-            <button *ngIf="waitingForNewShoppingList" class="btn btn-danger btnMenu" type="button" disabled>
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Loading...
-            </button>
-
-        </div>
-        <dx-data-grid id="gridContainer" [dataSource]="shoppingListProposal" keyExpr="ingredient.name"
-            [allowColumnReordering]="false">
-            <dxo-grouping expandMode="rowClick" [autoExpandAll]="false">
-            </dxo-grouping>
-
-            <dxo-paging [enabled]="false"></dxo-paging>
-            <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
-            </dxo-editing>
-
-            <dxi-column dataField="ingredient.name"></dxi-column>
-            <dxi-column dataField="amount"></dxi-column>
-            <dxi-column caption="Unit" dataField="ingredient.ingredientUnit"></dxi-column>
-            <dxi-column caption="category" dataField="ingredient.category" [groupIndex]="2"></dxi-column>
-        </dx-data-grid>
-    </div>
-
 </div>

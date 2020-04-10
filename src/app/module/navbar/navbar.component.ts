@@ -17,27 +17,25 @@ export class NavbarComponent implements OnInit {
   authState: AuthState;
 
   constructor(private amplifyService: AmplifyService, public globals: Globals) {
-    this.amplifyService.authStateChange$
-      .subscribe(authState => {
-        this.signedIn = authState.state === 'signedIn';
-        this.authState = authState;
-        if (!authState.user) {
-          this.user = null;
-        } else {
-          this.user = authState.user;
-          this.greeting = "Hello " + this.user.username;
-          globals.IS_GUEST = this.checkIfGuestIsSignIn(this.authState.user);
-        }        
-      });
+    this.amplifyService.authStateChange$.subscribe(authState => {
+      this.signedIn = authState.state === 'signedIn';
+      this.authState = authState;
+      if (!authState.user) {
+        this.user = null;
+      } else {
+        this.user = authState.user;
+        this.greeting = 'Hello ' + this.user.username;
+        globals.IS_GUEST = this.checkIfGuestIsSignIn(this.authState.user);
+      }
+    });
   }
 
-  ngOnInit() {
-   
-  }
+  ngOnInit() {}
 
   checkIfGuestIsSignIn(user: any): boolean {
-    const groups: any[] = user.signInUserSession.accessToken.payload['cognito:groups'];
-    if(groups != null && groups.find(group => group === "guest")){
+    const groups: any[] =
+      user.signInUserSession.accessToken.payload['cognito:groups'];
+    if (groups != null && groups.find(group => group === 'guest')) {
       return true;
     }
     return false;

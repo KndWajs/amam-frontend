@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MenusService } from '../../services/menus.service';
+import { MenusService } from '../services/menus.service';
 
 describe('MenusService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

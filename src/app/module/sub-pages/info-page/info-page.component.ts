@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Globals } from '../../../configs/globals'
+import { Globals } from '../../../configs/globals';
 
 @Component({
   selector: 'app-info-page',

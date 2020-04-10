@@ -1,22 +1,20 @@
-<h3>Menus </h3>
-<hr />
+<h3>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" (click)="archival = false; getMenu(); menus = null" href="javascript:;">Menus</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" (click)="archival = true; getMenu(); menus = null" href="javascript:;">Archival</a>
+  </li>
+</ul>
+</h3>
+
 <app-spinner *ngIf="!menus"></app-spinner>
 
 <div class="menus" *ngIf="menus">
   <ng-container *ngFor="let dataSource of menus; let i = index;">
-    <div *ngIf="!dataSource.archival"> 
+    <div *ngIf="dataSource.archival == archival"> 
       <app-menu-list [menu]="dataSource" [autoExpandAll]="true" (deleteMenuEvent)="deleteMenu($event)"></app-menu-list>
-    </div>
-  </ng-container>
-</div>
-
-<h3 style="margin-top: 50px;" id="archival">Archival menus</h3>
-<hr />
-
-<div class="menus" *ngIf="menus">
-  <ng-container *ngFor="let dataSource of menus; let i = index;">
-    <div *ngIf="dataSource.archival"> 
-      <app-menu-list [menu]="dataSource" [autoExpandAll]="false" (deleteMenuEvent)="deleteMenu($event)"></app-menu-list>
     </div>
   </ng-container>
 </div>
