@@ -19,26 +19,15 @@ export class AppComponent {
 
   constructor(service: Service, private amplifyService: AmplifyService, public globals: Globals) {
     this.amplifyService.authStateChange$
-      .subscribe(authState => {
-        
-        console.log(authState);
-        console.log(authState.user.signInUserSession.getIdToken().getJwtToken());
+    .subscribe(authState => {
 
-
-        this.globals.signedIn = authState.state === 'signedIn';
+      if (authState.state === 'signedIn') {
+        this.globals.signedIn = true;
         this.authState = authState;
-        if (!authState.user) {
-          this.user = null;
-        } else {
-          this.user = authState.user;
-          this.greeting = 'Hello ' + this.user.username;
-        }
-      });
-  }
 
-
-  logInToDemo(): void {
-    this.globals.signedIn = true;
-    this.globals.IS_GUEST = true;
+      } else {
+        this.globals.signedIn = false;
+      }
+    });
   }
 }

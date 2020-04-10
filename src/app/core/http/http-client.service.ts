@@ -11,18 +11,15 @@ import { Observable } from 'rxjs';
 export class HttpClientService {
   isGuestLogIn: boolean;
 
-  // constructor(private http: HttpClient, private globalSrv: GlobalService) {
   constructor(private readonly http: HttpClient, public globals: Globals, private auth: AuthorizationService) {
-    this.updateHeaders();    
-    this.addToken();
+    this.updateHeaders();
     this.isGuestLogIn = globals.IS_GUEST;
   }
 
   endpoint = environment.endpoint;
 
   httpOptions = {
-    headers: new HttpHeaders(),
-    // withCredentials: true,
+    headers: new HttpHeaders()
   };
 
   getHttpClient(): HttpClient {
@@ -34,26 +31,7 @@ export class HttpClientService {
     this.httpOptions.headers = this.httpOptions.headers.append('Content-Type', 'application/json');
     this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', '*');
     this.httpOptions.headers = this.httpOptions.headers.append("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-    // this.httpOptions.headers = this.httpOptions.headers.append('Authorization', 'Bearer '.concat(this.globalSrv.token));
-  }
-
-
-  //TODO set token as httpOnly cookie!
-  addToken(){
-    var authenticatedUser = this.auth.getAuthenticatedUser();
-    if (authenticatedUser == null) {
-      return;
-    }
-    authenticatedUser.getSession( (err, session) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      console.log(session);
-      const token = session.getIdToken().getJwtToken(); 
-      console.log(token);
-      this.httpOptions.headers.append('Authorization', token);
-      });
+    this.httpOptions.headers = this.httpOptions.headers.append('Authorization', this.auth.getJwtToken());
   }
 
 }

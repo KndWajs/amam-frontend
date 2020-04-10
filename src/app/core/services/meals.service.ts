@@ -24,11 +24,6 @@ export class MealsService {
      .pipe(map(value => new Meal(value)));
   }
 
-  getTest(): Observable<String> {
-
-    return this.httpClientService.getHttpClient().get<String>(this.httpClientService.endpoint + 'test/', this.httpClientService.httpOptions);
-  }
-
   getMealsFromHttp(): Observable<Array<Meal>> {
     return this.httpClientService.getHttpClient().get<Array<Meal>>
     (this.httpClientService.endpoint + 'meals/', this.httpClientService.httpOptions)

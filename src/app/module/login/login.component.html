@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container" style="width: 300px;">
   <div class="row">
-    <div class="col-lg-4">
+    <div >
       <form (ngSubmit)="onSubmit(f)" #f="ngForm">
 
         <div class="form-group">
@@ -15,22 +15,14 @@
 
         <button type="submit" class="btn btn-primary">Login</button>
 
+              <!-- <app-register></app-register> -->
+              
+        <button *ngIf="!this.globals.signedIn" type="button" class="btn btn-secondary"
+        style="width: 300px; margin-top: 20px;" routerLink="/info" (click)="logInToDemo()">
+        Log in to demo
+      </button>
+
       </form>
-    </div>
-  </div>
-
-  
-  <button type="button" class="btn btn-secondary"
-  style="width: 300px; margin-top: 20px;" routerLink="/info" (click)="logOut()">
-  Log out
-</button>
-
-  <br />
-  <div class="row message-row" *ngIf="emailVerificationMessage">
-    <div class="col-lg-8">
-      <div class="alert alert-danger">
-        Could not log you in.  Please verify your email and then attempt to sign in.
-      </div>
     </div>
   </div>
 </div>

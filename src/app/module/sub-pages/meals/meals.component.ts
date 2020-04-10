@@ -23,24 +23,6 @@ export class MealsComponent implements OnDestroy {
     private readonly alertService: AlertService
   ) {
     this.getMeals();
-
-    this.test();
-  }
-
-  test(): void {
-    this.mealsService.getTest().subscribe(
-      test => {
-        console.log(test);
-      },
-      error => {
-        this.alertService.createErrorMessageForHttpResponseWithTitle(
-          error,
-          "Get meals"
-        );
-      }
-    );
-
-    return;
   }
 
   getMeals(): void {

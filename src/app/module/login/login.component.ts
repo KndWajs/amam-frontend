@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthorizationService} from "src/app/core/services/authorization.service";
-import {NgForm} from "@angular/forms";
-import { Router } from '@angular/router';
-
-
+import {AuthorizationService} from 'src/app/core/services/authorization.service';
+import {NgForm} from '@angular/forms';
+import { Globals } from '../../configs/globals';
 
 @Component({
   selector: 'app-login',
@@ -11,27 +9,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  emailVerificationMessage: boolean = false;
-
   constructor(
     private readonly auth: AuthorizationService,
-    private readonly _router: Router
+    public globals: Globals
   ) {}
-  
+
 
   onSubmit(form: NgForm) {
 
     const email = form.value.email;
     const password = form.value.password;
-    
-    this.auth.signIn(email, password)
+    this.auth.signIn(email, password);
   }
 
-
-
-
-  
-  logOut(): void {
-    this.auth.logOut();
+  logInToDemo(): void {
+    this.globals.signedIn = true;
+    this.globals.IS_GUEST = true;
   }
 }
