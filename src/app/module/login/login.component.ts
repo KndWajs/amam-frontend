@@ -39,7 +39,17 @@ export class LoginComponent {
     }
 
     logInToDemo(): void {
-        this.globals.signedIn = true;
-        this.globals.IS_GUEST = true;
+        this.loginAttempt = true;
+        this.auth
+            .signIn('guest@g.pl', '1234asdf')
+            .then(user => {
+                this.loginAttempt = false;
+            })
+            .catch(error => {
+                this.alertService.error(error.message, {
+                    autoClose: true,
+                });
+                this.loginAttempt = false;
+            });
     }
 }

@@ -15,7 +15,7 @@
 
       <div class="nav nav-pills" *ngIf="!loginAttempt" style="display: flex; justify-content: space-around">
         <button type="submit" class="btn btn-primary">Login</button>
-        <button type="submit" class="btn btn-primary" routerLink="/info" (click)="logInToDemo()">Log in to demo</button>
+        <button type="submit" class="btn btn-primary" routerLink="/" (click)="logInToDemo()">Log in to demo</button>
       </div>
       <div class="nav nav-pills" *ngIf="loginAttempt"
         style="display: flex; justify-content: space-around; margin-top: 10px;">

@@ -24,10 +24,21 @@ export class AppComponent {
       if (authState.state === 'signedIn') {
         this.globals.signedIn = true;
         this.authState = authState;
+        this.globals.IS_GUEST = this.checkIfGuestIsSignIn(this.authState.user);
 
       } else {
         this.globals.signedIn = false;
+        this.globals.IS_GUEST = false;
       }
     });
+  }
+
+  checkIfGuestIsSignIn(user: any): boolean {
+    const groups: any[] =
+      user.signInUserSession.accessToken.payload['cognito:groups'];
+    if (groups != null && groups.find(group => group === 'guest')) {
+      return true;
+    }
+    return false;
   }
 }
