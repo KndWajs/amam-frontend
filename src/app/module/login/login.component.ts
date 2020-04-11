@@ -11,6 +11,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 })
 export class LoginComponent {
     loginAttempt: boolean;
+    status = 'login';
 
     constructor(
         private readonly auth: AuthorizationService,
