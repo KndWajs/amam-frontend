@@ -103,7 +103,15 @@ export class AuthorizationService {
     }
 
     getJwtToken() {
-        return window.localStorage.getItem('CognitoIdentityServiceProvider.' + userPool.getClientId() + '.'
-        + this.getAuthenticatedUser().getUsername() + '.accessToken');
+        if (this.isLoggedIn()) {
+            return window.localStorage.getItem(
+                'CognitoIdentityServiceProvider.' +
+                    userPool.getClientId() +
+                    '.' +
+                    this.getAuthenticatedUser().getUsername() +
+                    '.idToken'
+            );
+        }
+        return '';
     }
 }

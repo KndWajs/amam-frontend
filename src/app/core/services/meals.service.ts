@@ -3,7 +3,6 @@ import { HttpClientService } from '../http/http-client.service';
 import { Observable, of } from 'rxjs';
 import { Meal } from '../../shared/models/meal';
 import { map } from 'rxjs/operators';
-import { Ingredient } from '../../shared/models/ingredient';
 
 
 @Injectable({
