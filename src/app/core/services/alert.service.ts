@@ -32,12 +32,13 @@ export class AlertService {
     }
 
     createErrorMessageForHttpResponseWithTitle(error: any, title: string) {
+        console.log('error: ' + error);
         if (error.status === 0) {
             this.error(title + ' - http response error', {
                 autoClose: true
               });
-          } else {
-            this.error(error.error.message, {
+          } else if (error.status === 403){
+            this.error('Błąd 403: Odmowa dostępu', {
                 autoClose: true
               });
           }
