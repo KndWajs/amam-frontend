@@ -32,13 +32,13 @@
   <div class="nav nav-pills" *ngIf="!loginAttempt"
     style="display: flex; justify-content: space-around; margin-top: 10px;">
     <li class="nav-item">
-      <a class="nav-link" *ngIf="status === 'login'" (click)="status = 'register'" href="javascript:;">Register</a>
+      <a class="nav-link disabled" *ngIf="status === 'login'" (click)="status = 'register'" href="javascript:;">Register</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" *ngIf="status === 'register'" (click)="status = 'login'" href="javascript:;">Login</a>
+      <a class="nav-link " *ngIf="status === 'register'" (click)="status = 'login'" href="javascript:;">Login</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="javascript:;">Restore password</a>
+      <a class="nav-link disabled" href="javascript:;">Restore password</a>
     </li>    
   </div>
 </div>
