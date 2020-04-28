@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent { 
+  loginAttempt: boolean = false;
   confirmCode: boolean = false;
   codeWasConfirmed: boolean = false;
   error: string = "";
