@@ -41,6 +41,10 @@ export class AlertService {
             this.error('Błąd 403: Odmowa dostępu', {
                 autoClose: true
               });
+          } else {
+            this.error(title + ' - ' + error.message, {
+                autoClose: true
+              });
           }
     }
 
