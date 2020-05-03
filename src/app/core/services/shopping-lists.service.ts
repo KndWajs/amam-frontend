@@ -26,13 +26,13 @@ export class ShoppingListsService {
 
   getPDF(id: number): Observable<Blob> {
 
-   const sth = {
+   const headerWithResponseType = {
      ...this.httpClientService.httpOptions,
       responseType: 'blob' as const,
     };
 
    return this.httpClientService.getHttpClient()
-         .get(`${this.httpClientService.endpoint}shopping-list/pdf/${id}`, sth
+         .get(`${this.httpClientService.endpoint}shopping-list/pdf/${id}`, headerWithResponseType
           );
      }
 
