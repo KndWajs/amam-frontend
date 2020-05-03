@@ -54,6 +54,9 @@
                             </div>
                         </div>
                     </li>
+                    <li *ngIf="!waitingForNewShoppingList" class="nav-item">
+                        <a class="nav-link text-danger" (click)="getPDF(shoppingList.id)" href="javascript:;">getPDF</a>
+                    </li>                    
                 </ul>
             </div>
             <app-quick-search-shopping-element (emitableShoppingElement)="addIngredientToShoppingList($event, i)"

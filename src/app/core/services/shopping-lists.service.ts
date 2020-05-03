@@ -10,7 +10,7 @@ import { Menu } from 'src/app/shared/models/menu';
   providedIn: 'root'
 })
 export class ShoppingListsService {
-  constructor(private readonly httpClientService: HttpClientService) {
+ constructor(private readonly httpClientService: HttpClientService) {
   }
 
   addShoppingList(shoppingList: ShoppingList): Observable<ShoppingList> {
@@ -21,6 +21,20 @@ export class ShoppingListsService {
     .post<ShoppingList>(this.httpClientService.endpoint + 'shopping-list/', shoppingList, this.httpClientService.httpOptions)
      .pipe(map(value => new ShoppingList(value)));
   }
+
+
+
+  getPDF(id: number): Observable<Blob> {
+
+   const sth = {
+     ...this.httpClientService.httpOptions,
+      responseType: 'blob' as const,
+    };
+
+   return this.httpClientService.getHttpClient()
+         .get(`${this.httpClientService.endpoint}shopping-list/pdf/${id}`, sth
+          );
+     }
 
   createShoppingList(menu: Menu): Observable<ShoppingList> {
     if (this.httpClientService.isGuestLogIn) {

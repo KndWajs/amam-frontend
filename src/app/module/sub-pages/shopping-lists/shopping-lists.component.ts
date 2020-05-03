@@ -34,6 +34,30 @@ export class ShoppingListsComponent implements OnInit, OnDestroy {
     this.getshoppingLists();
   }
 
+  getPDF(id: number) {
+    this.shoppingListsService.getPDF(id)
+    .subscribe(
+      (data: Blob) => {
+        const file = new Blob([data], { type: 'application/pdf' });
+        const fileURL = URL.createObjectURL(file);
+
+        // window.open(fileURL);
+        const a         = document.createElement('a');
+        a.href        = fileURL;
+        a.target      = '_blank';
+        a.download    = `shopping_list:_${id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+      },
+      (error) => {
+        this.alertService.createErrorMessageForHttpResponseWithTitle(
+          error,
+          'Get shopping list PDF'
+        );
+      }
+    );
+  }
+
 
   saveShoppingList(shoppingList: ShoppingList): void {
     this.saveShoppingListSubscription = this.shoppingListsService
