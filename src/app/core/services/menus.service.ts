@@ -14,18 +14,12 @@ export class MenusService {
   }
 
   addMenu(menu: Menu): Observable<Menu> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .post<Menu>(this.httpClientService.endpoint + 'menu/', menu, this.httpClientService.httpOptions)
      .pipe(map(value => new Menu(value)));
   }
 
   updateMenu(menu: Menu): Observable<Menu> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .put<Menu>(this.httpClientService.endpoint + 'menu/', menu, this.httpClientService.httpOptions)
      .pipe(map(value => new Menu(value)));
@@ -38,9 +32,6 @@ export class MenusService {
   }
 
   deleteMenu(id: number): Observable<Menu> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .delete<Menu>(`${this.httpClientService.endpoint}menu/${id}`, this.httpClientService.httpOptions)
      .pipe(map(value => new Menu(value)));

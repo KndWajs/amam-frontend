@@ -13,9 +13,6 @@ export class AdminService {
   }
 
   addIngredientCategory(ingredientCategory: IngredientCategory): Observable<IngredientCategory> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient().post<IngredientCategory>
     (this.httpClientService.endpoint + 'ingredients/categories/', ingredientCategory, this.httpClientService.httpOptions)
       .pipe(map(value => new IngredientCategory(value)));

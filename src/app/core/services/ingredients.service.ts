@@ -13,18 +13,12 @@ export class IngredientsService {
   }
 
   addIngredient(ingredient: Ingredient): Observable<Ingredient> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient().post<Ingredient>
     (this.httpClientService.endpoint + 'ingredient/', ingredient, this.httpClientService.httpOptions)
      .pipe(map(value => new Ingredient(value)));
   }
 
   updateIngredient(ingredient: Ingredient): Observable<Ingredient> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient().put<Ingredient>
     (this.httpClientService.endpoint + 'ingredient/' + ingredient.id, ingredient, this.httpClientService.httpOptions)
      .pipe(map(value => new Ingredient(value)));

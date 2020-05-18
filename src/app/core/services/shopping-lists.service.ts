@@ -14,9 +14,6 @@ export class ShoppingListsService {
   }
 
   addShoppingList(shoppingList: ShoppingList): Observable<ShoppingList> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .post<ShoppingList>(this.httpClientService.endpoint + 'shopping-list/', shoppingList, this.httpClientService.httpOptions)
      .pipe(map(value => new ShoppingList(value)));
@@ -37,27 +34,18 @@ export class ShoppingListsService {
      }
 
   createShoppingList(menu: Menu): Observable<ShoppingList> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .post<ShoppingList>(this.httpClientService.endpoint + 'shopping-list/create-from-menu', menu, this.httpClientService.httpOptions)
      .pipe(map(value => new ShoppingList(value)));
   }
 
   updateShoppingList(shoppingList: ShoppingList): Observable<ShoppingList> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .put<ShoppingList>(this.httpClientService.endpoint + 'shopping-list/', shoppingList, this.httpClientService.httpOptions)
      .pipe(map(value => new ShoppingList(value)));
   }
 
   deleteShoppingList(id: number): Observable<ShoppingList> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .delete<ShoppingList>(`${this.httpClientService.endpoint}shopping-list/${id}`, this.httpClientService.httpOptions)
      .pipe(map(value => new ShoppingList(value)));
