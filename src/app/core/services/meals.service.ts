@@ -15,9 +15,6 @@ export class MealsService {
   }
 
   addMeal(meal: Meal): Observable<Meal> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient().post<Meal>
     (this.httpClientService.endpoint + 'meal/', meal, this.httpClientService.httpOptions)
      .pipe(map(value => new Meal(value)));
@@ -36,9 +33,6 @@ export class MealsService {
   }
 
   deleteMeal(id: number): Observable<Meal> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient().delete<Meal>
     (`${this.httpClientService.endpoint}meal/${id}`, this.httpClientService.httpOptions)
      .pipe(map(value => new Meal(value)));

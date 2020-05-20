@@ -4,6 +4,7 @@ import { Ingredient } from 'src/app/shared/models/ingredient';
 import { Subscription } from 'rxjs';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { IngredientCategory } from 'src/app/shared/models/admin/ingredient-category';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-pipe-data',
@@ -25,7 +26,8 @@ export class PipeDataComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly ingredientsService: IngredientsService,
-    private readonly adminService: AdminService
+    private readonly adminService: AdminService,    
+    private readonly alertService: AlertService
   ) {}
 
   ngOnInit() {
@@ -103,10 +105,9 @@ export class PipeDataComponent implements OnInit, OnDestroy {
       .subscribe(
         categories => {
           this.getCategories();
-        },
-        error => {
-          console.log('can not add category');
-        }
+        },error => {
+          this.alertService.createErrorMessageForHttpResponseWithTitle(error, "Add Category");
+      }
       );
     return;
   }

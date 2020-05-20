@@ -10,40 +10,42 @@ import { Menu } from 'src/app/shared/models/menu';
   providedIn: 'root'
 })
 export class ShoppingListsService {
-  constructor(private readonly httpClientService: HttpClientService) {
+ constructor(private readonly httpClientService: HttpClientService) {
   }
 
   addShoppingList(shoppingList: ShoppingList): Observable<ShoppingList> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .post<ShoppingList>(this.httpClientService.endpoint + 'shopping-list/', shoppingList, this.httpClientService.httpOptions)
      .pipe(map(value => new ShoppingList(value)));
   }
 
+
+
+  getPDF(id: number): Observable<Blob> {
+
+   const headerWithResponseType = {
+     ...this.httpClientService.httpOptions,
+      responseType: 'blob' as const,
+    };
+
+   return this.httpClientService.getHttpClient()
+         .get(`${this.httpClientService.endpoint}shopping-list/pdf/${id}`, headerWithResponseType
+          );
+     }
+
   createShoppingList(menu: Menu): Observable<ShoppingList> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .post<ShoppingList>(this.httpClientService.endpoint + 'shopping-list/create-from-menu', menu, this.httpClientService.httpOptions)
      .pipe(map(value => new ShoppingList(value)));
   }
 
   updateShoppingList(shoppingList: ShoppingList): Observable<ShoppingList> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .put<ShoppingList>(this.httpClientService.endpoint + 'shopping-list/', shoppingList, this.httpClientService.httpOptions)
      .pipe(map(value => new ShoppingList(value)));
   }
 
   deleteShoppingList(id: number): Observable<ShoppingList> {
-    if (this.httpClientService.isGuestLogIn) {
-      return new Observable();
-    }
     return this.httpClientService.getHttpClient()
     .delete<ShoppingList>(`${this.httpClientService.endpoint}shopping-list/${id}`, this.httpClientService.httpOptions)
      .pipe(map(value => new ShoppingList(value)));
