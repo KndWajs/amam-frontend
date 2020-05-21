@@ -1,14 +1,14 @@
 import { ShoppingElement } from './shopping-element';
+import { AbstractModelBase } from './abstract-model-base';
 
-export class ShoppingList {
-    id: number;
+export class ShoppingList  extends AbstractModelBase {
     name: string;
     numberOfPeople: number;
     shoppingElements: Array<ShoppingElement>;
     archival: boolean;
 
     constructor(obj: any) {
-        this.id = obj.id;
+        super(obj);
         this.name = obj.name;
         this.numberOfPeople = obj.numberOfPeople;
         this.shoppingElements = (obj.shoppingElements as Array<

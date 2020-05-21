@@ -1,9 +1,9 @@
 import { MealIngredient } from './meal-ingredient';
 import { PreparingType } from '../enums/preparing-type';
 import { MealType } from '../enums/meal-type';
+import { AbstractModelBase } from './abstract-model-base';
 
-export class Meal {
-  id: number;
+export class Meal extends AbstractModelBase {
   name: string;
   typeOfMeal: MealType;
   typeOfPreparing: PreparingType;
@@ -12,7 +12,7 @@ export class Meal {
   ingredients: Array<MealIngredient>;
 
   constructor(obj: any) {
-    this.id = obj.id;
+    super(obj);
     this.name = obj.name;
     this.typeOfMeal = MealType[obj.typeOfMeal] as MealType;
     this.typeOfPreparing = PreparingType[obj.typeOfPreparing] as PreparingType;

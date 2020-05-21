@@ -1,7 +1,7 @@
 import { IngredientUnit } from '../enums/ingredient-unit';
-import { AbstractBase } from './abstract-base';
+import { AbstractModelBase } from './abstract-model-base';
 
-export class Ingredient extends AbstractBase {
+export class Ingredient extends AbstractModelBase {
   name: string;
   ingredientUnit: IngredientUnit;
   category: string;
