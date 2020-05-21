@@ -15,13 +15,9 @@
     <ng-container *ngFor="let shoppingList of shoppingLists; let i = index;">
         <div *ngIf="shoppingList.archival == archival" class="shopping-list">
             <div class="alert alert-success">
-                It's a shopping list <strong>{{shoppingList.name}}</strong> for
-                <strong>{{shoppingList.numberOfPeople}}</strong> people.
+                Title: <strong>{{shoppingList.name}}</strong> <br>
+                For how many people: <strong>{{shoppingList.numberOfPeople}}</strong> 
                 <ul class="nav nav-pills">
-                    <li *ngIf="!waitingForNewShoppingList" class="nav-item">
-                        <a class="nav-link text-danger" (click)="deleteShoppingList(shoppingList)"
-                            href="javascript:;">Delete</a>
-                    </li>
                     <li *ngIf="waitingForNewShoppingList" class="nav-item">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         Loading...
@@ -33,17 +29,7 @@
                     <li class="nav-item">
                         <a *ngIf="addIngredient == i" class="nav-link " (click)="addIngredient = null"
                             href="javascript:;">Cancel adding item</a>
-                    </li>
-                    <li class="nav-item">
-                        <div class=" nav-link">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck{{i}}"
-                                    [(ngModel)]="shoppingList.archival"
-                                    (click)="changeArchivalFlag(shoppingList, $event)">
-                                <label class="custom-control-label" for="customCheck{{i}}">Archival</label>
-                            </div>
-                        </div>
-                    </li>
+                    </li><br>
                     <li class="nav-item dropdown" style="width: 200px;">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="true" aria-expanded="false">Combine with other</a>
@@ -88,6 +74,28 @@
                     <dxi-button name="delete"></dxi-button>
                 </dxi-column>
             </dx-data-grid>
-        </div>
+            <div class="alert alert-secondary"  > 
+                <ul class="nav nav-pills">
+                    <li *ngIf="!waitingForNewShoppingList" class="nav-item">
+                        <a class="nav-link text-danger" (click)="deleteShoppingList(shoppingList)"
+                            href="javascript:;">Delete</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class=" nav-link">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck{{i}}"
+                                    [(ngModel)]="shoppingList.archival"
+                                    (click)="changeArchivalFlag(shoppingList, $event)">
+                                <label class="custom-control-label" for="customCheck{{i}}">Archival</label>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                Created: <strong>{{shoppingList.creationDate| date: 'MMM d, yy, H:mm '}}</strong><br>
+                Updated: <strong>{{shoppingList.updateDate| date: 'MMM d, yy, H:mm '}}</strong>
+            </div>
+        </div>      
     </ng-container>
 </div>
+
+

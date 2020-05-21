@@ -1,12 +1,9 @@
 <div class="menu" >
   <div class="alert alert-success"  > 
-    It's a menu <strong>{{menu.name}}</strong> for <strong>{{menu.numberOfPeople}}</strong> people.
+    Title: <strong>{{menu.name}}</strong> <br>
+    For how many people: <strong>{{menu.numberOfPeople}}</strong> 
 
     <ul class="nav nav-pills">
-      <li class="nav-item">
-        <a *ngIf="menu.id" class="nav-link text-danger" (click)="deleteMenu(menu)"
-          href="javascript:;">Delete</a>
-      </li>
       <li class="nav-item">
         <a *ngIf="!addMeal" class="nav-link" (click)="addMeal = true" href="javascript:;">Add meal</a>
       </li>
@@ -16,14 +13,6 @@
       <li class="nav-item">
         <a *ngIf="!creatingShoppingList" class="nav-link"  (click)="createShoppingList(menu)" href="javascript:;">Create Shopping list</a>
       </li>
-      <li class="nav-item">
-        <div class=" nav-link">
-            <div class="custom-control custom-checkbox">                            
-                <input type="checkbox" class="custom-control-input" id="customCheck{{menu.name}}{{menu.id}}" [(ngModel)]="menu.archival" (click)="changeArchivalFlag(menu, $event)">
-              <label class="custom-control-label" for="customCheck{{menu.name}}{{menu.id}}">Archival</label>
-            </div>
-        </div>
-    </li> 
     </ul>
   </div>
   <app-quick-search-meal *ngIf="addMeal" (emitableMenuMeal)="addMealToMenu($event, menu)" >
@@ -79,4 +68,25 @@
       </div>
     </dx-data-grid>
   </div>
+
+
+  <div class="alert alert-secondary"  > 
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a *ngIf="menu.id" class="nav-link text-danger" (click)="deleteMenu(menu)"
+          href="javascript:;">Delete</a>
+      </li>
+      <li class="nav-item">
+        <div class=" nav-link">
+            <div class="custom-control custom-checkbox">                            
+                <input type="checkbox" class="custom-control-input" id="customCheck{{menu.name}}{{menu.id}}" [(ngModel)]="menu.archival" (click)="changeArchivalFlag(menu, $event)">
+              <label class="custom-control-label" for="customCheck{{menu.name}}{{menu.id}}">Archival</label>
+            </div>
+        </div>
+    </li> 
+    </ul>
+    Created: <strong>{{menu.creationDate| date: 'MMM d, yy, H:mm '}}</strong><br>
+    Updated: <strong>{{menu.updateDate| date: 'MMM d, yy, H:mm '}}</strong>
+  </div>
 </div>
+

@@ -6,6 +6,13 @@ p {
 .shopping-list {
     margin: 5px;
     width: 340px;
+    border-style: solid;
+    border-width: 1px;;
+    border-color: lightblue;
+}
+
+.alert{
+    margin-bottom: 0 !important;
 }
 
 .shopping-lists {
