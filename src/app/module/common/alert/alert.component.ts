@@ -15,7 +15,7 @@ export class AlertComponent implements OnInit, OnDestroy {
   alertSubscription: Subscription;
   routeSubscription: Subscription;
 
-  constructor(private router: Router, private alertService: AlertService) {}
+  constructor(private router: Router, private alertService: AlertService) { }
 
   ngOnInit() {
     // subscribe to new alert notifications
@@ -94,4 +94,10 @@ export class AlertComponent implements OnInit, OnDestroy {
 
     return classes.join(' ');
   }
+
+  openDetails(info: string) {
+    var myWindow = window.open("", "MsgWindow", "width=800,height=800");
+    myWindow.document.write(info);
+  }
+
 }
