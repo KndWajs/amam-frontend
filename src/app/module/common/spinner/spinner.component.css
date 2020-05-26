@@ -1,0 +1,10 @@
+.loader {
+    border-width: 3px;
+    width: 100px;
+    height: 100px;
+    animation-duration: 1s;
+}
+
+.spinner-logo {
+    height: 200px;
+}
