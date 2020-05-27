@@ -23,4 +23,13 @@ export class AdminService {
     (this.httpClientService.endpoint + 'ingredients/categories/', this.httpClientService.httpOptions)
       .pipe(map(values => values.map(value => new IngredientCategory(value))));
   }
+
+  getLogs(): Observable<Blob> {
+
+    return this.httpClientService.getHttpClient()
+      .get(this.httpClientService.endpoint + 'log/', {
+        ...this.httpClientService.httpOptions,
+        responseType: 'blob' as const,
+      });
+  }
 }

@@ -1,3 +1,11 @@
-<p>admin panel</p>
-<button type="button" class="btn btn-secondary" routerLink="./assign-ingredient-categories">assign ingredient categories</button>
-<br>
+<h3>Admin panel</h3>
+<hr />
+
+<div
+    style="display: flex; flex-direction: column; flex-wrap: wrap; justify-content: space-around; height: 300px; width: 300px;">
+    <button type="button" class="btn btn-secondary" routerLink="./assign-ingredient-categories">assign ingredient
+        categories</button>
+    <a href="javascript:;" (click)="getLogs()" type="button" class="btn btn-secondary">Download spring logs</a>
+
+    <a href="http://api.fit-amam.pl/swagger-ui.html" target="blank" type="button" class="btn btn-secondary">Swagger</a>
+</div>
