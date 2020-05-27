@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
-    AuthenticationDetails,
     CognitoUser,
     CognitoUserPool,
 } from 'amazon-cognito-identity-js';
 import { Observable } from 'rxjs/Observable';
-import { AmplifyService } from 'aws-amplify-angular';
-
 import { Auth } from 'aws-amplify';
-import { AlertService } from './alert.service';
 
 const poolData = {
     UserPoolId: 'eu-central-1_ZnNlhQRCx',
@@ -23,10 +19,7 @@ const userPool = new CognitoUserPool(poolData);
 export class AuthorizationService {
     cognitoUser: any;
 
-    constructor(
-        private amplifyService: AmplifyService,
-        private readonly alertService: AlertService
-    ) {}
+    constructor() {}
 
     register(email, password) {
         const attributeList = [];

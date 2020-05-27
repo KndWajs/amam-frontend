@@ -28,7 +28,7 @@ import { QuickSearchShoppingElementComponent } from './sub-pages/shopping-lists/
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
-import { AmplifyAngularModule, AmplifyService, AmplifyModules } from 'aws-amplify-angular';
+import { AmplifyService, AmplifyModules } from 'aws-amplify-angular/dist/src/providers';
 import Auth from '@aws-amplify/auth';
 import Interactions from '@aws-amplify/interactions';
 import Storage from '@aws-amplify/storage';
@@ -71,8 +71,7 @@ import { AlertComponent } from './common/alert/alert.component';
     DxButtonModule,
     DxTabPanelModule,
     ReactiveFormsModule,
-    FormsModule,
-    AmplifyAngularModule
+    FormsModule    
   ],
   providers: [Globals,
     {

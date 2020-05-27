@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AmplifyService } from 'aws-amplify-angular';
+import { AmplifyService } from 'aws-amplify-angular/dist/src/providers';
 import { AuthState } from 'aws-amplify-angular/dist/src/providers';
 import { Globals } from '../configs/globals';
 import { Service } from '../core/services/app.service';
