@@ -7,10 +7,7 @@ import { AddMealComponent } from './sub-pages/add-meal/add-meal.component';
 import { CreateMenuComponent } from './sub-pages/create-menu/create-menu.component';
 import { MenusComponent } from './sub-pages/menus/menus.component';
 import { ShoppingListsComponent } from './sub-pages/shopping-lists/shopping-lists.component';
-import { PipeDataComponent } from './sub-pages/info-page/admin/pipe-data/pipe-data.component';
-import { AdminComponent } from './sub-pages/info-page/admin/admin.component';
 import { PageNotFoundComponent } from '../core/page-not-found/page-not-found.component';
-
 
 const routes: Routes = [
   { path: 'add-meal', component: AddMealComponent },
@@ -22,16 +19,7 @@ const routes: Routes = [
   { path: 'info-page', component: InfoPageComponent },
   {
     path: 'admin',
-    children: [
-      {
-        path: 'assign-ingredient-categories',
-        component: PipeDataComponent
-      },
-      {
-        path: '',
-        component: AdminComponent
-      }
-    ]
+    loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule)
   },
   { path: '', component: WelcomePageComponent },
   { path: '**', component: PageNotFoundComponent }

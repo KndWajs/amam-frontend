@@ -19,9 +19,8 @@ import { CreateMenuComponent } from './sub-pages/create-menu/create-menu.compone
 import { CreateMenuParametersComponent } from './sub-pages/create-menu/create-menu-parameters/create-menu-parameters.component';
 import { MenusComponent } from './sub-pages/menus/menus.component';
 import { ShoppingListsComponent } from './sub-pages/shopping-lists/shopping-lists.component';
-import { AdminComponent } from './sub-pages/info-page/admin/admin.component';
+
 import { PageNotFoundComponent } from '../core/page-not-found/page-not-found.component';
-import { PipeDataComponent } from './sub-pages/info-page/admin/pipe-data/pipe-data.component';
 import { QuickSearchMealComponent } from './sub-pages/meals/quick-search-meal/quick-search-meal.component';
 import { QuickSearchShoppingElementComponent } from './sub-pages/shopping-lists/quick-search-shopping-element/quick-search-shopping-element.component';
 
@@ -51,8 +50,6 @@ import { AlertComponent } from './common/alert/alert.component';
     CreateMenuParametersComponent,
     MenusComponent,
     ShoppingListsComponent,
-    PipeDataComponent,
-    AdminComponent,
     PageNotFoundComponent,
     QuickSearchMealComponent,
     SpinnerComponent,
