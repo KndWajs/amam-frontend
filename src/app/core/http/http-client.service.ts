@@ -9,10 +9,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HttpClientService {
-  isGuestLogIn: boolean;
 
   constructor(private readonly http: HttpClient, public globals: Globals, private auth: AuthorizationService) {
-    this.isGuestLogIn = globals.IS_GUEST;
   }
 
   endpoint = environment.endpoint;
