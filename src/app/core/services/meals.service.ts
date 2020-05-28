@@ -20,6 +20,12 @@ export class MealsService {
      .pipe(map(value => new Meal(value)));
   }
 
+  updateMeal(meal: Meal): Observable<Meal> {
+    return this.httpClientService.getHttpClient()
+    .put<Meal>(this.httpClientService.endpoint + 'meal/', meal, this.httpClientService.httpOptions)
+     .pipe(map(value => new Meal(value)));
+  }
+
   getMealsFromHttp(): Observable<Array<Meal>> {
     return this.httpClientService.getHttpClient().get<Array<Meal>>
     (this.httpClientService.endpoint + 'meals/', this.httpClientService.httpOptions)

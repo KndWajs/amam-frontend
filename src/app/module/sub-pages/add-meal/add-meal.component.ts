@@ -5,10 +5,10 @@ import { MealType } from 'src/app/shared/enums/meal-type';
 import { PreparingType } from 'src/app/shared/enums/preparing-type';
 import { Subscription } from 'rxjs';
 import { Ingredient } from 'src/app/shared/models/ingredient';
-import { IngredientUnit } from 'src/app/shared/enums/ingredient-unit';
 import { MealsService } from 'src/app/core/services/meals.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MealIngredient } from 'src/app/shared/models/meal-ingredient';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-add-meal',
@@ -27,7 +27,7 @@ export class AddMealComponent implements OnInit, OnDestroy {
   numberOfPeoplee: number;
 
   constructor(private readonly formBuilder: FormBuilder, private readonly mealsService: MealsService,
-              private readonly router: Router, private route: ActivatedRoute) {
+    private readonly router: Router, private route: ActivatedRoute, private readonly alertService: AlertService) {
     this.mealTypes = this.buildMealTypesArray();
     this.preparingTypes = this.buildPreparingTypesArray();
     this.numberOfPeoplee = 1;
@@ -46,12 +46,12 @@ export class AddMealComponent implements OnInit, OnDestroy {
     this.mealId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     if (this.mealId <= 0) {
       this.mealId = null;
+    } else if (this.mealId) {
+      this.getMeal(this.mealId);
     }
-
-    this.getMeal(this.mealId);
   }
 
-  createMealIngredientFormGroup(ingredient: Ingredient, name: string, unit: IngredientUnit, amount: number): FormGroup {
+  createMealIngredientFormGroup(ingredient: Ingredient, amount: number, mealIngredientId: number): FormGroup {
     let amountParam;
     if (amount == null) {
       amountParam = ['', Validators.required];
@@ -61,15 +61,14 @@ export class AddMealComponent implements OnInit, OnDestroy {
 
     return this.formBuilder.group({
       ingredient,
-      ingredientName: name,
-      ingredientUnit: unit,
+      id: mealIngredientId,
       amount: amountParam
     });
   }
 
-  addIngredientToFormArray(ingredient: Ingredient, amount: number): void {
+  addIngredientToFormArray(ingredient: Ingredient, amount: number, mealIngredientId: number): void {
     this.ingredients = this.newMealForm.get('ingredients') as FormArray;
-    this.ingredients.push(this.createMealIngredientFormGroup(ingredient, ingredient.name, ingredient.ingredientUnit, amount));
+    this.ingredients.push(this.createMealIngredientFormGroup(ingredient, amount, mealIngredientId));
     this.isIngredientsListEmpty();
   }
 
@@ -92,43 +91,66 @@ export class AddMealComponent implements OnInit, OnDestroy {
       .parentElement.parentElement.parentElement.parentElement
       .nextElementSibling.firstElementChild.firstElementChild.firstElementChild.firstElementChild.nextElementSibling;
     element.focus();
-
   }
 
   getMeal(id: number): void {
     this.getMealSubscription =
-    this.mealsService.getMealFromHttp(this.mealId as number).subscribe((meal) => {
-    this.newMealForm.get('name').setValue(`${meal.name}`);
-    this.newMealForm.get('typeOfMeal').setValue(`${meal.typeOfMeal}`);
-    this.newMealForm.get('typeOfPreparing').setValue(`${meal.typeOfPreparing}`);
-    this.newMealForm.get('recipe').setValue(`${meal.recipe}`);
-    this.newMealForm.get('minutesToPrepare').setValue(`${meal.minutesToPrepare}`);
-    this.newMealForm.get('name').setValue(`${meal.name}`);
+      this.mealsService.getMealFromHttp(this.mealId as number).subscribe((meal) => {
+        this.newMealForm.get('name').setValue(`${meal.name}`);
+        this.newMealForm.get('typeOfMeal').setValue(`${meal.typeOfMeal}`);
+        this.newMealForm.get('typeOfPreparing').setValue(`${meal.typeOfPreparing}`);
+        this.newMealForm.get('recipe').setValue(`${meal.recipe}`);
+        this.newMealForm.get('minutesToPrepare').setValue(`${meal.minutesToPrepare}`);
+        this.newMealForm.get('name').setValue(`${meal.name}`);
 
-    meal.ingredients.forEach(mealIngredient => {
-      this.addIngredientToFormArray(mealIngredient.ingredient, mealIngredient.amount);
-    });
-    },
-      error => {
-        console.log(error);
-        console.log(this.meal);
-      });
-  }
-
-  saveNewMeal(newMealForm): void {
-    this.meal = new Meal(newMealForm);
-    this.meal.ingredients = this.meal.ingredients.map(ingredient => this.calculateIngredientAmountToOnePerson(ingredient));
-    console.log(this.meal);
-    this.addMealSubscription =
-      this.mealsService.addMeal(this.meal).subscribe((meal) => {
-        console.log('meal added succesfully');
-        console.log(meal);
-        this.router.navigate(['/all-meals/']);
+        meal.ingredients.forEach(mealIngredient => {
+          this.addIngredientToFormArray(mealIngredient.ingredient, mealIngredient.amount, mealIngredient.id);
+        });
       },
         error => {
           console.log(error);
           console.log(this.meal);
         });
+  }
+
+  saveMeal(newMealForm): void {
+    this.meal = new Meal(newMealForm);
+    this.meal.ingredients = this.meal.ingredients.map(ingredient => this.calculateIngredientAmountToOnePerson(ingredient));
+    console.log(this.meal);
+    if (this.mealId) {
+      this.udateMeal();
+    } else {
+      this.saveNewMeal();
+    }
+  }
+
+  udateMeal(): void {
+    this.meal.id = this.mealId;
+    this.addMealSubscription =
+      this.mealsService.updateMeal(this.meal).subscribe((meal) => {
+        this.router.navigate(['/all-meals/']);
+      },
+        error => {
+          this.alertService.createErrorMessageForHttpResponseWithTitle(
+            error,
+            'Updating meal'
+          );
+        }
+      );
+  }
+
+  saveNewMeal(): void {
+    this.addMealSubscription =
+      this.mealsService.addMeal(this.meal).subscribe((meal) => {
+        this.router.navigate(['/all-meals/']);
+      },
+        error => {
+          this.alertService.createErrorMessageForHttpResponseWithTitle(
+            error,
+            'Saving new meal'
+          );
+        }
+      );
   }
 
   calculateIngredientAmountToOnePerson(mealIngredient: MealIngredient): MealIngredient {
