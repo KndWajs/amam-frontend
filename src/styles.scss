@@ -1,1 +1,25 @@
 @import "./assets/css/bootstrap.min.css";
+
+.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td .dx-datagrid-group-space, .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content) .dx-datagrid-group-space, .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content).dx-command-expand, .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-command-expand, .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-datagrid-invalid:not(.dx-field-item-content) .dx-datagrid-group-space, .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-datagrid-invalid:not(.dx-field-item-content).dx-command-expand {
+    max-width: 0px !important;
+    min-width: 0px !important;
+    width: 0px !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.dx-datagrid-content .dx-datagrid-table .dx-row>td.dx-datagrid-group-space+td, .dx-datagrid-content .dx-datagrid-table .dx-row>tr>td.dx-datagrid-group-space+td {
+    border-left: none;
+    width: 0;
+    max-width: 0;
+    min-width: 0;
+    padding: 0;
+}
+
+.dx-datagrid-group-closed {  
+    visibility: hidden;
+}
+
+.dx-datagrid-group-opened {   
+    visibility: hidden;
+}
